@@ -1,29 +1,40 @@
+// src/components/CategoryHomeCard/CategoryHomeCard.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import styles from "./CategoryHomeCard.module.css";
 
-/**
- * A reusable card component for the main "Categories" section
- * on the homepage, with dynamic color and image placement.
- */
-export default function CategoryHomeCard({ label, imageSrc, to, bgColor }) {
+const CategoryHomeCard = ({
+  label,
+  imageSrc,
+  to,
+  bgColor,
+  className = "",
+  onClick,
+  hoverLabel, // <-- 1. ADD NEW PROP for the "View All" text
+}) => {
   return (
     <Link
       to={to}
-      className={styles.card}
-      // Use inline style to dynamically set the background color from props
+      // 2. Add 'hoverable' class only if 'hoverLabel' exists
+      className={`${styles.card} ${className} ${
+        hoverLabel ? styles.hoverable : ""
+      }`}
       style={{ backgroundColor: bgColor }}
+      onClick={onClick}
     >
-      <img src={imageSrc} alt={label} className={styles.image} />
-      <span className={styles.label}>{label}</span>
+      <div className={styles.imageWrapper}>
+        <img src={imageSrc} alt={label} className={styles.image} />
+      </div>
+      <h3 className={styles.label}>{label}</h3>
+
+      {/* --- 3. ADD NEW ELEMENT FOR THE HOVER CONTENT --- */}
+      {hoverLabel && (
+        <div className={styles.hoverContent}>
+          <span className={styles.hoverLabel}>{hoverLabel}</span>
+        </div>
+      )}
     </Link>
   );
-}
-
-CategoryHomeCard.propTypes = {
-  label: PropTypes.string.isRequired,
-  imageSrc: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
-  bgColor: PropTypes.string.isRequired, // Pass CSS color string, e.g., "var(--Utility_Color1)"
 };
+
+export default CategoryHomeCard;

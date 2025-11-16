@@ -1,0 +1,106 @@
+/* src/components/ClassesVideoCard/ClassesVideoCard.module.css */
+
+.card {
+  display: block;
+  text-decoration: none;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--White_Color); /* Used var from index.css */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: var(--Font_Family); /* Used var from index.css */
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnailWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Standard video aspect ratio */
+  background-color: #f0f0f0;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Overlays --- */
+.liveBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #ff0000;
+  color: var(--White_Color); /* Used var from index.css */
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+
+.viewsBadge,
+.durationBadge {
+  position: absolute;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--White_Color); /* Used var from index.css */
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  z-index: 2;
+}
+
+.viewsBadge {
+  left: 8px;
+}
+
+.durationBadge {
+  right: 8px;
+}
+
+/* --- Lock Overlay --- */
+.lockOverlay {
+  position: absolute;
+  inset: 0; /* Covers the whole thumbnail */
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--White_Color); /* Used var from index.css */
+  z-index: 3; /* On top of other badges */
+}
+
+/* --- Text Content --- */
+.infoWrapper {
+  padding: 12px 16px;
+}
+
+.title {
+  font-family: var(--Font_Family); /* Used var from index.css */
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--Black_Color); /* Used var from index.css */
+  margin: 0 0 4px 0;
+
+  /* Truncate long titles */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtitle {
+  font-family: var(--Font_Family); /* Used var from index.css */
+  font-size: 14px;
+  color: var(--Grey_Color); /* Used var from index.css */
+  margin: 0;
+}

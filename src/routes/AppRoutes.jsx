@@ -47,6 +47,9 @@ import PreviousQuestionPapers from "../pages/PreviousQuesitonPapers/PreviousQues
 import PreviousPapersSubcategories from "../pages/PreviousQuesitonPapers/PreviousPapersSubcategories/PreviousPapersSubcategories.jsx";
 import CategoryPublications from "../sections/CategoryPublications/CategoryPublications";
 import PaperDetail from "../sections/CategoryPublications/PaperDetail";
+import MyCoursesPage from "../pages/TopBar/TopbarPanelPages/MyCoursesPage/MyCoursesPage.jsx";
+import MyTestSeries from "../pages/TopBar/TopbarPanelPages/MyTestSeries/MyTestSeries.jsx";
+import CoursesDataPage from "../pages/OnlineCourses/CoursesDataPage/CoursesDataPage.jsx";
 
 function AppRoutes() {
   return (
@@ -58,6 +61,9 @@ function AppRoutes() {
         <Route path="/" element={<DashboardLayout />}>
           {/* Home */}
           <Route index element={<HomePage />} />
+          <Route path="/mycourses" element={<MyCoursesPage />} />
+          <Route path="/coursesdatapage" element={<CoursesDataPage />} />
+          <Route path="/mytestseries" element={<MyTestSeries />} />
 
           {/* ============================================================
               📰 CURRENT AFFAIRS

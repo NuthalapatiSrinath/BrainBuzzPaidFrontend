@@ -1,21 +1,22 @@
-// src/components/Topbar/Topbar.jsx
+// src/pages/TopBar/TopBar.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../redux/slices/modalSlice";
-import { logout } from "../../redux/slices/authSlice"; // <-- IMPORT LOGOUT
+import { logout } from "../../redux/slices/authSlice";
 import LanguageSelector from "../../components/LanguageSelector/LanguageSelector";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import TopbarPanel from "./TopbarPanel";
+import ProfileDropdownPanel from "./ProfileDropdownPanel";
 import styles from "./Topbar.module.css";
 
-/* TOP_NAV & LOGIN_BTN (Unchanged) */
+/* (TOP_NAV, LOGIN_BTN, BOTTOM_NAV, normalizeHref functions are all unchanged) */
 const TOP_NAV = [
   { key: "home", label: "Home", href: "/" },
   {
     key: "follow",
     label: "Follow Us",
     dropdown: [
-      { label: "Facebook", href: "https.www.facebook.com/brainbuzzakademy" },
+      { label: "Facebook", href: "https://www.facebook.com/brainbuzzakademy" },
       { label: "Twitter", href: "https://x.com/brainbuzzacadmy" },
       {
         label: "Instagram",
@@ -24,10 +25,7 @@ const TOP_NAV = [
     ],
   },
 ];
-
 const LOGIN_BTN = { key: "login", label: "Log in / Register" };
-
-/* BOTTOM_NAV (Unchanged) */
 const BOTTOM_NAV = [
   {
     key: "onlineCourses",
@@ -60,7 +58,6 @@ const BOTTOM_NAV = [
   { key: "about", label: "About Us", href: "/aboutus" },
   { key: "contact", label: "Contact Us", href: "/contactus" },
 ];
-
 function normalizeHref(href) {
   if (!href) return "#";
   if (
@@ -72,43 +69,36 @@ function normalizeHref(href) {
   return href.startsWith("/") ? href : `/${href}`;
 }
 
+// --- NO NEED FOR UserIcon component here anymore ---
+
 export default function Topbar() {
   const dispatch = useDispatch();
-
-  // --- NEW AUTH STATE ---
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const [language, setLanguage] = useState("English");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openAccordions, setOpenAccordions] = useState({});
   const [showPanelKey, setShowPanelKey] = useState(null);
-
-  // --- NEW PROFILE DROPDOWN STATE ---
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const rootRef = useRef(null);
-  // --- NEW REF FOR PROFILE DROPDOWN ---
   const profileRef = useRef(null);
 
   // Effect for outside click/Escape key
   useEffect(() => {
     function onDocClick(e) {
-      // Handle TopbarPanel (megamenu)
       if (rootRef.current && !rootRef.current.contains(e.target)) {
         setShowPanelKey(null);
       }
-
-      // --- NEW: Handle Profile Dropdown ---
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setIsProfileOpen(false);
       }
     }
-
     function onKey(e) {
       if (e.key === "Escape") {
         setMobileOpen(false);
         setShowPanelKey(null);
-        setIsProfileOpen(false); // <-- NEW: Close profile dropdown
+        setIsProfileOpen(false);
       }
     }
     document.addEventListener("mousedown", onDocClick);
@@ -117,9 +107,9 @@ export default function Topbar() {
       document.removeEventListener("mousedown", onDocClick);
       document.removeEventListener("keydown", onKey);
     };
-  }, []); // <-- rootRef and profileRef are stable, no need to add
+  }, []);
 
-  // FIX: Closes mobile menu on window resize
+  // (Other useEffects remain unchanged...)
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth > 900) {
@@ -130,7 +120,6 @@ export default function Topbar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // FIX: Prevents body scroll when mobile menu is open
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -142,13 +131,10 @@ export default function Topbar() {
     };
   }, [mobileOpen]);
 
-  // --- UPDATED: Handler for login button ---
   function handleLoginClick() {
-    // This now opens the modal with the 'login' type we created
-    dispatch(openModal({ type: "login" }));
+    dispatch(openModal({ type: "login" })); // Use 'modalType' to match modalSlice
   }
 
-  // --- NEW: Handler for logout button ---
   function handleLogoutClick() {
     dispatch(logout());
     setIsProfileOpen(false);
@@ -171,9 +157,8 @@ export default function Topbar() {
     <>
       <header className={styles.topbar} ref={rootRef}>
         <div className={styles.container}>
-          {/* LEFT: logo + mobile hamburger */}
+          {/* LEFT: logo + mobile hamburger (Unchanged) */}
           <div className={styles.left}>
-            {/* ... (unchanged) ... */}
             <div className={styles.logoAndHam}>
               <button
                 className={`${styles.hamburger} ${
@@ -188,7 +173,6 @@ export default function Topbar() {
                 <span className={styles.hamBar} />
                 <span className={styles.hamBar} />
               </button>
-
               <div className={styles.logoWrap}>
                 <img src="/favicon.svg" alt="logo" className={styles.logo} />
               </div>
@@ -198,6 +182,7 @@ export default function Topbar() {
           {/* CENTER: desktop navs */}
           <div className={styles.center}>
             <div className={styles.topRow}>
+              {/* Top Nav (Unchanged) */}
               <nav className={styles.topNav} aria-label="Primary navigation">
                 <ul className={styles.topNavList}>
                   {TOP_NAV.map((it) => (
@@ -235,7 +220,6 @@ export default function Topbar() {
                   alt="App Store"
                   className={styles.badge}
                 />
-
                 <div className={styles.langWrapper}>
                   <LanguageSelector
                     language={language}
@@ -243,9 +227,7 @@ export default function Topbar() {
                   />
                 </div>
 
-                {/* // --- NEW CONDITIONAL AUTH SECTION ---
-                // This block replaces your static login button
-                */}
+                {/* --- 3. UPDATED AUTH SECTION --- */}
                 {isAuthenticated && user ? (
                   // --- 1. USER IS LOGGED IN ---
                   <div className={styles.profileDropdown} ref={profileRef}>
@@ -255,31 +237,25 @@ export default function Topbar() {
                       onClick={() => setIsProfileOpen((o) => !o)}
                       aria-expanded={isProfileOpen}
                     >
-                      {/* Display user's first name, or 'My Account' as fallback */}
-                      <span>{user.firstName || "My Account"}</span>
+                      {/* --- USE YOUR FIXED IMAGE --- */}
+                      <div className={styles.userLogo}>
+                        {/* This div is now styled with your background image */}
+                      </div>
+
+                      {/* --- USE user.name from backend (in white) --- */}
+                      <span>{user.name || "My Account"}</span>
+
                       <span className={styles.profileCaret}></span>
                     </button>
 
+                    {/* --- USE NEW DROPDOWN PANEL --- */}
                     {isProfileOpen && (
-                      <div className={styles.profilePanel}>
-                        <a href="/profile" className={styles.profileItem}>
-                          {/* You can add icons here later */}
-                          My Profile
-                        </a>
-                        <a href="/subscriptions" className={styles.profileItem}>
-                          My Subscriptions
-                        </a>
-                        <a href="/settings" className={styles.profileItem}>
-                          Settings
-                        </a>
-                        <button
-                          type="button"
-                          className={`${styles.profileItem} ${styles.logoutButton}`}
-                          onClick={handleLogoutClick}
-                        >
-                          Logout
-                        </button>
-                      </div>
+                      <ProfileDropdownPanel
+                        user={user}
+                        onLogout={handleLogoutClick}
+                        // --- THIS IS THE FIX ---
+                        onClose={() => setIsProfileOpen(false)}
+                      />
                     )}
                   </div>
                 ) : (
@@ -296,8 +272,8 @@ export default function Topbar() {
               </div>
             </div>
 
+            {/* Bottom Row (Unchanged) */}
             <div className={styles.bottomRow}>
-              {/* ... (unchanged) ... */}
               <nav
                 className={styles.bottomNav}
                 aria-label="Secondary navigation"
@@ -372,7 +348,7 @@ export default function Topbar() {
         </div>
       </header>
 
-      {/* Mobile menu */}
+      {/* --- 4. UPDATED MOBILE MENU (to use fixed image) --- */}
       {mobileOpen && (
         <div
           className={styles.mobileMenuWrap}
@@ -380,17 +356,10 @@ export default function Topbar() {
           aria-modal="true"
           aria-label="Mobile menu"
         >
-          {/* ... (mobile menu content) ... */}
-          {/* NOTE: You will also want to update the mobile menu 
-            to show the user's name/profile link instead of 
-            the "Log in / Register" button here.
-            I have updated the main login button below.
-          */}
           <div
             className={styles.mobileMenuBackdrop}
             onClick={() => setMobileOpen(false)}
           />
-
           <aside
             className={`${styles.mobileMenuPanel} ${
               mobileOpen ? styles.open : ""
@@ -398,7 +367,6 @@ export default function Topbar() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.mobileHeader}>
-              {/* ... (unchanged) ... */}
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div
                   className={styles.logoWrap}
@@ -408,7 +376,6 @@ export default function Topbar() {
                 </div>
                 <div style={{ fontWeight: 700 }}>Menu</div>
               </div>
-
               <button
                 className={`${styles.hamburger} ${
                   mobileOpen ? styles.open : ""
@@ -426,12 +393,16 @@ export default function Topbar() {
             {/* Mobile Login Button (or Profile) */}
             <div>
               {isAuthenticated && user ? (
-                // --- NEW: Mobile Profile View ---
-                // A simple version for mobile. You can make this a link to /profile
+                // --- UPDATED: Mobile Profile View ---
                 <div className={styles.mobileProfile}>
-                  <span>
-                    Signed in as <strong>{user.firstName || user.email}</strong>
-                  </span>
+                  <div className={styles.mobileProfileInfo}>
+                    <div className={styles.userLogo}>
+                      {/* This now uses the same fixed image style */}
+                    </div>
+                    <span>
+                      Signed in as <strong>{user.name}</strong>
+                    </span>
+                  </div>
                   <button
                     type="button"
                     className={styles.mobileLogoutBtn}
@@ -458,9 +429,8 @@ export default function Topbar() {
               )}
             </div>
 
-            {/* Top nav items */}
+            {/* Top nav items (Unchanged) */}
             <div className={styles.mobileListWrap}>
-              {/* ... (unchanged) ... */}
               <ul className={styles.mobileMenuList}>
                 {TOP_NAV.map((it) =>
                   it.dropdown ? (
@@ -506,9 +476,8 @@ export default function Topbar() {
 
             <hr />
 
-            {/* Bottom nav */}
+            {/* Bottom nav (Unchanged) */}
             <div>
-              {/* ... (unchanged) ... */}
               <ul className={styles.mobileMenuList}>
                 {BOTTOM_NAV.map((it) =>
                   it.dropdown ? (
@@ -540,7 +509,6 @@ export default function Topbar() {
                           {openAccordions[it.key] ? "−" : "+"}
                         </button>
                       </div>
-
                       <div
                         className={`${styles.mobileAccBody} ${
                           openAccordions[it.key] ? styles.open : ""
@@ -574,9 +542,8 @@ export default function Topbar() {
 
             <hr />
 
-            {/* badges, language */}
+            {/* badges, language (Unchanged) */}
             <div className={styles.mobileBadgesRow}>
-              {/* ... (unchanged) ... */}
               <img
                 src="/googleplaystore.svg"
                 alt="Google Play"

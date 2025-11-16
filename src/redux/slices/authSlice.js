@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-// !! UPDATE THIS WITH YOUR BACKEND URL !!
-const BASE_URL = "http://localhost:4000/api"; // Or your deployed URL
+// --- IMPORT YOUR NEW API ROUTES ---
+import {
+  register,
+  login,
+  forgotPassword,
+  resetPassword,
+} from "../../api/apiRoutes";
 
 // ----------------------------------------------------------------------
 // ASYNC THUNKS (The API Client)
@@ -10,10 +13,8 @@ const BASE_URL = "http://localhost:4000/api"; // Or your deployed URL
 
 /**
  * 1. REGISTER
- * - Matches your `registerController`.
- * - Note: Your controller expects 'name', but your form has 'firstName' and 'lastName'.
- * This thunk combines them into a single 'name' field for the API.
- * - This does NOT log the user in, as per your controller logic.
+ * - Calls the `register` function from `apiRoutes.js`.
+ * - Combines `firstName` and `lastName` into `name` for your backend.
  */
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -22,136 +23,132 @@ export const registerUser = createAsyncThunk(
       // Combine first/last name to match your controller's 'name' field
       const name = `${firstName} ${lastName}`;
 
-      const response = await axios.post(`${BASE_URL}/auth/register`, {
-        name,
-        email,
-        password,
-        role: "user", // Default role
-      });
+      // Call the clean API route
+      const response = await register({ name, email, password, role: "user" });
 
       // Return the user data from response.data.data
-      return response.data.data;
+      return response.data; // This is { success: true, data: user }
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue("Registration failed. Please try again.");
+      const message =
+        error.response?.data?.message ||
+        "Registration failed. Please try again.";
+      return rejectWithValue(message);
     }
   }
 );
 
 /**
  * 2. LOGIN
- * - Matches your `loginController`.
- * - Expects response: { success: true, data: user, token: "..." }
- * - Saves the single 'token' to localStorage.
+ * - Calls the `login` function from `apiRoutes.js`.
  */
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/login`, {
-        email,
-        password,
-      });
-
-      // Store the single token
-      localStorage.setItem("jwt_token", response.data.token);
+      // Call the clean API route
+      const response = await login({ email, password });
 
       // Return payload: { user: {...}, token: "..." }
-      return { user: response.data.data, token: response.data.token };
+      // This comes from response.data, which is { success, data, token }
+      return response.data;
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue("Invalid email or password");
+      const message =
+        error.response?.data?.message || "Invalid email or password";
+      return rejectWithValue(message);
     }
   }
 );
 
 /**
  * 3. FORGOT PASSWORD
- * - Matches your `forgotPasswordController`.
+ * - Calls the `forgotPassword` function from `apiRoutes.js`.
  */
-export const forgotPassword = createAsyncThunk(
+export const sendPasswordReset = createAsyncThunk(
   "auth/forgotPassword",
   async ({ email }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/forgot-password`, {
-        email,
-      });
+      const response = await forgotPassword({ email });
       return response.data.message; // Returns the success message
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue("Failed to send reset email.");
+      const message =
+        error.response?.data?.message || "Failed to send reset email.";
+      return rejectWithValue(message);
     }
   }
 );
 
 /**
  * 4. RESET PASSWORD
- * - Matches your `resetPasswordController`.
+ * - Calls the `resetPassword` function from `apiRoutes.js`.
  */
-export const resetPassword = createAsyncThunk(
+export const resetUserPassword = createAsyncThunk(
   "auth/resetPassword",
   async ({ token, newPassword }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/reset-password`, {
-        token,
-        newPassword,
-      });
+      const response = await resetPassword({ token, newPassword });
       return response.data.message; // Returns the success message
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(
-        "Failed to reset password. Token may be invalid or expired."
-      );
+      const message =
+        error.response?.data?.message ||
+        "Failed to reset password. Token may be invalid or expired.";
+      return rejectWithValue(message);
     }
   }
 );
 
 // ----------------------------------------------------------------------
-// THE SLICE
+// INITIAL STATE (Reads from localStorage)
 // ----------------------------------------------------------------------
 
+const getInitialState = () => {
+  try {
+    const storedAuth = localStorage.getItem("auth");
+    if (storedAuth) {
+      const { user, token } = JSON.parse(storedAuth);
+      return {
+        user,
+        token,
+        isAuthenticated: true,
+      };
+    }
+  } catch (e) {
+    // Corrupted or invalid data, clear it
+    localStorage.removeItem("auth");
+  }
+  return { user: null, token: null, isAuthenticated: false };
+};
+
 const initialState = {
-  user: null,
-  jwtToken: localStorage.getItem("jwt_token") || null,
-  isAuthenticated: !!localStorage.getItem("jwt_token"),
+  ...getInitialState(),
   isLoading: false,
   error: null,
   message: null, // For success messages from password reset
-  registrationSuccess: false, // NEW: To show success message on register modal
+  registrationSuccess: false, // To show success message on register modal
 };
+
+// ----------------------------------------------------------------------
+// THE SLICE
+// ----------------------------------------------------------------------
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    // This action is called by the login thunk on success
+    setCredentials: (state, action) => {
+      const { user, token } = action.payload;
+      state.user = user;
+      state.token = token;
+      state.isAuthenticated = true;
+      state.error = null;
+      // Save to localStorage
+      localStorage.setItem("auth", JSON.stringify({ user, token }));
+    },
+    // This is the one you call from your "Logout" button
     logout: (state) => {
-      localStorage.removeItem("jwt_token");
+      localStorage.removeItem("auth");
       state.user = null;
-      state.jwtToken = null;
+      state.token = null;
       state.isAuthenticated = false;
       state.error = null;
       state.message = null;
@@ -162,7 +159,7 @@ const authSlice = createSlice({
     clearMessage: (state) => {
       state.message = null;
     },
-    // NEW: Resets the success flag when opening the register modal
+    // Resets the success flag when opening the register modal
     resetRegistrationSuccess: (state) => {
       state.registrationSuccess = false;
     },
@@ -192,51 +189,57 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        state.jwtToken = action.payload.token;
-        state.error = null;
+        // The payload is { success, data, token }
+        // We call our own 'setCredentials' reducer to do the work
+        authSlice.caseReducers.setCredentials(state, {
+          payload: { user: action.payload.data, token: action.payload.token },
+        });
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = false;
         state.error = action.payload;
         state.user = null;
-        state.jwtToken = null;
+        state.token = null;
       })
 
       // --- FORGOT PASSWORD CASES ---
-      .addCase(forgotPassword.pending, (state) => {
+      .addCase(sendPasswordReset.pending, (state) => {
         state.isLoading = true;
         state.error = null;
         state.message = null;
       })
-      .addCase(forgotPassword.fulfilled, (state, action) => {
+      .addCase(sendPasswordReset.fulfilled, (state, action) => {
         state.isLoading = false;
         state.message = action.payload; // Show success message
       })
-      .addCase(forgotPassword.rejected, (state, action) => {
+      .addCase(sendPasswordReset.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
 
       // --- RESET PASSWORD CASES ---
-      .addCase(resetPassword.pending, (state) => {
+      .addCase(resetUserPassword.pending, (state) => {
         state.isLoading = true;
         state.error = null;
         state.message = null;
       })
-      .addCase(resetPassword.fulfilled, (state, action) => {
+      .addCase(resetUserPassword.fulfilled, (state, action) => {
         state.isLoading = false;
         state.message = action.payload; // Show success message
       })
-      .addCase(resetPassword.rejected, (state, action) => {
+      .addCase(resetUserPassword.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
   },
 });
 
-export const { logout, clearError, clearMessage, resetRegistrationSuccess } =
-  authSlice.actions;
+export const {
+  logout,
+  clearError,
+  clearMessage,
+  resetRegistrationSuccess,
+  setCredentials,
+} = authSlice.actions;
 export default authSlice.reducer;

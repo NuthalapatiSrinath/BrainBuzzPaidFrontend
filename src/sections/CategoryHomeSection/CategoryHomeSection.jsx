@@ -1,11 +1,9 @@
+// src/sections/CategoryHomeSection/CategoryHomeSection.jsx
 import React from "react";
 import styles from "./CategoryHomeSection.module.css";
 import CategoryHomeCard from "../../components/CategoryHomeCard/CategoryHomeCard"; // Adjust path as needed
 
-// --- Placeholder Image Paths ---
-// Replace this with your actual image asset
-const womanImage = "/images/categoryhome.webp"; // Placeholder for the woman's image
-// ---------------------------------
+const womanImage = "/images/categoryhome.webp";
 
 // Data for the 6 category cards
 const categoryData = [
@@ -13,37 +11,37 @@ const categoryData = [
     label: "Online Courses",
     imageSrc: "/images/aboutus/icons/online-courses.png",
     to: "/courses",
-    bgColor: "var(--Utility_Color1)", // Light Blue
+    bgColor: "var(--Utility_Color1)",
   },
   {
     label: "Live Class",
     imageSrc: "/images/aboutus/icons/live-class.png",
     to: "/live-class",
-    bgColor: "var(--Utility_Color2)", // Green
+    bgColor: "var(--Utility_Color2)",
   },
   {
     label: "Test Series",
     imageSrc: "/images/aboutus/icons/test-series.png",
     to: "/test-series",
-    bgColor: "var(--Utility_Color3)", // Pink
+    bgColor: "var(--Utility_Color3)",
   },
   {
     label: "Daily Quizzes",
     imageSrc: "/images/aboutus/icons/quiz.png",
     to: "/dailyquizzes",
-    bgColor: "var(--Warning_Color)", // Using Warning for Yellow
+    bgColor: "var(--Warning_Color)",
   },
   {
     label: "Current Affairs",
     imageSrc: "/images/aboutus/icons/current-affairs.png",
     to: "/currentaffairs",
-    bgColor: "var(--Utility_Color4)", // Using Utility 4 for Purple-blue
+    bgColor: "var(--Utility_Color4)",
   },
   {
     label: "Publications",
     imageSrc: "/images/aboutus/icons/question-paper.png",
     to: "/publications",
-    bgColor: "var(--Info_Color)", // Using Info for the darker blue
+    bgColor: "var(--Info_Color)",
   },
 ];
 
@@ -51,7 +49,6 @@ export default function CategoryHomeSection() {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        {/* === Text Heading (UPDATED STRUCTURE) === */}
         <div className={styles.headingWrapper}>
           <div className={styles.headingline}>
             <div className={styles.heading}>Categories</div>
@@ -64,9 +61,7 @@ export default function CategoryHomeSection() {
           </p>
         </div>
 
-        {/* === Main Content Area === */}
         <div className={styles.contentWrapper}>
-          {/* Woman Image */}
           <div className={styles.imageWrapper}>
             <img
               src={womanImage}
@@ -75,7 +70,6 @@ export default function CategoryHomeSection() {
             />
           </div>
 
-          {/* Categories Grid */}
           <div className={styles.gridContainer}>
             {categoryData.map((card) => (
               <CategoryHomeCard
@@ -84,6 +78,8 @@ export default function CategoryHomeSection() {
                 imageSrc={card.imageSrc}
                 to={card.to}
                 bgColor={card.bgColor}
+                // --- THIS IS THE CHANGE ---
+                hoverLabel="View All"
               />
             ))}
           </div>

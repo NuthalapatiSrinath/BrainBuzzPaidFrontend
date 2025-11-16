@@ -1,0 +1,92 @@
+/* src/components/TabSwitchPage/TabSwitchPage.module.css */
+
+.tabSwitchPage {
+  width: 100%;
+  font-family: var(--Font_Family); /* Using your index.css var */
+}
+
+/* --- Mobile First (Vertical Tabs) --- */
+/* This matches your mobile screenshot (image_f016b1.png) */
+.tabNav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: none;
+  background: var(--White_Color);
+  cursor: pointer;
+  font-size: var(--Font_Size_3, 16px);
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tabButton:last-child {
+  border-bottom: none;
+}
+
+.tabIcon {
+  display: flex;
+  align-items: center;
+  color: #777;
+  transition: color 0.2s ease;
+}
+
+/* Active state for mobile */
+.tabButton.active {
+  background-color: var(--Primary_Color);
+  color: var(--White_Color);
+}
+
+.tabButton.active .tabIcon {
+  color: var(--White_Color);
+}
+
+.tabContent {
+  padding-top: 1rem;
+}
+
+/* --- Desktop Styles (Horizontal Tabs) --- */
+/* This matches your desktop screenshot (image_f013c2.jpg) */
+@media (min-width: 769px) {
+  .tabNav {
+    flex-direction: row; /* This is the key change */
+    border: none;
+    border-radius: 8px;
+    background-color: #f0f2f5; /* Light grey background from image */
+    padding: 5px;
+  }
+
+  .tabButton {
+    border-bottom: none;
+    background: transparent; /* Remove white background */
+    border-radius: 6px;
+    justify-content: center;
+    flex: 1; /* Make all tabs equal width */
+  }
+
+  /* Active state for desktop */
+  .tabButton.active {
+    background-color: var(--Primary_Color);
+    color: var(--White_Color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .tabButton.active .tabIcon {
+    color: var(--White_Color);
+  }
+
+  .tabContent {
+    padding: 1.5rem; /* More padding on desktop */
+  }
+}

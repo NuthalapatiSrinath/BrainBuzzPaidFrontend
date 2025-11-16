@@ -2,6 +2,7 @@
     Desktop-only styles. Mobile rules removed.
     Uses your index.css variables (--Primary_Color, --White_Color, etc.).
 */
+/* src/pages/TopBar/Topbar.module.css */
 
 /* header (desktop) */
 .topbar {
@@ -10,7 +11,11 @@
   box-shadow: 0 10px 24px rgba(32, 45, 90, 0.18);
   color: var(--White_Color);
   position: relative;
+
+  /* --- THIS IS THE FIX --- */
+  /* Uncomment this line (or add it) */
   z-index: 40;
+
   font-family: var(--Font_Family);
 }
 
@@ -211,8 +216,236 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+} /* Add these styles to src/pages/TopBar/Topbar.module.css */
+
+/* --- Profile Trigger Button (Desktop) --- */
+.profileTrigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f0f2f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  padding: 4px 12px 4px 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+} /* ADD THIS TO Topbar.module.css - DELETE ALL OLD/DUPLICATE PROFILE STYLES */
+
+/* Wrapper for the profile dropdown */
+.profileDropdown {
+  position: relative; /* This is crucial for the panel positioning */
+  display: flex;
+  align-items: center;
 }
 
+/* The button with the icon, name, and caret */
+.profileTrigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent; /* 1. NO BACKGROUND */
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-family: var(--Font_Family);
+}
+
+/* 2. THE NAME IN WHITE */
+.profileTrigger span {
+  color: var(--White_Color);
+  font-size: 15px;
+  font-weight: 600;
+  /* Truncate long user names */
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 3. THE FIXED IMAGE (Logo) */
+.userLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--White_Color); /* White background for the icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Using your fixed image from public folder */
+  /* <-- YOUR FIXED IMAGE */
+  background-size: 70%; /* Adjust as needed */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 4. THE DROPDOWN CARET (White) */
+.profileCaret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid var(--White_Color); /* White caret */
+  margin-left: 4px;
+}
+
+/* --- Mobile Profile Section (Copied from your file) --- */
+.mobileProfile {
+  padding: 16px;
+  background-color: #f0f2f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobileProfileInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.mobileLogoutBtn {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #d93025;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* .profileTrigger:hover {
+  background-color: #e4e6e9;
+} */
+
+.profileTrigger span {
+  /* Truncate long names */
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileCaret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #555;
+  margin-left: 4px;
+}
+
+/* --- User Logo (Desktop & Mobile) --- */
+.userLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #d1d9e7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.userIconSvg {
+  width: 18px;
+  height: 18px;
+  color: #ffffff;
+}
+
+/* --- Mobile Profile Section --- */
+.mobileProfile {
+  padding: 16px;
+  background-color: #f0f2f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobileProfileInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.mobileLogoutBtn {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #d93025;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* ADD THIS TO Topbar.module.css - DELETE OLD .profileTrigger STYLES */
+
+/* Wrapper for the profile dropdown */
+.profileDropdown {
+  position: relative; /* This is crucial for the panel positioning */
+  display: flex;
+  align-items: center;
+}
+
+/* The button with the icon, name, and caret */
+.profileTrigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent; /* 1. NO BACKGROUND */
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-family: var(--Font_Family);
+}
+
+/* 2. THE NAME IN WHITE */
+.profileTrigger span {
+  color: var(--White_Color);
+  font-size: 15px;
+  font-weight: 600;
+  /* Truncate long user names */
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 3. THE FIXED IMAGE (Logo) */
+.userLogo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  /* background-color: var(--White_Color); White background for the icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* The SVG icon inside the circle (colored like your logo) */
+.userIconSvg {
+  width: 18px;
+  height: 18px;
+  color: var(--Primary_Color); /* Icon is blue */
+}
+
+/* 4. THE DROPDOWN CARET (White) */
+.profileCaret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid var(--White_Color); /* White caret */
+  margin-left: 4px;
+}
 .mobileLogoutBtn {
   width: 100%;
   padding: 0.75rem;

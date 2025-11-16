@@ -1,0 +1,109 @@
+/* src/pages/TopBar/ProfileDropdownPanel.module.css */
+
+.profilePanel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  /* Made panel wider to fit 4 cards in a row */
+  width: 600px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  z-index: 1001;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.userIconLarge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.userIconSvg {
+  width: 28px;
+  height: 28px;
+  color: #a8b0c2;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- THIS IS THE NEW HORIZONTAL ROW --- */
+.profileRow {
+  display: flex; /* Makes items go in a row */
+  flex-direction: row;
+  justify-content: space-around; /* Spreads them out evenly */
+  align-items: stretch; /* Makes them all the same height */
+  gap: 12px;
+  padding: 16px;
+}
+
+/* This .smallCard class targets your CategoryHomeCard component
+  to scale it down for this panel.
+*/
+.smallCard {
+  /* These are overrides for your card component */
+  padding: 12px 8px !important;
+  min-height: 100px !important;
+  width: 100%; /* Make cards flexible */
+  justify-content: center !important;
+  text-decoration: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* --- FOOTER --- */
+.profileFooter {
+  padding: 12px 16px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #f9f9f9;
+  display: flex; /* Added to center the button */
+  justify-content: center; /* Centers button horizontally */
+}
+
+.logoutButton {
+  width: 50%; /* Button is not full width, as in image */
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #d93025;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.logoutButton:hover {
+  background-color: #fdf2f2;
+  border-color: #f5c0be;
+}
