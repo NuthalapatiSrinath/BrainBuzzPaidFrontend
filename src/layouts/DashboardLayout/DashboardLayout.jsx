@@ -1,4 +1,3 @@
-// src/layouts/DashboardLayout/DashboardLayout.jsx
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./DashboardLayout.module.css";
 import { Outlet, useLocation } from "react-router";
@@ -7,11 +6,14 @@ import TopBar from "../../pages/TopBar/TopBar";
 // <-- import ScrollToTop -->
 import ScrollToTop from "./../../scrollToTop.jsx";
 
+// <-- 1. IMPORT YOUR FOOTER COMPONENT -->
+// (Assuming a path based on your TopBar component)
+import FooterPage from "../../pages/FooterPage/FooterPage";
+
 function DashboardLayout() {
   const [isScrolled, setIsScrolled] = useState(false);
   const topbarRef = useRef(null);
   const measurerRef = useRef({ raf: 0, mo: null, ro: null });
-
 
   useEffect(() => {
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
@@ -105,9 +107,16 @@ function DashboardLayout() {
         </div>
 
         <main className={styles.Main} id="main">
-          <ScrollToTop />
+          {/* NOTE: I removed the duplicate <ScrollToTop /> from here,
+            as you already have one at the top of the layout (line 108) 
+            which is sufficient.
+          */}
           <Outlet />
         </main>
+
+        {/* <-- 2. ADD YOUR FOOTER COMPONENT HERE --> */}
+        {/* This places it after the main content on every page */}
+        <FooterPage />
       </div>
     </div>
   );

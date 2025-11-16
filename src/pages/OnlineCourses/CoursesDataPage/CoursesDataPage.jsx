@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./CoursesDataPage.module.css";
 
-// --- 1. IMPORT THE TWO COMPONENTS ---
+// --- 1. IMPORT THE TWO COMPONENTS (Paths Fixed) ---
 import TabSwitchPage from "../../../components/TabSwitchPage/TabSwitchPage";
 import ClassesVideoCard from "../../../components/ClassesVideoCard/ClassesVideoCard";
 
@@ -36,57 +36,116 @@ const SettingsContent = () => (
 const MyCoursesContent = () => {
   // Mock data for the video cards based on your image
   const coursesData = [
+    // --- Row 1 ---
     {
       id: 1,
       to: "/courses/1",
-      thumbnailSrc: "/images/hero2.jpg", // Using an existing image, replace as needed
-      title: "Complete GS Foundation",
-      subtitle: "UPSC",
-      views: "1.2k views",
-      duration: "4:15",
-      isLive: true,
-      isLocked: false,
+      thumbnailSrc: "/images/hero2.jpg",
+      title: "IAS Topic 1",
+      tutorAvatarSrc: "https://placehold.co/40x40/EBF0FF/1F4D9D?text=S",
+      tutorName: "Sunita Mam",
+      progress: 30,
+      lessonCount: "Lesson 1/16",
+      isLocked: false, // Play icon
     },
     {
       id: 2,
       to: "/courses/2",
-      thumbnailSrc: "/images/learning.jpg", // Using an existing image, replace as needed
-      title: "APPSC Group 2",
-      subtitle: "APPSC",
-      views: "890 views",
-      duration: "1:30:00",
-      isLive: false,
-      isLocked: true,
+      thumbnailSrc: "/images/learning.jpg",
+      title: "IAS Topic 1",
+      tutorAvatarSrc: "https://placehold.co/40x40/EBF0FF/1F4D9D?text=S",
+      tutorName: "Sunita Mam",
+      progress: 50,
+      lessonCount: "Lesson 2/16",
+      isLocked: false, // Play icon
     },
     {
       id: 3,
       to: "/courses/3",
-      thumbnailSrc: "/images/aboutus/about3.webp", // Using an existing image, replace as needed
-      title: "SI & Constable Batch",
-      subtitle: "Police",
-      views: "2.5k views",
-      duration: "45:10",
-      isLive: false,
-      isLocked: false,
+      thumbnailSrc: "/images/aboutus/about3.webp",
+      title: "IAS Topic 1",
+      tutorAvatarSrc: "https://placehold.co/40x40/EBF0FF/1F4D9D?text=S",
+      tutorName: "Sunita Mam",
+      progress: 80,
+      lessonCount: "Lesson 3/16",
+      isLocked: true, // Lock icon
     },
-    // Add more courses as needed
+    {
+      id: 4,
+      to: "/courses/4",
+      thumbnailSrc: "/images/hero2.jpg",
+      title: "IAS Topic 1",
+      tutorAvatarSrc: "https://placehold.co/40x40/EBF0FF/1F4D9D?text=S",
+      tutorName: "Sunita Mam",
+      progress: 90,
+      lessonCount: "Lesson 4/16",
+      isLocked: true, // Lock icon
+    },
+    // --- Row 2 ---
+    {
+      id: 5,
+      to: "/courses/5",
+      thumbnailSrc: "/images/learning.jpg",
+      title: "IAS Topic 1",
+      tutorAvatarSrc: "https://placehold.co/40x40/EBF0FF/1F4D9D?text=S",
+      tutorName: "Sunita Mam",
+      progress: 10,
+      lessonCount: "Lesson 5/16",
+      isLocked: true, // Lock icon
+    },
+    {
+      id: 6,
+      to: "/courses/6",
+      thumbnailSrc: "/images/aboutus/about3.webp",
+      title: "IAS Topic 1",
+      tutorAvatarSrc: "https://placehold.co/40x40/EBF0FF/1F4D9D?text=S",
+      tutorName: "Sunita Mam",
+      progress: 20,
+      lessonCount: "Lesson 6/16",
+      isLocked: true, // Lock icon
+    },
+    {
+      id: 7,
+      to: "/courses/7",
+      thumbnailSrc: "/images/hero2.jpg",
+      title: "IAS Topic 1",
+      tutorAvatarSrc: "https://placehold.co/40x40/EBF0FF/1F4D9D?text=S",
+      tutorName: "Sunita Mam",
+      progress: 45,
+      lessonCount: "Lesson 7/16",
+      isLocked: true, // Lock icon
+    },
+    {
+      id: 8,
+      to: "/courses/8",
+      thumbnailSrc: "/images/learning.jpg",
+      title: "IAS Topic 1",
+      tutorAvatarSrc: "https://placehold.co/40x40/EBF0FF/1F4D9D?text=S",
+      tutorName: "Sunita Mam",
+      progress: 60,
+      lessonCount: "Lesson 8/16",
+      isLocked: true, // Lock icon
+    },
   ];
 
   return (
-    <div className={styles.cardGrid}>
-      {coursesData.map((course) => (
-        <ClassesVideoCard
-          key={course.id}
-          to={course.to}
-          thumbnailSrc={course.thumbnailSrc}
-          title={course.title}
-          subtitle={course.subtitle}
-          views={course.views}
-          duration={course.duration}
-          isLive={course.isLive}
-          isLocked={course.isLocked}
-        />
-      ))}
+    // This wrapper provides the light blue background from the image
+    <div className={styles.contentWrapper}>
+      <div className={styles.cardGrid}>
+        {coursesData.map((course) => (
+          <ClassesVideoCard
+            key={course.id}
+            to={course.to}
+            thumbnailSrc={course.thumbnailSrc}
+            title={course.title}
+            tutorAvatarSrc={course.tutorAvatarSrc}
+            tutorName={course.tutorName}
+            progress={course.progress}
+            lessonCount={course.lessonCount}
+            isLocked={course.isLocked}
+          />
+        ))}
+      </div>
     </div>
   );
 };
@@ -94,6 +153,8 @@ const MyCoursesContent = () => {
 // --- 3. DEFINE ICONS & TABS ARRAY ---
 
 // Example Icon components (you can import your own)
+// Icons are no longer used in TabSwitchPage, but we keep them here
+// in case you want to add them back.
 const ProfileIcon = () => (
   <svg
     width="20"
@@ -152,27 +213,39 @@ const SettingsIcon = () => (
 // This array combines all your tabs and content
 const userTabs = [
   {
-    id: "profile",
-    label: "My Profile",
-    icon: <ProfileIcon />,
+    id: "description",
+    label: "Description",
+    // icon: <ProfileIcon />,
     content: <MyProfileContent />,
   },
   {
-    id: "courses",
-    label: "My Courses",
-    icon: <CoursesIcon />,
+    id: "classes",
+    label: "Classes",
+    // icon: <CoursesIcon />,
     content: <MyCoursesContent />,
   },
   {
-    id: "testseries",
-    label: "My Test Series",
-    icon: <TestSeriesIcon />,
+    id: "tutors",
+    label: "Tutors",
+    // icon: <TestSeriesIcon />,
     content: <MyTestSeriesContent />,
   },
   {
-    id: "settings",
-    label: "Settings",
-    icon: <SettingsIcon />,
+    id: "testseries",
+    label: "Test Series",
+    // icon: <TestSeriesIcon />,
+    content: <MyTestSeriesContent />,
+  },
+  {
+    id: "studynotes",
+    label: "Study Notes",
+    // icon: <TestSeriesIcon />,
+    content: <MyTestSeriesContent />,
+  },
+  {
+    id: "pricing",
+    label: "Pricing",
+    // icon: <SettingsIcon />,
     content: <SettingsContent />,
   },
 ];
@@ -183,7 +256,7 @@ const CoursesDataPage = () => {
     <div className={styles.pageContainer}>
       <TabSwitchPage
         tabs={userTabs}
-        defaultTab="courses" // Set "My Courses" as active by default
+        defaultTab="classes" // Set "Classes" as active by default
       />
     </div>
   );

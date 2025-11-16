@@ -1,0 +1,146 @@
+/*
+ * Styles for TakeTestCard
+ * Uses variables from your global index.css
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--White_Color, #fff);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  font-family: var(--Font_Family);
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* === Top Section (White) === */
+.topSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--White_Color, #fff);
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.infoWrapper {
+  flex-grow: 1; /* Takes up available space */
+}
+
+.title {
+  font-size: 1.1rem; /* 18px */
+  font-weight: 600;
+  color: var(--Black_Color, #333);
+  margin: 0 0 4px 0;
+}
+
+.subtitle {
+  font-size: 0.9rem; /* 14px */
+  color: var(--Grey_Color, #6b7280);
+  font-weight: 500;
+  margin: 0;
+}
+
+.buttonWrapper {
+  flex-shrink: 0;
+}
+
+.takeTestButton {
+  background-color: var(--Primary_Color, #1f4d9d) !important;
+  color: var(--White_Color, #fff) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 12px rgba(31, 78, 166, 0.15) !important;
+}
+
+/* === Bottom Section (Blue) === */
+.bottomSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  gap: 1rem;
+  background-color: var(--Background_Color, #ebf0ff);
+  padding: 12px 1rem;
+  border-top: 1px solid #e0e7ff;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--Primary_Color, #1f4d9d);
+}
+
+.metaIcon {
+  font-size: 1rem; /* 16px */
+  flex-shrink: 0;
+}
+
+.metaText {
+  font-size: 0.85rem; /* 14px */
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* === Responsive === */
+@media (max-width: 500px) {
+  .topSection {
+    flex-wrap: wrap; /* Allow button to wrap */
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .infoWrapper {
+    /* Take full width on line 1, pushing button to next line */
+    flex-basis: 100%;
+    order: -1; /* Move info before icon */
+  }
+
+  .iconWrapper {
+    width: 40px;
+    height: 40px;
+    order: -2; /* Move icon to very start */
+  }
+
+  .buttonWrapper {
+    flex-basis: 100%; /* Button takes full width on its own line */
+    order: 1;
+  }
+
+  .takeTestButton {
+    width: 100%;
+  }
+
+  .bottomSection {
+    flex-direction: column;
+    align-items: flex-start; /* Align meta items to the left */
+    gap: 10px;
+    padding: 12px 1.25rem;
+  }
+}

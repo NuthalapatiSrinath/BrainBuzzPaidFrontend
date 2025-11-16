@@ -1,0 +1,40 @@
+/*
+ * Styles for the new QuizButton component
+ * Based on the light purple button style from the images.
+ */
+
+.button {
+  /* Font and Text */
+  font-family: var(--Font_Family, "Poppins", sans-serif);
+  color: var(--White_Color, #ffffff);
+  font-size: var(--Font_Size_4, 17px); /* Looks a bit larger */
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+
+  /* Box Model */
+  border: none;
+  border-radius: 12px; /* Matches the rounded corners in the image */
+  padding: 12px 24px;
+  cursor: pointer;
+
+  /* Color and Effects */
+  background-color: #a7b6e1; /* The light purple/blue color from the images */
+  box-shadow: 0 4px 12px rgba(167, 182, 225, 0.3); /* Soft shadow */
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(167, 182, 225, 0.4);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(167, 182, 225, 0.3);
+}
+
+/* Modifier for full-width button (like "Question Paper") */
+.fullWidth {
+  width: 100%;
+}

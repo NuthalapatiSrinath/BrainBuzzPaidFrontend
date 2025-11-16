@@ -1,0 +1,227 @@
+/*
+ * Styles for TestSeriesCard
+ * This is almost identical to CourseCard.module.css,
+ * but adds styles for the action buttons.
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--White_Color, #fff);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* === Top Section (Blue) === */
+.topSection {
+  background-color: var(--Background_Color, #ebf0ff);
+  padding: 1.25rem;
+  position: relative;
+  color: var(--Black_Color, #000);
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  color: var(--Black_Color, #000);
+}
+
+.subtitle,
+.batchInfo {
+  font-size: 0.95rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+  color: var(--Black_Color, #000);
+  opacity: 0.9;
+}
+
+.batchInfo {
+  margin-bottom: 0.75rem;
+}
+
+.tagsWrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tag {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.liveTag {
+  background-color: var(--Error_Color, #c0392b);
+  color: var(--White_Color, #fff);
+}
+
+.mediumTag {
+  background-color: var(--Success_Color, #27ae60);
+  color: var(--White_Color, #fff);
+}
+
+.aiBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: var(--Error_Color, #c0392b);
+  color: var(--White_Color, #fff);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 4px 6px;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.liveCircle {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--White_Color, #fff);
+  border: 2px solid var(--Utility_Color1, #9be1ef);
+  color: var(--Primary_Color, #1f4d9d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* === Bottom Section (White) === */
+.bottomSection {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  /* Make sure card grows if needed */
+  flex-grow: 1;
+}
+
+.mainTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--Black_Color, #000);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.courseTypeTag {
+  align-self: flex-start;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 16px;
+  color: var(--White_Color, #fff);
+  background-color: var(--Utility_Color4, #97a9da);
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--Grey_Color, #6b7280);
+  font-weight: 500;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.icon {
+  font-size: 1.1rem; /* 18px */
+  color: var(--Primary_Color, #1f4d9d);
+}
+
+.dropdownIcon {
+  font-size: 0.8rem;
+  margin-left: 0.25rem;
+  color: var(--Grey_Color, #6b7280);
+}
+
+/* === Progress Bar ('user' variant) === */
+.progressWrapper {
+  width: 100%;
+  margin-top: auto; /* Pushes to bottom */
+  padding-top: 0.5rem;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: var(--Primary_Color, #1f4d9d);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--Grey_Color, #6b7280);
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+/* === Actions ('store' variant) === */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto; /* Pushes to bottom */
+  padding-top: 0.5rem;
+}
+
+.actionButton {
+  flex: 1; /* Make buttons share space */
+  padding: 10px 12px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+}
+
+/* === Responsive === */
+@media (max-width: 400px) {
+  .title {
+    font-size: 1.2rem;
+  }
+  .mainTitle {
+    font-size: 1rem;
+  }
+  .infoRow {
+    font-size: 0.85rem;
+  }
+  .liveCircle {
+    width: 35px;
+    height: 35px;
+    font-size: 0.8rem;
+    bottom: 1rem;
+    right: 1rem;
+  }
+  .actionButton {
+    font-size: 0.85rem !important;
+  }
+}

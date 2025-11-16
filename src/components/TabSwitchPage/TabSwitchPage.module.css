@@ -1,92 +1,76 @@
-/* src/components/TabSwitchPage/TabSwitchPage.module.css */
+/* src/components/TabSwitchPage/TabSwitchPage.module.css
+  Updated styles to match the "pill" button layout from the image.
+  This is now fully responsive using flex-wrap, no media queries needed.
+*/
 
 .tabSwitchPage {
   width: 100%;
-  font-family: var(--Font_Family); /* Using your index.css var */
+  font-family: var(--Font_Family);
 }
 
-/* --- Mobile First (Vertical Tabs) --- */
-/* This matches your mobile screenshot (image_f016b1.png) */
+/* The navigation bar is now a flexible, wrapping container
+  that centers the buttons.
+*/
 .tabNav {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #eee;
+  flex-wrap: wrap; /* Allows buttons to wrap to the next line on mobile */
+  justify-content: center; /* Centers the pills */
+  gap: 12px; /* Space between pills */
+  margin-bottom: 1.5rem;
 }
 
+/* Base style for each "pill" button (inactive state)
+  Matches the white card with a soft shadow from the image.
+*/
 .tabButton {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  justify-content: center;
+  padding: 12px 24px;
   border: none;
-  background: var(--White_Color);
+  background: var(--White_Color, #ffffff);
   cursor: pointer;
   font-size: var(--Font_Size_3, 16px);
-  font-weight: 500;
-  color: #333;
-  border-bottom: 1px solid #eee;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-weight: 600;
+  color: var(--Black_Color, #333);
+  border-radius: 12px; /* Rounded corners for the pill */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* Soft shadow */
+  transition: all 0.2s ease;
+  white-space: nowrap; /* Keep label on one line */
 }
 
-.tabButton:last-child {
-  border-bottom: none;
+.tabLabel {
+  line-height: 1.2;
 }
 
-.tabIcon {
-  display: flex;
-  align-items: center;
-  color: #777;
-  transition: color 0.2s ease;
+/* Optional: Add a subtle lift on hover for inactive buttons */
+.tabButton:not(.active):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* Active state for mobile */
+/* Active tab state
+  Matches the light blue/purple button from the image.
+  I've used #a7b6e1 which is from your .heroContent gradient.
+*/
 .tabButton.active {
-  background-color: var(--Primary_Color);
-  color: var(--White_Color);
+  background-color: #a7b6e1; /* This color is from your hero content */
+  color: var(--White_Color, #ffffff);
+  box-shadow: 0 4px 12px rgba(167, 182, 225, 0.3);
 }
 
-.tabButton.active .tabIcon {
-  color: var(--White_Color);
+/* Keep active button stable on hover */
+.tabButton.active:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(167, 182, 225, 0.3);
 }
 
+/* Icons are no longer used in the .jsx, but we'll keep this empty for now */
+.tabIcon {
+  display: none;
+}
+
+/* Content area below the tabs */
 .tabContent {
   padding-top: 1rem;
-}
-
-/* --- Desktop Styles (Horizontal Tabs) --- */
-/* This matches your desktop screenshot (image_f013c2.jpg) */
-@media (min-width: 769px) {
-  .tabNav {
-    flex-direction: row; /* This is the key change */
-    border: none;
-    border-radius: 8px;
-    background-color: #f0f2f5; /* Light grey background from image */
-    padding: 5px;
-  }
-
-  .tabButton {
-    border-bottom: none;
-    background: transparent; /* Remove white background */
-    border-radius: 6px;
-    justify-content: center;
-    flex: 1; /* Make all tabs equal width */
-  }
-
-  /* Active state for desktop */
-  .tabButton.active {
-    background-color: var(--Primary_Color);
-    color: var(--White_Color);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  .tabButton.active .tabIcon {
-    color: var(--White_Color);
-  }
-
-  .tabContent {
-    padding: 1.5rem; /* More padding on desktop */
-  }
 }

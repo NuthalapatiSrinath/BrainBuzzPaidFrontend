@@ -2,30 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./ClassesVideoCard.module.css";
 
-// --- Icons ---
-const EyeIcon = () => (
-  <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
-    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+// --- New Play Icon ---
+const PlayIcon = () => (
+  <svg viewBox="0 0 20 20" fill="currentColor" width="28" height="28">
     <path
       fillRule="evenodd"
-      d="M.458 10C3.732 4.943 9.522 3 10 3s6.268 1.943 9.542 7c-3.274 5.057-9.062 7-9.542 7S3.732 15.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
       clipRule="evenodd"
     />
   </svg>
 );
 
-const ClockIcon = () => (
-  <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
-    <path
-      fillRule="evenodd"
-      d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
-      clipRule="evenodd"
-    />
-  </svg>
-);
-
+// --- Updated Lock Icon (smaller) ---
 const LockIcon = () => (
-  <svg viewBox="0 0 20 20" fill="currentColor" width="40" height="40">
+  <svg viewBox="0 0 20 20" fill="currentColor" width="24" height="24">
     <path
       fillRule="evenodd"
       d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
@@ -42,24 +32,32 @@ const LockIcon = () => (
  * @param {string} props.to - The URL to link to.
  * @param {string} props.thumbnailSrc - The source URL for the main image.
  * @param {string} props.title - The main title of the video.
- * @param {string} props.subtitle - The subtitle (e.g., "UPSC").
- * @param {string} props.views - The view count (e.g., "1.2k views").
- * @param {string} props.duration - The video duration (e.g., "3:15").
- * @param {boolean} [props.isLive=false] - If true, shows the "LIVE" badge.
+ * @param {string} props.tutorAvatarSrc - URL for the tutor's avatar image.
+ * @param {string} props.tutorName - The name of the tutor.
+ * @param {number} props.progress - Percentage of completion (0-100).
+ * @param {string} props.lessonCount - Text like "Lesson 1/16".
  * @param {boolean} [props.isLocked=false] - If true, shows the lock overlay.
  */
 const ClassesVideoCard = ({
   to,
   thumbnailSrc,
   title,
-  subtitle,
-  views,
-  duration,
-  isLive = false,
+  tutorAvatarSrc,
+  tutorName,
+  progress = 0,
+  lessonCount,
   isLocked = false,
 }) => {
+  // Use a placeholder avatar if none is provided
+  const avatar =
+    tutorAvatarSrc ||
+    `https://placehold.co/40x40/EBF0FF/1F4D9D?text=${tutorName
+      .charAt(0)
+      .toUpperCase()}`;
+
   return (
     <Link to={to} className={styles.card}>
+      {/* --- Thumbnail Section --- */}
       <div className={styles.thumbnailWrapper}>
         <img
           src={thumbnailSrc}
@@ -68,31 +66,42 @@ const ClassesVideoCard = ({
           loading="lazy"
         />
 
-        {/* --- Overlays --- */}
-
-        {isLive && <div className={styles.liveBadge}>LIVE</div>}
-
-        <div className={styles.viewsBadge}>
-          <EyeIcon />
-          <span>{views}</span>
-        </div>
-
-        <div className={styles.durationBadge}>
-          <ClockIcon />
-          <span>{duration}</span>
-        </div>
-
-        {/* --- Lock Overlay (as requested) --- */}
-        {isLocked && (
-          <div className={styles.lockOverlay}>
+        {/* --- Center Icon Overlay --- */}
+        {isLocked ? (
+          <div className={styles.lockIconOverlay}>
             <LockIcon />
+          </div>
+        ) : (
+          <div className={styles.playIconOverlay}>
+            <PlayIcon />
           </div>
         )}
       </div>
 
+      {/* --- Info Section --- */}
       <div className={styles.infoWrapper}>
         <h3 className={styles.title}>{title}</h3>
-        <p className={styles.subtitle}>{subtitle}</p>
+
+        <div className={styles.tutorRow}>
+          <img src={avatar} alt={tutorName} className={styles.avatar} />
+          <span className={styles.tutorName}>{tutorName}</span>
+        </div>
+
+        <div className={styles.progressRow}>
+          <div className={styles.progressBar}>
+            <div
+              className={styles.progressFill}
+              style={{ width: `${progress}%` }}
+              aria-valuenow={progress}
+              aria-valuemin="0"
+              aria-valuemax="100"
+            />
+          </div>
+        </div>
+
+        <div className={styles.lessonCountRow}>
+          <span className={styles.lessonCount}>{lessonCount}</span>
+        </div>
       </div>
     </Link>
   );

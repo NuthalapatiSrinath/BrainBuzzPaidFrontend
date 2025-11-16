@@ -1,20 +1,13 @@
 // src/pages/PublicationsPage/PublicationsPage.jsx
 import React, { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Header from "../../../components/Header/Header";
-import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader";
-import SearchBar from "../../../components/SearchBar/SearchBar";
-import Button from "../../../components/Button/Button";
-import BookCard from "../../../components/BookCard/BookCard"; // <-- new import
-import styles from "./PublicationsPage.module.css";
-import EBOOKS_DATA from "../../../data/ebooks"; // single canonical file
-
-/**
- * PublicationsPage
- * - If /ebooks/:mainCategory/:subCategory -> show books for that specific subcategory
- * - If /ebooks/:mainCategory -> show all books for that category (all its subcategories)
- * - If /ebooks -> show all books across all categories (optional)
- */
+import Header from "../../../components/Header/Header.jsx"; // Fixed path
+import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader.jsx"; // Fixed path
+import SearchBar from "../../../components/SearchBar/SearchBar.jsx"; // Fixed path
+import Button from "../../../components/Button/Button.jsx";
+import ProductCard from "../../../components/ProductCard/ProductCard.jsx"; // <-- 1. Import new component
+import styles from "./PublicationsPage.module.css"; // Fixed path
+import EBOOKS_DATA from "../../../data/ebooks.js"; // Fixed path
 
 export default function PublicationsPage() {
   const navigate = useNavigate();
@@ -160,8 +153,6 @@ export default function PublicationsPage() {
 
           {filtered.map((book) => {
             const thumb = book.thumb || book.logo || "/images/default-book.png";
-            const validity = book.validity || "NA";
-            const medium = book.medium || book.language || "Eng";
             const categoryForPath = book.category || mainCategory || "all";
             const subForPath =
               book.subcategory || subCategory || book.sub || "all";
@@ -172,19 +163,15 @@ export default function PublicationsPage() {
                 state: { book },
               });
 
-            // handler for Download / Buy — preserve original behavior:
-            // - if book.price -> navigate to buy
-            // - else if pdfUrl -> perform download
-            const handleDownload = () => {
+            // handler for Download / Buy
+            const handleBuyNow = () => {
               if (book.price) {
-                navigate(`/buy/${book.id}`);
+                navigate(`/buy/${book.id}`); // Or your checkout route
                 return;
               }
               if (book.pdfUrl) {
-                // create temporary anchor to download file
                 const a = document.createElement("a");
                 a.href = book.pdfUrl;
-                // Try best guess filename from title
                 const safeTitle = (book.title || "ebook").replace(/\s+/g, "-");
                 a.download = `${safeTitle}.pdf`;
                 document.body.appendChild(a);
@@ -192,20 +179,24 @@ export default function PublicationsPage() {
                 document.body.removeChild(a);
                 return;
               }
-              // fallback: open book page
               handleView();
             };
 
             return (
-              <div key={book.id} className={styles.card}>
-                <BookCard
+              <div key={book.id} className={styles.cardWrapper}>
+                {/* --- 2. Use ProductCard --- */}
+                <ProductCard
+                  variant="ebook"
                   image={thumb}
                   title={book.title}
-                  type={book.tag || "E-Book"}
-                  validity={validity}
-                  medium={medium}
-                  onView={handleView}
-                  onDownload={handleDownload}
+                  tag={book.tag || "E-Book"}
+                  validity={book.validity}
+                  medium={book.medium}
+                  price={book.price || 10000} // Mock price from image
+                  originalPrice={book.originalPrice || 12000} // Mock price
+                  discount={book.discount || "10% off"} // Mock discount
+                  onViewDetails={handleView}
+                  onBuyNow={handleBuyNow}
                 />
               </div>
             );

@@ -1,0 +1,220 @@
+/* ProductCard.module.css
+  This single CSS file styles both card variants.
+*/
+
+/* Base tokens */
+:root {
+  --card-radius: 14px;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --accent: #1f4ea6;
+  --muted: #6b7280;
+  --pill-bg: #97a9da;
+}
+
+/* Card container */
+.card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: 1rem;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Consistent gap */
+  box-sizing: border-box;
+}
+
+.card:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* Image box */
+.imageWrapper {
+  width: 100%; /* Make image responsive */
+  max-width: 200px; /* Max width */
+  height: 200px; /* Fixed height */
+  margin: 0 auto; /* Center the image horizontally */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Title and type block */
+.textBlock {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.3;
+  margin: 0;
+  text-align: left;
+  /* Allow for 2 lines of text */
+  height: 2.6em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* pill for type */
+.tagBadge {
+  background-color: var(--pill-bg);
+  color: #fff;
+  border-radius: 24px;
+  padding: 5px 12px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  align-self: flex-start;
+  white-space: nowrap;
+}
+
+/* info row: validity and medium */
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 4px;
+  gap: 10px;
+  align-items: center;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.infoItem strong {
+  color: #444;
+}
+
+.icon {
+  color: var(--pill-bg);
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.dropdownIcon {
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+/* --- Price Row (E-book Variant) --- */
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.originalPrice {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.discount {
+  font-size: 0.9rem;
+  color: #27ae60; /* Success color */
+  font-weight: 600;
+}
+
+/* --- Progress Bar (Course Variant) --- */
+.progressRow {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background-color: #e0e7ff; /* Light blue/grey track */
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  background-color: var(--Primary_Color, #1f4d9d);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+.progressText {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* --- Actions Row (Common) --- */
+.actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  margin-top: auto; /* Pushes buttons to the bottom */
+  padding-top: 8px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.halfBtn {
+  flex: 1 1 50%;
+  min-width: 0;
+  height: 44px !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  padding: 0 12px !important;
+}
+
+/* Specific button styles from images */
+.halfBtn[data-variant="outline"] {
+  background: var(--White_Color) !important;
+  color: var(--accent) !important;
+  border: 1px solid var(--accent) !important;
+  box-shadow: none !important;
+}
+.halfBtn[data-variant="outline"]:hover {
+  background: rgba(31, 78, 166, 0.04) !important;
+}
+
+.halfBtn:not([data-variant="outline"]) {
+  background: var(--accent) !important;
+  color: #fff !important;
+  border: 1px solid var(--accent) !important;
+  box-shadow: 0 4px 12px rgba(31, 78, 166, 0.1) !important;
+}
+.halfBtn:not([data-variant="outline"]):hover {
+  background: #163d88 !important;
+}

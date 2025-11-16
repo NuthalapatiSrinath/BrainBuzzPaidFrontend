@@ -1,4 +1,4 @@
-/* src/pages/CoursesDataPage/CoursesDataPage.module.css */
+/* src/pages/OnlineCourses/CoursesDataPage/CoursesDataPage.module.css */
 
 .pageContainer {
   width: 100%;
@@ -6,6 +6,15 @@
   margin: 2rem auto;
   padding: 0 1rem;
   font-family: var(--Font_Family);
+}
+
+/* --- New Content Wrapper --- */
+/* This is the light blue rounded container from the image */
+.contentWrapper {
+  background-color: #f3f7fd; /* Light blue background */
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 /* --- Grid for the video cards --- */
@@ -38,9 +47,9 @@
   }
 }
 
-/* 3 columns for desktop */
+/* 4 columns for desktop (to match image) */
 @media (min-width: 901px) {
   .cardGrid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }

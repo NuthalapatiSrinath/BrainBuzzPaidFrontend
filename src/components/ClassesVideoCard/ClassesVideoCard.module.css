@@ -1,26 +1,31 @@
 /* src/components/ClassesVideoCard/ClassesVideoCard.module.css */
 
 .card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
-  border-radius: 12px;
+  border-radius: 16px; /* Match image's rounded corners */
   overflow: hidden;
-  background-color: var(--White_Color); /* Used var from index.css */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: var(--White_Color, #fff);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  font-family: var(--Font_Family); /* Used var from index.css */
+  font-family: var(--Font_Family);
+  padding: 1rem; /* Added padding to match the image */
+  gap: 12px; /* Space between thumbnail and info */
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .thumbnailWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9; /* Standard video aspect ratio */
+  aspect-ratio: 16 / 9;
   background-color: #f0f0f0;
+  border-radius: 12px; /* Rounded corners for the thumbnail itself */
+  overflow: hidden;
 }
 
 .thumbnail {
@@ -29,78 +34,109 @@
   object-fit: cover;
 }
 
-/* --- Overlays --- */
-.liveBadge {
+/* --- Overlays (NEW) --- */
+.playIconOverlay,
+.lockIconOverlay {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  background-color: #ff0000;
-  color: var(--White_Color); /* Used var from index.css */
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  z-index: 2;
-}
-
-.viewsBadge,
-.durationBadge {
-  position: absolute;
-  bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: var(--White_Color); /* Used var from index.css */
-  padding: 4px 6px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  z-index: 2;
-}
-
-.viewsBadge {
-  left: 8px;
-}
-
-.durationBadge {
-  right: 8px;
-}
-
-/* --- Lock Overlay --- */
-.lockOverlay {
-  position: absolute;
-  inset: 0; /* Covers the whole thumbnail */
-  background-color: rgba(0, 0, 0, 0.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--White_Color); /* Used var from index.css */
-  z-index: 3; /* On top of other badges */
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.playIconOverlay {
+  color: var(--Primary_Color, #1f4d9d);
+}
+
+.lockIconOverlay {
+  color: #6b7280; /* Grey color for lock */
+}
+
+/* --- Removed Old Badges --- */
+.liveBadge,
+.viewsBadge,
+.durationBadge {
+  display: none;
 }
 
 /* --- Text Content --- */
 .infoWrapper {
-  padding: 12px 16px;
+  /* Padding is now on the .card */
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Space between title, tutor, progress */
 }
 
 .title {
-  font-family: var(--Font_Family); /* Used var from index.css */
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--Black_Color); /* Used var from index.css */
-  margin: 0 0 4px 0;
-
-  /* Truncate long titles */
+  font-family: var(--Font_Family);
+  font-size: 18px; /* Larger title */
+  font-weight: 700; /* Bolder */
+  color: var(--Black_Color);
+  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.subtitle {
-  font-family: var(--Font_Family); /* Used var from index.css */
+/* --- New Styles for Tutor, Progress, Lesson Count --- */
+
+.tutorRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #f0f0f0;
+}
+
+.tutorName {
+  font-family: var(--Font_Family);
   font-size: 14px;
-  color: var(--Grey_Color); /* Used var from index.css */
-  margin: 0;
+  color: var(--Grey_Color, #6b7280);
+  font-weight: 500;
+}
+
+.progressRow {
+  width: 100%;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background-color: #e0e7ff; /* Light blue/grey track */
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: var(--Primary_Color, #1f4d9d);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.lessonCountRow {
+  display: flex;
+  justify-content: flex-end; /* Aligns "Lesson 1/16" to the right */
+}
+
+.lessonCount {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--Grey_Color, #6b7280);
 }

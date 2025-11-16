@@ -10,13 +10,13 @@ import styles from "./TabSwitchPage.module.css";
  * Each object should have:
  * - id {string}: A unique key (e.g., 'profile').
  * - label {string}: The text for the tab (e.g., "My Profile").
- * - icon {React.ReactNode}: A JSX element for the icon.
+ * - icon {React.ReactNode}: (This is no longer rendered to match the new UI)
  * - content {React.ReactNode}: The JSX component/page to render.
  */
 const TabSwitchPage = ({ tabs, defaultTab }) => {
   // Set the default active tab, or fallback to the first tab
   const [activeTab, setActiveTab] = useState(
-    defaultTab || (tabs.length > 0 ? tabs[0].id : null)
+    defaultTab || (tabs && tabs.length > 0 ? tabs[0].id : null)
   );
 
   if (!tabs || tabs.length === 0) {
@@ -29,7 +29,7 @@ const TabSwitchPage = ({ tabs, defaultTab }) => {
   return (
     <div className={styles.tabSwitchPage}>
       {/* 1. The Navigation Bar (Tabs) */}
-      <nav className={styles.tabNav}>
+      <nav className={styles.tabNav} role="tablist" aria-label="Page Sections">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -40,7 +40,8 @@ const TabSwitchPage = ({ tabs, defaultTab }) => {
             aria-selected={activeTab === tab.id}
             role="tab"
           >
-            {tab.icon && <span className={styles.tabIcon}>{tab.icon}</span>}
+            {/* Icon is intentionally removed to match the new UI design */}
+            {/* {tab.icon && <span className={styles.tabIcon}>{tab.icon}</span>} */}
             <span className={styles.tabLabel}>{tab.label}</span>
           </button>
         ))}

@@ -33,7 +33,7 @@ export default function CourseCard({
     >
       {/* === Top Blue Section === */}
       <div className={styles.topSection}>
-        {showAiBadge && <div className={styles.aiBadge}>AI!</div>}
+        {showAiBadge && <div className={styles.aiBadge}>AI</div>}
         {showLiveCircle && <div className={styles.liveCircle}>Live</div>}
 
         <h3 className={styles.title}>{title}</h3>
@@ -64,6 +64,7 @@ export default function CourseCard({
           <div className={styles.infoItem}>
             <FaCalendarAlt className={styles.icon} />
             <span>Validity: {validity}</span>
+            {/* Adding the dropdown icon as seen in the image */}
           </div>
           <div className={styles.infoItem}>
             <TbLanguage className={styles.icon} />
@@ -108,6 +109,6 @@ CourseCard.defaultProps = {
   showAiBadge: false,
   showLiveCircle: false,
   courseType: null,
-  showValidityDropdown: false,
+  showValidityDropdown: true, // Set to true to match image
   onClick: () => {},
 };
