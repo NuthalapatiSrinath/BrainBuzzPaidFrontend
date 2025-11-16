@@ -50,6 +50,8 @@ import PaperDetail from "../sections/CategoryPublications/PaperDetail";
 import MyCoursesPage from "../pages/TopBar/TopbarPanelPages/MyCoursesPage/MyCoursesPage.jsx";
 import MyTestSeries from "../pages/TopBar/TopbarPanelPages/MyTestSeries/MyTestSeries.jsx";
 import CoursesDataPage from "../pages/OnlineCourses/CoursesDataPage/CoursesDataPage.jsx";
+import LiveClasses from "../pages/LiveClasses/LiveClasses.jsx";
+import AllLiveClassesPage from "../pages/LiveClasses/AllLiveClassesPage/AllLiveClassesPage.jsx";
 
 function AppRoutes() {
   return (
@@ -65,6 +67,8 @@ function AppRoutes() {
           <Route path="/coursesdatapage" element={<CoursesDataPage />} />
           <Route path="/mytestseries" element={<MyTestSeries />} />
 
+          <Route path="/liveclasses" element={<LiveClasses />} />
+          <Route path="liveclasses/all" element={<AllLiveClassesPage />} />
           {/* ============================================================
               📰 CURRENT AFFAIRS
           ============================================================ */}

@@ -39,7 +39,7 @@ const BOTTOM_NAV = [
       // ... other course categories
     ],
   },
-  { key: "liveClass", label: "Live Class", href: "/live-class" },
+  { key: "liveClass", label: "Live Class", href: "/liveclasses" },
   {
     key: "testSeries",
     label: "Test Series",

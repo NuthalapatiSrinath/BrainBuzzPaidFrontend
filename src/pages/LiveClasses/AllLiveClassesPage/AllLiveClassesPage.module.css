@@ -1,0 +1,59 @@
+.pageWrapper {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.filterBar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: center;
+  flex-wrap: wrap; /* Allows filters to stack on small screens */
+}
+
+/* Make search bar and dropdown take up space */
+.filterBar > *:first-child {
+  flex-grow: 1; /* Makes search bar grow */
+  min-width: 250px;
+}
+.filterBar > *:last-child {
+  min-width: 200px;
+}
+
+.contentArea {
+  margin-top: 1rem;
+}
+
+.categorySection {
+  margin-bottom: 2.5rem;
+}
+
+.categoryTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.noResults {
+  font-size: 1.2rem;
+  color: #555;
+  text-align: center;
+  padding: 3rem;
+}

@@ -119,6 +119,12 @@
   line-height: 1.6;
 }
 
+/* ✅ ADDED THIS WRAPPER FOR THE SEARCH BAR */
+.searchBarWrapper {
+  /* max-width: 700px; */
+  margin: 0 auto 2.5rem auto; /* Center it and add space below */
+}
+
 /* ===== GRID =====
    Use auto-fit so tiles fill the row neatly. Each tile has a fixed height
    to maintain equal sizes. Desktop will fit many columns; narrow screens go 2 columns.
