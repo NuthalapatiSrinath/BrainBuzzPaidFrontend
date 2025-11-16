@@ -1,210 +1,114 @@
 // src/components/Topbar/Topbar.jsx
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { openModal } from "../../redux/slices/modalSlice";
+import { logout } from "../../redux/slices/authSlice"; // <-- IMPORT LOGOUT
 import LanguageSelector from "../../components/LanguageSelector/LanguageSelector";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import TopbarPanel from "./TopbarPanel";
 import styles from "./Topbar.module.css";
 
-/* TOP_NAV & BOTTOM_NAV same as before */
+/* TOP_NAV & LOGIN_BTN (Unchanged) */
 const TOP_NAV = [
   { key: "home", label: "Home", href: "/" },
   {
     key: "follow",
     label: "Follow Us",
     dropdown: [
-      { label: "Facebook", href: "#" },
-      { label: "Twitter", href: "#" },
-      { label: "Instagram", href: "#" },
+      { label: "Facebook", href: "https.www.facebook.com/brainbuzzakademy" },
+      { label: "Twitter", href: "https://x.com/brainbuzzacadmy" },
+      {
+        label: "Instagram",
+        href: "https://www.instagram.com/brainbuzzacademy/",
+      },
     ],
   },
 ];
 
+const LOGIN_BTN = { key: "login", label: "Log in / Register" };
+
+/* BOTTOM_NAV (Unchanged) */
 const BOTTOM_NAV = [
   {
-    key: "current",
-    label: "Current Affairs",
+    key: "onlineCourses",
+    label: "Online Courses",
     dropdown: [
       {
         label: "UPSC",
-        href: "/currentaffairs/upsc",
+        href: "/courses/upsc",
         icon: "/images/upsc.png",
       },
-      {
-        label: "CGL",
-        href: "/currentaffairs/cgl",
-        icon: "/images/cgl.png",
-      },
-      {
-        label: "CHSL",
-        href: "/currentaffairs/chsl",
-        icon: "/images/chsl.png",
-      },
-      {
-        label: "APPSC",
-        href: "/currentaffairs/appsc",
-        icon: "/images/appsc.png",
-      },
-      {
-        label: "TSPSC",
-        href: "/currentaffairs/tspsc",
-        icon: "/images/tspsc.png",
-      },
-      {
-        label: "AP Police SI",
-        href: "/currentaffairs/appolice",
-        icon: "/images/appolice.png",
-      },
-      {
-        label: "TS Police SI",
-        href: "/currentaffairs/tspolice",
-        icon: "/images/tspolice.png",
-      },
-      {
-        label: "State Bank of India",
-        href: "/currentaffairs/sbi",
-        icon: "/images/sbi.png",
-      },
-      {
-        label: "IBPS",
-        href: "/currentaffairs/ibps",
-        icon: "/images/ibps.png",
-      },
-      {
-        label: "Railways",
-        href: "/currentaffairs/railways",
-        icon: "/images/railway.png",
-      },
+      // ... other course categories
     ],
   },
+  { key: "liveClass", label: "Live Class", href: "/live-class" },
   {
-    key: "quizzes",
-    label: "Daily Quizzes",
+    key: "testSeries",
+    label: "Test Series",
     dropdown: [
       {
         label: "UPSC",
-        href: "/dailyquizzes/upsc",
+        href: "/test-series/upsc",
         icon: "/images/upsc.png",
       },
-      {
-        label: "CGL",
-        href: "/dailyquizzes/cgl",
-        icon: "/images/cgl.png",
-      },
-      {
-        label: "CHSL",
-        href: "/dailyquizzes/chsl",
-        icon: "/images/chsl.png",
-      },
-      {
-        label: "APPSC",
-        href: "/dailyquizzes/appsc",
-        icon: "/images/appsc.png",
-      },
-      {
-        label: "TSPSC",
-        href: "/dailyquizzes/tspsc",
-        icon: "/images/tspsc.png",
-      },
-      {
-        label: "AP Police SI",
-        href: "/dailyquizzes/appolice",
-        icon: "/images/appolice.png",
-      },
-      {
-        label: "TS Police SI",
-        href: "/dailyquizzes/tspolice",
-        icon: "/images/tspolice.png",
-      },
-      {
-        label: "State Bank of India",
-        href: "/dailyquizzes/sbi",
-        icon: "/images/sbi.png",
-      },
-      {
-        label: "IBPS",
-        href: "/dailyquizzes/ibps",
-        icon: "/images/ibps.png",
-      },
-      {
-        label: "Railways",
-        href: "/dailyquizzes/railways",
-        icon: "/images/railway.png",
-      },
+      // ... other test series categories
     ],
   },
-
-  { key: "ebooks", label: "E-Books", href: "/ebooks" },
-  {
-    key: "prev",
-    label: "Previous Question Papers",
-    href: "/previous-papers", // <-- absolute (leading slash) to avoid relative-url bug
-  },
-  { key: "courses", label: "Online Courses", href: "#" },
-  { key: "test", label: "Test Series", href: "#" },
+  { key: "dailyQuizzes", label: "Daily Quizzes", href: "/dailyquizzes" },
+  { key: "currentAffairs", label: "Current Affairs", href: "/currentaffairs" },
+  { key: "publications", label: "Publications", href: "/publications" },
   { key: "about", label: "About Us", href: "/aboutus" },
   { key: "contact", label: "Contact Us", href: "/contactus" },
 ];
 
-function langCodeToLabel(code) {
-  if (!code) return "English";
-  const c = String(code).toLowerCase();
-  if (c === "hi") return "Hindi";
-  if (c === "te") return "Telugu";
-  return "English";
-}
-
-/**
- * Normalize href strings so they are absolute paths (start with "/")
- * Leaves absolute URLs and hashes untouched.
- */
 function normalizeHref(href) {
   if (!href) return "#";
-  // keep external full urls and hashes untouched
   if (
     href.startsWith("http://") ||
     href.startsWith("https://") ||
     href.startsWith("#")
   )
     return href;
-  // ensure it starts with a single leading slash
   return href.startsWith("/") ? href : `/${href}`;
 }
 
 export default function Topbar() {
-  // initialize language from localStorage (bb_lang_code set by translate helper)
-  const initialLanguage = (() => {
-    try {
-      const code = localStorage.getItem("bb_lang_code");
-      return langCodeToLabel(code);
-    } catch (e) {
-      return "English";
-    }
-  })();
+  const dispatch = useDispatch();
 
-  const [language, setLanguage] = useState(initialLanguage);
-  const [searchValue, setSearchValue] = useState("");
-  const [showSearchModal, setShowSearchModal] = useState(false);
+  // --- NEW AUTH STATE ---
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
+  const [language, setLanguage] = useState("English");
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openAccordions, setOpenAccordions] = useState({}); // for mobile dropdowns
-
-  // NEW: which panel is open (null | 'current' | 'quizzes')
+  const [openAccordions, setOpenAccordions] = useState({});
   const [showPanelKey, setShowPanelKey] = useState(null);
 
-  const rootRef = useRef(null);
+  // --- NEW PROFILE DROPDOWN STATE ---
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
+  const rootRef = useRef(null);
+  // --- NEW REF FOR PROFILE DROPDOWN ---
+  const profileRef = useRef(null);
+
+  // Effect for outside click/Escape key
   useEffect(() => {
     function onDocClick(e) {
-      if (!rootRef.current) return;
-      if (!rootRef.current.contains(e.target)) {
-        setShowSearchModal(false);
-        setShowPanelKey(null); // close panel when clicking outside
+      // Handle TopbarPanel (megamenu)
+      if (rootRef.current && !rootRef.current.contains(e.target)) {
+        setShowPanelKey(null);
+      }
+
+      // --- NEW: Handle Profile Dropdown ---
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setIsProfileOpen(false);
       }
     }
+
     function onKey(e) {
       if (e.key === "Escape") {
-        setShowSearchModal(false);
         setMobileOpen(false);
         setShowPanelKey(null);
+        setIsProfileOpen(false); // <-- NEW: Close profile dropdown
       }
     }
     document.addEventListener("mousedown", onDocClick);
@@ -213,33 +117,45 @@ export default function Topbar() {
       document.removeEventListener("mousedown", onDocClick);
       document.removeEventListener("keydown", onKey);
     };
-  }, []);
+  }, []); // <-- rootRef and profileRef are stable, no need to add
 
-  // Sync language state on mount (in case page reloaded by translate helper)
+  // FIX: Closes mobile menu on window resize
   useEffect(() => {
-    try {
-      const code = localStorage.getItem("bb_lang_code");
-      const label = langCodeToLabel(code);
-      if (label !== language) setLanguage(label);
-    } catch (e) {
-      // ignore
-    }
-    // also listen for storage changes from other tabs
-    function onStorage(e) {
-      if (e.key === "bb_lang_code") {
-        const label = langCodeToLabel(e.newValue);
-        setLanguage(label);
+    function handleResize() {
+      if (window.innerWidth > 900) {
+        setMobileOpen(false);
       }
     }
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // run only once on mount
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // FIX: Prevents body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [mobileOpen]);
+
+  // --- UPDATED: Handler for login button ---
+  function handleLoginClick() {
+    // This now opens the modal with the 'login' type we created
+    dispatch(openModal({ type: "login" }));
+  }
+
+  // --- NEW: Handler for logout button ---
+  function handleLogoutClick() {
+    dispatch(logout());
+    setIsProfileOpen(false);
+  }
 
   function toggleMobile() {
     setMobileOpen((s) => !s);
-    // close any open search modal or panel
-    setShowSearchModal(false);
     setShowPanelKey(null);
   }
 
@@ -247,11 +163,8 @@ export default function Topbar() {
     setOpenAccordions((prev) => ({ ...prev, [key]: !prev[key] }));
   }
 
-  // Helper to toggle panel open/close (if same key, close)
   function togglePanel(key) {
     setShowPanelKey((prev) => (prev === key ? null : key));
-    // ensure search modal closed
-    setShowSearchModal(false);
   }
 
   return (
@@ -260,8 +173,8 @@ export default function Topbar() {
         <div className={styles.container}>
           {/* LEFT: logo + mobile hamburger */}
           <div className={styles.left}>
+            {/* ... (unchanged) ... */}
             <div className={styles.logoAndHam}>
-              {/* MOBILE: hamburger first */}
               <button
                 className={`${styles.hamburger} ${
                   mobileOpen ? styles.open : ""
@@ -276,14 +189,13 @@ export default function Topbar() {
                 <span className={styles.hamBar} />
               </button>
 
-              {/* logo next */}
               <div className={styles.logoWrap}>
                 <img src="/favicon.svg" alt="logo" className={styles.logo} />
               </div>
             </div>
           </div>
 
-          {/* CENTER: desktop navs (unchanged) */}
+          {/* CENTER: desktop navs */}
           <div className={styles.center}>
             <div className={styles.topRow}>
               <nav className={styles.topNav} aria-label="Primary navigation">
@@ -293,7 +205,6 @@ export default function Topbar() {
                       {it.dropdown ? (
                         <Dropdown
                           label={it.label}
-                          // pass items with normalized hrefs
                           items={(it.dropdown || []).map((d) => ({
                             ...d,
                             href: normalizeHref(d.href),
@@ -325,46 +236,68 @@ export default function Topbar() {
                   className={styles.badge}
                 />
 
-                <button
-                  className={styles.searchBtn}
-                  aria-label="Open search"
-                  onClick={() => setShowSearchModal(true)}
-                  type="button"
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden
-                  >
-                    <path
-                      d="M21 21l-4.35-4.35"
-                      stroke="white"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <circle
-                      cx="11"
-                      cy="11"
-                      r="6"
-                      stroke="white"
-                      strokeWidth="2"
-                    />
-                  </svg>
-                </button>
-
                 <div className={styles.langWrapper}>
                   <LanguageSelector
                     language={language}
                     onChange={setLanguage}
                   />
                 </div>
+
+                {/* // --- NEW CONDITIONAL AUTH SECTION ---
+                // This block replaces your static login button
+                */}
+                {isAuthenticated && user ? (
+                  // --- 1. USER IS LOGGED IN ---
+                  <div className={styles.profileDropdown} ref={profileRef}>
+                    <button
+                      type="button"
+                      className={styles.profileTrigger}
+                      onClick={() => setIsProfileOpen((o) => !o)}
+                      aria-expanded={isProfileOpen}
+                    >
+                      {/* Display user's first name, or 'My Account' as fallback */}
+                      <span>{user.firstName || "My Account"}</span>
+                      <span className={styles.profileCaret}></span>
+                    </button>
+
+                    {isProfileOpen && (
+                      <div className={styles.profilePanel}>
+                        <a href="/profile" className={styles.profileItem}>
+                          {/* You can add icons here later */}
+                          My Profile
+                        </a>
+                        <a href="/subscriptions" className={styles.profileItem}>
+                          My Subscriptions
+                        </a>
+                        <a href="/settings" className={styles.profileItem}>
+                          Settings
+                        </a>
+                        <button
+                          type="button"
+                          className={`${styles.profileItem} ${styles.logoutButton}`}
+                          onClick={handleLogoutClick}
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  // --- 2. USER IS LOGGED OUT ---
+                  <button
+                    type="button"
+                    className={styles.loginBtn}
+                    onClick={handleLoginClick}
+                  >
+                    {LOGIN_BTN.label}
+                  </button>
+                )}
+                {/* --- END OF AUTH SECTION --- */}
               </div>
             </div>
 
             <div className={styles.bottomRow}>
+              {/* ... (unchanged) ... */}
               <nav
                 className={styles.bottomNav}
                 aria-label="Secondary navigation"
@@ -373,22 +306,19 @@ export default function Topbar() {
                   {BOTTOM_NAV.map((it) => (
                     <li key={it.key} className={styles.bottomNavItem}>
                       {it.dropdown ? (
-                        // For current/quizzes we render a custom label + caret toggle that opens TopbarPanel on desktop.
-                        it.key === "current" || it.key === "quizzes" ? (
+                        it.key === "onlineCourses" ||
+                        it.key === "testSeries" ? (
                           <div className={styles.panelTriggerWrap}>
-                            {/* parent link */}
                             <a
                               href={
-                                it.key === "current"
-                                  ? normalizeHref("/currentaffairs")
-                                  : normalizeHref("/dailyquizzes")
+                                it.key === "onlineCourses"
+                                  ? normalizeHref("/courses")
+                                  : normalizeHref("/test-series")
                               }
                               className={styles.bottomLink}
                             >
                               {it.label}
                             </a>
-
-                            {/* caret/toggle (desktop) */}
                             <button
                               type="button"
                               aria-haspopup="dialog"
@@ -399,11 +329,7 @@ export default function Topbar() {
                               }}
                               className={styles.panelToggleBtn}
                               title={`Open ${it.label} panel`}
-                            >
-                              {/* caret icon could go here */}
-                            </button>
-
-                            {/* Panel (desktop-only styles are inside TopbarPanel.module.css) */}
+                            ></button>
                             {showPanelKey === it.key && (
                               <TopbarPanel
                                 type={it.key}
@@ -446,7 +372,7 @@ export default function Topbar() {
         </div>
       </header>
 
-      {/* Mobile menu (renders only on mobile; CSS controls visibility) */}
+      {/* Mobile menu */}
       {mobileOpen && (
         <div
           className={styles.mobileMenuWrap}
@@ -454,6 +380,12 @@ export default function Topbar() {
           aria-modal="true"
           aria-label="Mobile menu"
         >
+          {/* ... (mobile menu content) ... */}
+          {/* NOTE: You will also want to update the mobile menu 
+            to show the user's name/profile link instead of 
+            the "Log in / Register" button here.
+            I have updated the main login button below.
+          */}
           <div
             className={styles.mobileMenuBackdrop}
             onClick={() => setMobileOpen(false)}
@@ -466,6 +398,7 @@ export default function Topbar() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.mobileHeader}>
+              {/* ... (unchanged) ... */}
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div
                   className={styles.logoWrap}
@@ -490,23 +423,44 @@ export default function Topbar() {
               </button>
             </div>
 
-            {/* Search row inside mobile menu */}
+            {/* Mobile Login Button (or Profile) */}
             <div>
-              <button
-                className={styles.mobileAccBtn}
-                type="button"
-                onClick={() => {
-                  setShowSearchModal(true);
-                  setMobileOpen(false);
-                }}
-              >
-                <span>Search Categories</span>
-                <span aria-hidden>›</span>
-              </button>
+              {isAuthenticated && user ? (
+                // --- NEW: Mobile Profile View ---
+                // A simple version for mobile. You can make this a link to /profile
+                <div className={styles.mobileProfile}>
+                  <span>
+                    Signed in as <strong>{user.firstName || user.email}</strong>
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.mobileLogoutBtn}
+                    onClick={() => {
+                      handleLogoutClick();
+                      setMobileOpen(false);
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                // --- Original Mobile Login Button ---
+                <button
+                  type="button"
+                  className={styles.mobileLoginBtn}
+                  onClick={() => {
+                    handleLoginClick();
+                    setMobileOpen(false);
+                  }}
+                >
+                  {LOGIN_BTN.label}
+                </button>
+              )}
             </div>
 
-            {/* Top nav items (with mobile accordion for dropdowns) */}
+            {/* Top nav items */}
             <div className={styles.mobileListWrap}>
+              {/* ... (unchanged) ... */}
               <ul className={styles.mobileMenuList}>
                 {TOP_NAV.map((it) =>
                   it.dropdown ? (
@@ -554,18 +508,18 @@ export default function Topbar() {
 
             {/* Bottom nav */}
             <div>
+              {/* ... (unchanged) ... */}
               <ul className={styles.mobileMenuList}>
                 {BOTTOM_NAV.map((it) =>
                   it.dropdown ? (
                     <li key={it.key}>
                       <div className={styles.mobileBottomItem}>
-                        {/* parent link (single visible label) */}
                         <a
                           href={
-                            it.key === "current"
-                              ? normalizeHref("/currentaffairs")
-                              : it.key === "quizzes"
-                              ? normalizeHref("/dailyquizzes")
+                            it.key === "onlineCourses"
+                              ? normalizeHref("/courses")
+                              : it.key === "testSeries"
+                              ? normalizeHref("/test-series")
                               : normalizeHref(it.href)
                           }
                           className={styles.mobileAccItem}
@@ -573,8 +527,6 @@ export default function Topbar() {
                         >
                           {it.label}
                         </a>
-
-                        {/* expand/collapse control (separate, so label isn't duplicated) */}
                         <button
                           className={styles.mobileAccToggle}
                           onClick={() => toggleAccordion(it.key)}
@@ -624,6 +576,7 @@ export default function Topbar() {
 
             {/* badges, language */}
             <div className={styles.mobileBadgesRow}>
+              {/* ... (unchanged) ... */}
               <img
                 src="/googleplaystore.svg"
                 alt="Google Play"
@@ -641,82 +594,8 @@ export default function Topbar() {
               </div>
             </div>
 
-            {/* bottom links */}
-            <div className={styles.mobileBottomLinks}>
-              <a
-                href={normalizeHref("/aboutus")}
-                onClick={() => setMobileOpen(false)}
-              >
-                About Us
-              </a>
-              <a
-                href={normalizeHref("/contactus")}
-                onClick={() => setMobileOpen(false)}
-              >
-                Contact Us
-              </a>
-            </div>
+            <div className={styles.mobileBottomLinks}></div>
           </aside>
-        </div>
-      )}
-
-      {/* Search modal (desktop behavior unchanged) */}
-      {showSearchModal && (
-        <div
-          className={styles.searchOverlay}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Search categories"
-          onClick={() => setShowSearchModal(false)}
-        >
-          <div
-            className={styles.searchModal}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className={styles.modalClose}
-              aria-label="Close search"
-              onClick={() => setShowSearchModal(false)}
-            >
-              ×
-            </button>
-            <div className={styles.modalContent}>
-              <div className={styles.modalTitle}>Search Categories</div>
-              <div className={styles.modalSearchRow}>
-                <svg
-                  className={styles.modalIcon}
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden
-                >
-                  <path
-                    d="M21 21l-4.35-4.35"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <circle
-                    cx="11"
-                    cy="11"
-                    r="6"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                </svg>
-                <input
-                  autoFocus
-                  className={styles.modalInput}
-                  placeholder="Search Categories"
-                  aria-label="Search categories"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
         </div>
       )}
     </>

@@ -1,0 +1,134 @@
+/*
+ * Styles for CategoryHomeSection
+ * Uses CSS variables defined in your global index.css
+ */
+
+.section {
+  width: 100%;
+  padding: 4rem 2rem; /* Vertical and horizontal padding */
+  /* background-color: var(--White_Color); */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* === Heading Styles (UPDATED) === */
+.headingWrapper {
+  margin-bottom: 2.5rem;
+  /* max-width: 800px; Constrains text width */
+}
+
+/* This new class makes the heading and underline side-by-side */
+.headingline {
+  display: flex;
+  align-items: center; /* Vertically aligns the text and the line */
+  gap: 1rem; /* Adds space between "Categories" and the line */
+}
+
+.heading {
+  font-size: 22px;
+  color: var(--Primary_Color, #1f4d9d);
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap; /* Prevents "Categories" from wrapping */
+}
+
+.headingUnderline {
+  height: 4px;
+  width: 80px;
+  background: var(--Primary_Color, #1f4d9d);
+  border-radius: 2px;
+}
+
+.subtitle {
+  color: var(--Black_Color);
+  font-weight: 500;
+  margin: 12px 0 24px 0; /* Added a bit more top margin */
+  font-size: var(--Font_Size_6);
+  line-height: 1.6;
+}
+
+/* === Content Wrapper === */
+/* This is the main box with the linear gradient background */
+.contentWrapper {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 2rem 2rem 0; /* UPDATED: Removed left padding */
+  border-radius: 16px;
+  /* Faint linear gradient as seen in the image background */
+  background: linear-gradient(105deg, var(--Background_Color) 0%, #fdf5f8 100%);
+}
+
+.imageWrapper {
+  flex: 1;
+  max-width: 400px;
+  min-width: 250px;
+  display: flex; /* Ensures image doesn't overflow */
+  align-items: center;
+  justify-content: center;
+}
+
+.womanImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transform: scaleX(-1); /* Flips image horizontally to match screenshot */
+}
+
+/* === Grid Styles === */
+.gridContainer {
+  flex: 1.5; /* Gives more space to the grid */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; /* Space between cards */
+}
+
+/* === Responsive Design === */
+
+@media (max-width: 992px) {
+  /* Stack woman and grid on tablets */
+  .contentWrapper {
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+  }
+
+  .imageWrapper {
+    max-width: 300px;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 2-column grid on smaller tablets */
+  .gridContainer {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+  }
+
+  .subtitle {
+    font-size: var(--Font_Size_3); /* 16px */
+  }
+}
+
+@media (max-width: 480px) {
+  /* 1-column grid on mobile */
+  .section {
+    padding: 2.5rem 1rem;
+  }
+
+  .gridContainer {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .headingline {
+    gap: 0.5rem; /* Reduce gap on mobile */
+  }
+
+  .heading {
+    font-size: 20px; /* Slightly smaller heading on mobile */
+  }
+}

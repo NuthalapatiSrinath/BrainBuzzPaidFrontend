@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./HomePage.module.css";
 import LatestCurrentAffairsSection from "../../sections/LatestCurrentAffairsSection/LatestCurrentAffairsSection";
+import CategoryHomeSection from "../../sections/CategoryHomeSection/CategoryHomeSection";
+import MyCoursesSection from "../../sections/MyCoursesSection/MyCoursesSection";
+import MyTestSeriesSection from "../../sections/MyTestSeriesSection/MyTestSeriesSection";
 
 export default function HomePage() {
   const [active, setActive] = useState(0); // 0 => hero1 front, 1 => hero2 front
@@ -81,54 +84,63 @@ export default function HomePage() {
   };
 
   return (
-    <div className={styles.pageWrapper}>
-      {/* Hero Section */}
-      <div className={styles.container} aria-hidden="false">
-        <div className={styles.stack}>
-          <AnimatePresence initial={false} mode="popLayout">
-            {/* FRONT clipping frame */}
-            <div
-              key={`frame-front-${imgs[active].id}`}
-              className={`${styles.card} ${styles.front}`}
-              aria-hidden="true"
-            >
-              <motion.img
-                key={`img-front-${imgs[active].id}`}
-                src={imgs[active].src}
-                alt={imgs[active].alt}
-                className={styles.image}
-                variants={frontImage}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-              />
-            </div>
+    <>
+      <div className={styles.pageWrapper}>
+        {/* Hero Section */}
+        <div className={styles.pageWrapper2}>
+          <div className={styles.container} aria-hidden="false">
+            <div className={styles.stack}>
+              <AnimatePresence initial={false} mode="popLayout">
+                {/* FRONT clipping frame */}
+                <div
+                  key={`frame-front-${imgs[active].id}`}
+                  className={`${styles.card} ${styles.front}`}
+                  aria-hidden="true"
+                >
+                  <motion.img
+                    key={`img-front-${imgs[active].id}`}
+                    src={imgs[active].src}
+                    alt={imgs[active].alt}
+                    className={styles.image}
+                    variants={frontImage}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                  />
+                </div>
 
-            {/* BACK clipping frame */}
-            <div
-              key={`frame-back-${imgs[active === 0 ? 1 : 0].id}`}
-              className={`${styles.card} ${styles.back}`}
-              aria-hidden="true"
-            >
-              <motion.img
-                key={`img-back-${imgs[active === 0 ? 1 : 0].id}`}
-                src={imgs[active === 0 ? 1 : 0].src}
-                alt={imgs[active === 0 ? 1 : 0].alt}
-                className={styles.image}
-                variants={backImage}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-              />
+                {/* BACK clipping frame */}
+                <div
+                  key={`frame-back-${imgs[active === 0 ? 1 : 0].id}`}
+                  className={`${styles.card} ${styles.back}`}
+                  aria-hidden="true"
+                >
+                  <motion.img
+                    key={`img-back-${imgs[active === 0 ? 1 : 0].id}`}
+                    src={imgs[active === 0 ? 1 : 0].src}
+                    alt={imgs[active === 0 ? 1 : 0].alt}
+                    className={styles.image}
+                    variants={backImage}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                  />
+                </div>
+              </AnimatePresence>
             </div>
-          </AnimatePresence>
+          </div>
+        </div>
+        <div className={styles.CategoryHome}>
+          <CategoryHomeSection />
+        </div>
+        <div className={styles.MyCourses}>
+          <MyCoursesSection />
+        </div>
+        {/* Current Affairs Section */}
+        <div className={styles.testseries}>
+          <MyTestSeriesSection />
         </div>
       </div>
-
-      {/* Current Affairs Section */}
-      <div className={styles.currentAffairs}>
-        <LatestCurrentAffairsSection />
-      </div>
-    </div>
+    </>
   );
 }

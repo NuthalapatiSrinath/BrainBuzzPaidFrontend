@@ -2,9 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
 
 /* ==== MAIN PAGE WRAPPER WITH GRADIENT ==== */
-.pageWrapper {
+.pageWrapper2 {
   width: 100%;
-  min-height: 100vh;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,6 +13,8 @@
   box-sizing: border-box;
 
   /* ✨ Smooth left-right gradient for full page */
+}
+.pageWrapper {
   background: linear-gradient(
     90deg,
     #fde8ec 0%,
@@ -21,7 +23,6 @@
     /* clean middle */ #fff6e8 100% /* warm light cream on the right */
   );
 }
-
 /* ==== HERO SECTION CONTAINER ==== */
 .container {
   width: 100%;

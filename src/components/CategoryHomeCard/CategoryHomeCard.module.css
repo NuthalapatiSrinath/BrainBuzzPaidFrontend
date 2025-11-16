@@ -1,0 +1,46 @@
+/*
+ * CategoryHomeCard.module.css
+ * Styles for the homepage category card.
+ * (UPDATED for centered icon-over-text layout)
+ * Uses variables from your index.css
+ */
+
+.card {
+  /* Use Flexbox to center content */
+  display: flex;
+  flex-direction: column; /* Stack items (icon, label) vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  gap: 0.6rem; /* Space between icon and label (e.g., ~10px) */
+
+  height: 140px; /* Fixed height, adjust as needed */
+  padding: 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+
+  /* Transition for a smooth hover effect */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  /* transform: translateY(-5px); */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.image {
+  width: 32px; /* Adjust icon size as needed */
+  height: 40px; /* Adjust icon size as needed */
+  object-fit: contain;
+
+  /* Prevents the image from being selected */
+  pointer-events: none;
+}
+
+.label {
+  font-family: var(--Font_Family);
+  /* Using Font_Size_3 for a slightly smaller, more fitting text */
+  font-size: var(--Font_Size_3, 16px);
+  font-weight: 600;
+  color: #045666;
+  text-align: center; /* Ensures text centers if it wraps to a new line */
+}

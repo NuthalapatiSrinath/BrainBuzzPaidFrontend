@@ -1,0 +1,143 @@
+/* Styles for the modal content, not the backdrop (MainModal handles that) */
+.modalContent {
+  background: white;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* This component will be animated by RenderModal.jsx */
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+}
+.closeButton:hover {
+  color: #333;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.logoContainer img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 0.5rem;
+}
+
+.logoContainer h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2c5282; /* A blue shade */
+  margin: 0;
+}
+
+.inputGroup {
+  margin-bottom: 1rem;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+.inputGroup input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 1px #4299e1;
+}
+
+.forgotPassword {
+  display: block;
+  text-align: right;
+  font-size: 0.875rem;
+  color: #4299e1;
+  text-decoration: none;
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+}
+.forgotPassword:hover {
+  text-decoration: underline;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.loginButton:hover {
+  background-color: #2b6cb0;
+}
+.loginButton:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #e53e3e;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+/* --- ADD THESE STYLES TO THE END OF YOUR LoginModal.module.css --- */
+.switchModal {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.switchButton {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #3182ce;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.switchButton:hover {
+  text-decoration: underline;
+}
+
+/* --- ALSO, ADD THIS TO YOUR EXISTING .loginButton --- */
+.loginButton {
+  /* ... (all your existing styles) ... */
+  margin-top: 1rem; /* Add this if it's not there */
+}
+
+/* --- AND THIS TO YOUR EXISTING .forgotPassword --- */
+.forgotPassword {
+  /* ... (all your existing styles) ... */
+  margin-bottom: 1.5rem; /* Add this if it's not there */
+}

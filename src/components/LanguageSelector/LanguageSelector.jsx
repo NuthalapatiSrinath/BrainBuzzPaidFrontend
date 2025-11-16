@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./LanguageSelector.module.css";
-import { translatePage } from "../../utils/googleTranslate";
+// import { translatePage } from "../../utils/googleTranslate"; // Translation is disabled
 
 /**
  * A single canonical LanguageSelector. Use this component everywhere
@@ -19,9 +19,12 @@ export default function LanguageSelector({
     .trim();
 
   const handleClick = (opt) => {
-    onChange(opt);
-    const langCode = opt === "Hindi" ? "hi" : opt === "Telugu" ? "te" : "en";
-    translatePage(langCode);
+    onChange(opt); // This just updates the state (changes the active button)
+
+    // --- TRANSLATION DISABLED AS REQUESTED ---
+    // const langCode = opt === "Hindi" ? "hi" : opt === "Telugu" ? "te" : "en";
+    // translatePage(langCode);
+    // --- END ---
   };
 
   return (

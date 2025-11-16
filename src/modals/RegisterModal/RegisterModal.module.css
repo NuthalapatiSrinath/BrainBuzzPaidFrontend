@@ -1,0 +1,144 @@
+/* Styles for the modal content */
+.modalContent {
+  background: white;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* This ensures the height changes smoothly */
+  transition: all 0.3s ease-in-out;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+}
+.closeButton:hover {
+  color: #333;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.logoContainer img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 0.5rem;
+}
+
+.logoContainer h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2c5282;
+  margin: 0;
+}
+
+.inputGroup {
+  margin-bottom: 1rem;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+.inputGroup input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 1px #4299e1;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+.loginButton:hover {
+  background-color: #2b6cb0;
+}
+.loginButton:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #e53e3e;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.switchModal {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.switchButton {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #3182ce;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.switchButton:hover {
+  text-decoration: underline;
+}
+
+/* --- NEW: Success Message Styles --- */
+.successContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.successContainer img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1rem;
+}
+.successContainer h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c5282;
+  margin: 0 0 0.5rem 0;
+}
+.successContainer p {
+  font-size: 1rem;
+  color: #4a5568;
+  margin-bottom: 1.5rem;
+}
