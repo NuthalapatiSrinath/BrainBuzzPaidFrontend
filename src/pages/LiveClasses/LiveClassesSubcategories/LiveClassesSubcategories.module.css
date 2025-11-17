@@ -1,6 +1,7 @@
-/* src/pages/Ebooks/EbooksSubcategories/EbooksSubcategories.module.css */
+/* src/pages/LiveClasses/LiveClassesSubcategories/LiveClassesSubcategories.module.css */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
 
+/* All these styles are from your CurrentAffairs file */
 .pageWrapper {
   width: 100%;
   min-height: 100vh;
@@ -12,19 +13,12 @@
   align-items: center;
 }
 
-/* This is the white content box that sits below the header */
 .subSection {
+  width: 86%;
+  max-width: 1200px;
+  padding: 22px 0 80px;
   box-sizing: border-box;
   margin: 0 auto;
-  width: 100%;
-  /* max-width: 1200px; */
-  padding: 2rem;
-  /* This pulls the content up over the bottom of the Header component */
-  /* transform: translateY(-40px); */
-  /* background: #fff; */
-  /* border-radius: 8px; */
-  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); */
-  /* padding: 24px; */
 }
 
 .headerRow {
@@ -52,35 +46,28 @@
   margin: 12px 0 22px;
   display: flex;
   align-items: center;
-  max-width: 400px; /* Constrains search bar width */
 }
 
-/* --- GRID (MODIFIED FOR CATEGORY-CARD) --- */
+/* THIS IS THE MODIFIED SECTION
+  The grid is changed to support the larger CategoryCard.
+  The .card, .cardImage, and .cardTitle styles are removed
+  because CategoryCard has its own styles.
+*/
 .grid {
   width: 100%;
   display: grid;
-  /* This minmax is designed for the CategoryCard component */
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* This minmax is wider to fit the CategoryCard component */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 20px;
-  justify-items: center;
+  justify-content: start;
   align-items: start;
 }
 
-/* We don't need .card styles here, as CategoryCard brings its own */
-
-.noResults {
-  font-size: 1rem;
-  color: #555;
-  padding: 24px;
-  text-align: center;
-  grid-column: 1 / -1; /* Make it span the full grid */
-}
-
-/* --- RESPONSIVE --- */
+/* RESPONSIVE (Also modified to support the new grid) */
 @media (max-width: 900px) {
   .subSection {
     width: 94%;
-    padding: 18px;
+    padding: 18px 0 60px;
   }
 
   .grid {
@@ -89,15 +76,14 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 420px) {
   .subSection {
     width: 96%;
-    padding: 12px;
-    transform: translateY(-20px); /* Less overlap on mobile */
+    padding: 14px 8px 60px;
   }
 
-  /* Grid stacks to single column */
   .grid {
+    /* Stack to a single column on small phones */
     grid-template-columns: 1fr;
     gap: 12px;
   }

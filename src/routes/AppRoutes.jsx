@@ -52,6 +52,8 @@ import MyTestSeries from "../pages/TopBar/TopbarPanelPages/MyTestSeries/MyTestSe
 import CoursesDataPage from "../pages/OnlineCourses/CoursesDataPage/CoursesDataPage.jsx";
 import LiveClasses from "../pages/LiveClasses/LiveClasses.jsx";
 import AllLiveClassesPage from "../pages/LiveClasses/AllLiveClassesPage/AllLiveClassesPage.jsx";
+import LiveClassesSubcategories from "../pages/LiveClasses/LiveClassesSubcategories/LiveClassesSubcategories.jsx";
+import SubcategoryClassesPage from "../pages/LiveClasses/SubcategoryClassesPage/SubcategoryClassesPage.jsx";
 
 function AppRoutes() {
   return (
@@ -66,9 +68,28 @@ function AppRoutes() {
           <Route path="/mycourses" element={<MyCoursesPage />} />
           <Route path="/coursesdatapage" element={<CoursesDataPage />} />
           <Route path="/mytestseries" element={<MyTestSeries />} />
+          {/* ============================================================
+                📺 LIVE CLASSES
+            ============================================================ */}
 
+          {/* This is the main landing page for Live Classes */}
           <Route path="/liveclasses" element={<LiveClasses />} />
+
+          {/* This is the page that shows all classes in one list */}
           <Route path="liveclasses/all" element={<AllLiveClassesPage />} />
+
+          {/* This page shows the subcategories (e.g., GS-Prelims) */}
+          <Route
+            path="/liveclasses/:category"
+            element={<LiveClassesSubcategories />}
+          />
+
+          {/* 2. USE THE NEW PAGE HERE */}
+          {/* This page shows the final list of classes for that subcategory */}
+          <Route
+            path="/liveclasses/:category/:subcategory"
+            element={<SubcategoryClassesPage />}
+          />
           {/* ============================================================
               📰 CURRENT AFFAIRS
           ============================================================ */}
@@ -85,7 +106,6 @@ function AppRoutes() {
             path="currentaffairs/:category/:subId/:articleId"
             element={<CurrentAffairsArticlePage />}
           />
-
           {/* ============================================================
               📝 DAILY QUIZZES FLOW
           ============================================================ */}
@@ -114,7 +134,6 @@ function AppRoutes() {
             path="dailyquizzes/:category/:subcategory/:quizId/review"
             element={<QuizCorrectAnswersPage />}
           />
-
           {/* ============================================================
               📚 E-BOOKS (PUBLICATIONS)
           ============================================================ */}
@@ -128,7 +147,6 @@ function AppRoutes() {
             path="ebooks/:category/:subcategory/:id"
             element={<BookDetailPage />}
           />
-
           {/* ============================================================
               📄 PREVIOUS QUESTION PAPERS
           ============================================================ */}
@@ -145,7 +163,6 @@ function AppRoutes() {
             path="previous-papers/:category/:subcategory/:paperId"
             element={<PaperDetail />}
           />
-
           {/* ============================================================
               🧭 ABOUT & CONTACT
           ============================================================ */}

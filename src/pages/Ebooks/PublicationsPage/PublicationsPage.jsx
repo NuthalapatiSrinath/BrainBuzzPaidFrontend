@@ -65,7 +65,7 @@ export default function PublicationsPage() {
     );
   }, [catKey, subKey]);
 
-  // header info
+  // header infof
   const headerInfo = useMemo(() => {
     const categoryTitle =
       categoryMeta?.title || (catKey ? catKey.toUpperCase() : "E-Books");
@@ -107,7 +107,7 @@ export default function PublicationsPage() {
 
   return (
     <div className={styles.pageWrapper}>
-      <Header imageSrc={headerInfo.hero} alt={headerTitle} />
+      {/* <Header imageSrc={headerInfo.hero} alt={headerTitle} /> */}
 
       <CategoryHeader
         title={headerTitle || "E-Books"}

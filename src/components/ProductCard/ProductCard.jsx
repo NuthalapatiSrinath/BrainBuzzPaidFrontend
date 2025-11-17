@@ -57,7 +57,7 @@ export default function ProductCard({
           <span>
             <strong>Validity :</strong> {validityText}
           </span>
-          <FaChevronDown className={styles.dropdownIcon} />
+          {/* <FaChevronDown className={styles.dropdownIcon} /> */}
         </div>
         <div className={styles.infoItem}>
           <TbLanguage className={styles.icon} />
@@ -111,12 +111,7 @@ export default function ProductCard({
           </>
         ) : (
           <>
-            <Button
-              label="View"
-              variant="outline"
-              onClick={onView}
-              className={styles.halfBtn}
-            />
+            <Button label="View" onClick={onView} className={styles.halfBtn} />
             <Button
               label="Download"
               onClick={onDownload}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./TabSwitchPage.module.css";
+import styles from "./TabSwitchPage.module.css"; // This component's own default styles
 
 /**
  * A responsive tab-switching component.
@@ -7,14 +7,15 @@ import styles from "./TabSwitchPage.module.css";
  * @param {object} props
  * @param {string} props.defaultTab - The 'id' of the tab to show by default.
  * @param {Array<object>} props.tabs - An array of tab objects.
- * Each object should have:
- * - id {string}: A unique key (e.g., 'profile').
- * - label {string}: The text for the tab (e.g., "My Profile").
- * - icon {React.ReactNode}: (This is no longer rendered to match the new UI)
- * - content {React.ReactNode}: The JSX component/page to render.
+ * @param {string} [props.navClassName] - **NEW:** Optional class for the <nav> element.
+ * @param {string} [props.contentClassName] - **NEW:** Optional class for the content div.
  */
-const TabSwitchPage = ({ tabs, defaultTab }) => {
-  // Set the default active tab, or fallback to the first tab
+const TabSwitchPage = ({
+  tabs,
+  defaultTab,
+  navClassName = "", // Default to empty string
+  contentClassName = "", // Default to empty string
+}) => {
   const [activeTab, setActiveTab] = useState(
     defaultTab || (tabs && tabs.length > 0 ? tabs[0].id : null)
   );
@@ -23,16 +24,21 @@ const TabSwitchPage = ({ tabs, defaultTab }) => {
     return null;
   }
 
-  // Find the content component that matches the active tab's ID
   const activeContent = tabs.find((tab) => tab.id === activeTab)?.content;
 
   return (
     <div className={styles.tabSwitchPage}>
       {/* 1. The Navigation Bar (Tabs) */}
-      <nav className={styles.tabNav} role="tablist" aria-label="Page Sections">
+      {/* Apply the passed-in navClassName OR the default style */}
+      <nav
+        className={`${navClassName || styles.tabNav}`}
+        role="tablist"
+        aria-label="Page Sections"
+      >
         {tabs.map((tab) => (
           <button
             key={tab.id}
+            // The button class logic is kept internal
             className={`${styles.tabButton} ${
               activeTab === tab.id ? styles.active : ""
             }`}
@@ -40,15 +46,17 @@ const TabSwitchPage = ({ tabs, defaultTab }) => {
             aria-selected={activeTab === tab.id}
             role="tab"
           >
-            {/* Icon is intentionally removed to match the new UI design */}
-            {/* {tab.icon && <span className={styles.tabIcon}>{tab.icon}</span>} */}
             <span className={styles.tabLabel}>{tab.label}</span>
           </button>
         ))}
       </nav>
 
       {/* 2. The Active Content */}
-      <div className={styles.tabContent} role="tabpanel">
+      {/* Apply the passed-in contentClassName OR the default style */}
+      <div
+        className={`${contentClassName || styles.tabContent}`}
+        role="tabpanel"
+      >
         {activeContent}
       </div>
     </div>

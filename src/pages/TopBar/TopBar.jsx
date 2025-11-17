@@ -39,7 +39,7 @@ const BOTTOM_NAV = [
       // ... other course categories
     ],
   },
-  { key: "liveClass", label: "Live Class", href: "/liveclasses" },
+  { key: "liveClass", label: "Live Classes", href: "/liveclasses" },
   {
     key: "testSeries",
     label: "Test Series",
@@ -54,7 +54,7 @@ const BOTTOM_NAV = [
   },
   { key: "dailyQuizzes", label: "Daily Quizzes", href: "/dailyquizzes" },
   { key: "currentAffairs", label: "Current Affairs", href: "/currentaffairs" },
-  { key: "publications", label: "Publications", href: "/publications" },
+  { key: "publications", label: "Publications", href: "/ebooks" },
   { key: "about", label: "About Us", href: "/aboutus" },
   { key: "contact", label: "Contact Us", href: "/contactus" },
 ];

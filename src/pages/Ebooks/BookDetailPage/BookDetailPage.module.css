@@ -1,193 +1,195 @@
 .pageWrapper {
-    padding-bottom: 60px;
+  padding-bottom: 60px;
 }
-.aboutbook{
-    display: flex;
-    color: var(--Primary_Color);
-    font-weight: 500;
+.aboutbook {
+  display: flex;
+  color: var(--Primary_Color);
+  font-weight: 500;
 }
-.whatwillyouget{
-    display: flex;
-        color: var(--Primary_Color);
-        font-weight: 500;
-
+.whatwillyouget {
+  display: flex;
+  color: var(--Primary_Color);
+  font-weight: 500;
 }
-.downloadthestructure{
-    display: flex;
-        color: var(--Primary_Color);
-        font-weight: 500;
-
+.downloadthestructure {
+  display: flex;
+  color: var(--Primary_Color);
+  font-weight: 500;
 }
 /* main content */
 .contentArea {
-    max-width: 980px;
-    margin: 24px auto;
-    padding: 0 20px;
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 0 20px;
 }
 
-/* Tabs */
+/* --- TABS --- */
+/* This class is passed to TabSwitchPage's navClassName prop */
 .tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
-.tab {
-    background: #ffffff;
-    border: 1px solid #e6eefc;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #475569;
+/* This targets the .tabButton class from TabSwitchPage.module.css */
+.tabs > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border: none;
+  background: var(--White_Color, #ffffff);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--Black_Color, #333);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.tab.active {
-    background: #e9f0ff;
-    border-color: #cfe0ff;
-    color: #0a4fd6;
+.tabs > button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* panel card (blue rounded box like screenshot) */
+/* This targets the .active class from TabSwitchPage.module.css */
+.tabs > button.active {
+  background-color: #a7b6e1; /* Light purple/blue from image */
+  color: var(--White_Color, #ffffff);
+  box-shadow: 0 4px 12px rgba(167, 182, 225, 0.3);
+  transform: none;
+}
+
+/* --- TAB PANELS --- */
 .panel {
-    background: transparent;
+  background: transparent; /* The TabSwitchPage content wrapper is transparent */
 }
 
+/* This is the base wrapper for ALL tab content panels */
+.panelContent {
+  background: #f3f7fd; /* Light blue background from image */
+  border-radius: 10px;
+  padding: 22px;
+  box-shadow: 0 8px 30px rgba(29, 40, 81, 0.04);
+  min-height: 400px; /* Set a min-height for all tabs */
+  box-sizing: border-box;
+}
+
+/* --- Description Tab --- */
 .description {
-    background: #eaf1ff;
-    border-radius: 10px;
-    padding: 22px;
-    box-shadow: 0 8px 30px rgba(29, 40, 81, 0.04);
+  /* .panelContent styles are already applied */
 }
 
-/* text blocks */
 .descText {
-    color: var(--Black_Color);
-    line-height: 1.6;
-    margin-bottom: 16px;
-    font-size: 16px;
+  color: var(--Black_Color);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  font-size: 16px;
 }
 
 .bullets {
-    margin-left: 16px;
-    margin-bottom: 18px;
-    color: #0f172a;
+  margin-left: 16px;
+  margin-bottom: 18px;
+  color: #0f172a;
 }
 
-/* PDF card inside description */
 .pdfCard {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    background: #fff;
-    padding: 12px;
-    border-radius: 8px;
-    width: fit-content;
-    box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  width: fit-content;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
 }
 
 .pdfIcon img {
-    width: 54px;
-    height: 54px;
-    object-fit: contain;
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
 }
 
 .pdfMeta {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .pdfTitle {
-    font-weight: 600;
-    font-size: 13px;
-    color: #0f172a;
+  font-weight: 600;
+  font-size: 13px;
+  color: #0f172a;
 }
 
 .pdfActions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
-.downloadAnchor {
-    text-decoration: none;
+.smallDownload {
+  background: #1f4ea6 !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  padding: 8px 16px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 6px 18px rgba(31, 78, 166, 0.12) !important;
+  border: none !important;
+  height: 38px !important;
 }
 
-.openBtn {
-    background: transparent;
-    border: 1px solid #c7d3f6;
-    padding: 6px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    color: #0a4fd6;
+/* --- Author Tab --- */
+.authorTab {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start; /* Align cards to the start */
 }
 
-/* Book viewer */
+/* --- Pricing Tab --- */
+.pricingTab {
+  /* The .panelContent styles provide the base */
+  /* We just import the component, no extra styles needed here */
+}
+
+/* --- Images Tab --- */
+.imagesTab {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.galleryImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Book Tab (PDF Viewer) --- */
 .bookViewer {
-    min-height: 560px;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(29, 40, 81, 0.04);
+  min-height: 560px; /* Overrides .panelContent min-height */
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(29, 40, 81, 0.04);
+  padding: 0; /* PDF viewer should have no padding */
 }
 
 .pdfIframe {
-    border: none;
-    width: 100%;
-    height: 80vh;
-    /* large iframe for reading */
+  border: none;
+  width: 100%;
+  height: 80vh;
 }
 
-/* fallback */
 .noPdf {
-    padding: 36px;
-    text-align: center;
-    color: #6b7280;
-}.smallDownload {
-    background: #1f4ea6 !important;
-    color: #fff !important;
-    border-radius: 10px !important;
-    padding: 8px 16px !important;
-    font-size: 0.9rem !important;
-    font-weight: 500 !important;
-    box-shadow: 0 6px 18px rgba(31, 78, 166, 0.12) !important;
-    border: none !important;
-    height: 38px !important;
-}
-.tabs {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 18px;
-}
-
-/* Base tab style */
-.tab {
-    background: #ffffff;
-    border: none;
-    outline: none;
-    padding: 10px 22px;
-    border-radius: 14px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #0f172a;
-    transition: all 0.25s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    /* subtle soft shadow */
-}
-
-/* Hover effect */
-.tab:hover {
-    background: #f6f7ff;
-    transform: translateY(-1px);
-}
-
-/* Active tab style */
-.tab.active {
-    background: #97a9da;
-    color: #ffffff;
-    box-shadow: none;
-    /* remove shadow for filled tab */
-    transform: none;
+  padding: 36px;
+  text-align: center;
+  color: #6b7280;
 }

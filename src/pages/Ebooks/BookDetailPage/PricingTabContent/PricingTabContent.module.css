@@ -1,0 +1,90 @@
+.pricingTab {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* NEW: This ensures children can be self-aligned */
+  align-items: stretch;
+}
+
+.enrollMessage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px;
+  /* background-color: #e0e7ff; */
+  color: #6d74ad;
+  background-color: var(--White_Color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+}
+
+.priceBox {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+}
+
+.priceInfo {
+  flex: 1;
+  min-width: 250px;
+}
+
+.priceTitle {
+  font-size: var(--Font_Size_7);
+  font-weight: 600;
+  color: #b1d523;
+  margin: 0 0 4px 0;
+}
+
+.priceDesc {
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
+}
+
+.priceAction {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 150px;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--Black_Color);
+  text-align: center;
+}
+
+.buyButton {
+  font-size: 18px;
+  background-color: var(--Primary_Color) !important;
+  color: #fff !important;
+  padding: 10px 60px !important;
+}
+
+/* --- MODIFIED --- */
+.couponButton {
+  background: none;
+  border: none;
+  color: #6d74ad;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px;
+
+  /* NEW STYLES to match image */
+  align-self: flex-end; /* Aligns button to the right */
+  margin-top: -8px; /* Pulls it up slightly, closer to the box */
+  font-size: 0.9rem; /* Matches image text size */
+}
+
+.couponButton:hover {
+  text-decoration: underline;
+}

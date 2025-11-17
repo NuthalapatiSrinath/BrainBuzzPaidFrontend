@@ -1,24 +1,24 @@
-// src/pages/Ebooks/EbooksSubcategories/EbooksSubcategories.jsx
+// src/pages/LiveClasses/LiveClassesSubcategories/LiveClassesSubcategories.jsx
 
 import React, { useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import styles from "./EbooksSubcategories.module.css";
+import styles from "./LiveClassesSubcategories.module.css"; // We'll re-use this CSS
 
 // 1. Import all the required components
 import Header from "../../../components/Header/Header";
 import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader";
 import SearchBar from "../../../components/SearchBar/SearchBar";
-import CategoryCard from "../../../components/CategoryCard/CategoryCard";
+import CategoryCard from "../../../components/CategoryCard/CategoryCard"; // Our card
 
-// 2. Import the data, aliased as 'DATA'
-import EBOOKS_DATA from "../../../data/ebooks.js";
+// 2. Import the data, aliased as 'DATA' for consistency
+import { liveClassesSubcategories as DATA } from "../../../data/liveClassesData";
 
-export default function EbooksSubcategories() {
+export default function LiveClassesSubcategories() {
   const { category: paramCategory } = useParams();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
-  // 3. Language state
+  // 3. Language state, identical to your example
   const [lang, setLang] = useState(() => {
     try {
       return localStorage.getItem("bb_lang_code") || "en";
@@ -27,36 +27,43 @@ export default function EbooksSubcategories() {
     }
   });
 
-  // 4. Main data processing logic
+  // 4. Main data processing logic, wrapped in useMemo
   const entry = useMemo(() => {
     const key = String(paramCategory).toLowerCase();
+    const cat = DATA[key];
 
-    // Get main category details (for title and hero)
-    const cat = EBOOKS_DATA.categories.find((c) => c.key === key);
-    // Get the subcategory array for this key
-    const subcategories = EBOOKS_DATA.subcategories[key] || [];
+    if (!cat) {
+      // Fallback if data is missing
+      return {
+        title: key.toUpperCase(),
+        hero: "/images/default-book.png", // Default hero
+        tiles: [],
+      };
+    }
 
-    // Map the data to a 'tiles' array for CategoryCard
-    const tiles = subcategories.map((sub) => ({
-      slug: sub.id, // Use 'id' from your data as the slug
-      name: sub.title,
+    // Map the data to a 'tiles' array
+    // Note: We use all the props for our CategoryCard
+    const tiles = (cat.subcategories || []).map((sub) => ({
+      slug: sub.slug,
+      name: sub.name,
       logo: sub.logo,
-      description: sub.description || "", // The new description field
-      path: sub.path || `/ebooks/${key}/${sub.id}`,
+      description: sub.description,
+      buttonLabel: sub.buttonLabel,
     }));
 
     return {
-      title: cat ? cat.title : key.toUpperCase(),
-      hero: cat ? cat.hero : "/images/default-book.png", // Use category hero
+      title: cat.title,
+      hero: cat.bannerImage, // Use the bannerImage from our data as the 'hero'
       tiles: tiles,
     };
   }, [paramCategory]);
 
-  // 5. Search filter logic
+  // 5. Search filter logic, wrapped in useMemo
   const tiles = useMemo(() => {
     const q = (query || "").trim().toLowerCase();
     if (!q) return entry.tiles || [];
-    // Filter by the 'name' property
+
+    // Filter by the 'name' property (since our card uses 'name', not 'title')
     return (entry.tiles || []).filter((t) =>
       (t.name || "").toLowerCase().includes(q)
     );
@@ -64,18 +71,17 @@ export default function EbooksSubcategories() {
 
   // 6. Navigation handler
   const handleTileClick = (slug) => {
-    // The slug is the sub.id (e.g., "foundation")
-    navigate(`/ebooks/${paramCategory}/${slug}`);
+    navigate(`/liveclasses/${paramCategory}/${slug}`);
   };
 
   return (
     <div className={styles.pageWrapper}>
-      {/* 7. Top Header */}
+      {/* 7. Top Header (from your example) */}
       {entry.hero && (
         <Header imageSrc={entry.hero} alt={`${entry.title} hero`} />
       )}
 
-      {/* 8. CategoryHeader */}
+      {/* 8. CategoryHeader (from your example) */}
       <CategoryHeader
         title={entry.title}
         languages={[
@@ -93,14 +99,14 @@ export default function EbooksSubcategories() {
         showDivider
       />
 
-      {/* 9. Main content section */}
+      {/* 9. Main content section (from your example) */}
       <section className={styles.subSection}>
         <div className={styles.headerRow}>
-          <h2 className={styles.heading}>{entry.title} Subcategories</h2>
+          <h2 className={styles.heading}>{entry.title}</h2>
           <span className={styles.headingUnderline}></span>
         </div>
 
-        {/* 10. SearchBar */}
+        {/* 10. SearchBar (from your example) */}
         <div className={styles.searchRow}>
           <SearchBar
             value={query}
@@ -109,7 +115,7 @@ export default function EbooksSubcategories() {
           />
         </div>
 
-        {/* 11. Grid, using CategoryCard */}
+        {/* 11. Grid, but using OUR CategoryCard component */}
         <div className={styles.grid}>
           {tiles.map((t) => (
             <CategoryCard
@@ -118,15 +124,15 @@ export default function EbooksSubcategories() {
               logo={t.logo}
               slug={t.slug}
               description={t.description}
-              buttonLabel="View Books"
-              onClick={handleTileClick} // This will pass 't.slug'
-              ariaLabel={`View ${t.name} books`}
+              buttonLabel={t.buttonLabel}
+              onClick={handleTileClick} // This will pass 't.slug' to the handler
+              ariaLabel={`View ${t.name} live classes`}
             />
           ))}
 
-          {/* 12. No results message */}
+          {/* 12. No results message (from your example) */}
           {tiles.length === 0 && (
-            <div className={styles.noResults} role="status" aria-live="polite">
+            <div style={{ padding: 24, color: "#666" }}>
               No subcategories match “{query}”
             </div>
           )}

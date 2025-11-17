@@ -27,7 +27,7 @@
 
 .card:hover {
   box-shadow: var(--card-shadow-hover);
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
 }
 
 /* Image box */
@@ -142,6 +142,8 @@
 .originalPrice {
   font-size: 0.9rem;
   color: var(--muted);
+  color: var(--accent);
+  font-weight: 600;
   text-decoration: line-through;
 }
 .discount {
@@ -196,25 +198,4 @@
   font-weight: 600 !important;
   border-radius: 10px !important;
   padding: 0 12px !important;
-}
-
-/* Specific button styles from images */
-.halfBtn[data-variant="outline"] {
-  background: var(--White_Color) !important;
-  color: var(--accent) !important;
-  border: 1px solid var(--accent) !important;
-  box-shadow: none !important;
-}
-.halfBtn[data-variant="outline"]:hover {
-  background: rgba(31, 78, 166, 0.04) !important;
-}
-
-.halfBtn:not([data-variant="outline"]) {
-  background: var(--accent) !important;
-  color: #fff !important;
-  border: 1px solid var(--accent) !important;
-  box-shadow: 0 4px 12px rgba(31, 78, 166, 0.1) !important;
-}
-.halfBtn:not([data-variant="outline"]):hover {
-  background: #163d88 !important;
 }
