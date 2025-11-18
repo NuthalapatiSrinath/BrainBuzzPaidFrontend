@@ -488,9 +488,9 @@ export default function Topbar() {
                         <a
                           href={
                             it.key === "onlineCourses"
-                              ? normalizeHref("/courses")
+                              ? normalizeHref("/online-courses")
                               : it.key === "testSeries"
-                              ? normalizeHref("/testseries")
+                              ? normalizeHref("/test-series")
                               : normalizeHref(it.href)
                           }
                           className={styles.mobileAccItem}
