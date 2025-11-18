@@ -1,8 +1,11 @@
 /*
  * Styles for TestSeriesCard
- * This is almost identical to CourseCard.module.css,
- * but adds styles for the action buttons.
+ * Contains styles for "store", "user", and "mainpage" variants.
  */
+
+/* ======================================== */
+/* === ORIGINAL "STORE" / "USER" STYLES === */
+/* ======================================== */
 
 .card {
   display: flex;
@@ -18,7 +21,7 @@
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  /* transform: translateY(-5px); */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
@@ -203,8 +206,148 @@
   font-weight: 600 !important;
 }
 
-/* === Responsive === */
+/* ======================================== */
+/* === NEW "MAINPAGE" VARIANT STYLES    === */
+/* ======================================== */
+
+.cardMainpage {
+  display: flex;
+  flex-direction: column;
+  background: var(--White_Color, #fff);
+  border-radius: 16px; /* Rounded corners from image */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  min-width: 300px;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.cardMainpage:hover {
+  /* transform: translateY(-5px); */
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* === Top Colored Section (New) === */
+.topSectionMainpage {
+  /* Height is set to match the image proportion */
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px 16px 0 0; /* Match card radius */
+  padding: 1rem;
+  /* background-color is set via inline style (topColor prop) */
+}
+
+.logoMainpage {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* === Bottom White Section (New) === */
+.bottomSectionMainpage {
+  padding: 16px; /* Slightly less padding than original */
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Consistent gap between rows */
+  flex-grow: 1;
+}
+
+.titleMainpage {
+  font-size: 1.1rem; /* 18px */
+  font-weight: 600;
+  color: var(--Black_Color, #000);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.tagMainpage {
+  align-self: flex-start;
+  font-size: 0.8rem; /* 13px */
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 14px;
+  color: #3e61a9; /* Muted blue text */
+  background-color: #dbe2ef; /* Light blue/grey background */
+}
+
+.infoRowMainpage {
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+  align-items: center;
+  gap: 1rem; /* Space between items */
+  font-size: 0.9rem;
+  color: #555; /* Slightly darker grey for readability */
+  font-weight: 500;
+  flex-wrap: wrap; /* Allow wrapping if needed */
+}
+
+.infoItemMainpage {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Space between icon and text */
+}
+
+.iconMainpage {
+  font-size: 1rem; /* 16px */
+  color: #888; /* Muted icon color */
+}
+
+.dropdownIconMainpage {
+  font-size: 0.8rem;
+  margin-left: 0.25rem;
+  color: #888;
+}
+
+/* --- Price Row (New) --- */
+.priceRowMainpage {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px; /* Add some space above price */
+}
+
+.priceMainpage {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 700;
+  color: var(--Black_Color, #111);
+}
+
+.originalPriceMainpage {
+  font-size: 0.9rem; /* 14px */
+  color: var(--Grey_Color, #777);
+  text-decoration: line-through;
+}
+
+.discountMainpage {
+  font-size: 0.9rem; /* 14px */
+  color: var(--Success_Color, #27ae60);
+  font-weight: 600;
+}
+
+/* === Actions ('mainpage' variant) === */
+.actionsMainpage {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto; /* Pushes to bottom */
+  padding-top: 0.5rem;
+}
+
+.actionButtonMainpage {
+  flex: 1; /* Make buttons share space */
+  padding: 10px 1px !important;
+  font-size: 0.95rem !important; /* 15px */
+  font-weight: 500 !important;
+  border-radius: 8px !important; /* Slightly smaller radius */
+}
+
+/* === Responsive (Original) === */
 @media (max-width: 400px) {
+  /* Original variant styles */
   .title {
     font-size: 1.2rem;
   }
@@ -223,5 +366,19 @@
   }
   .actionButton {
     font-size: 0.85rem !important;
+  }
+
+  /* New variant styles */
+  .titleMainpage {
+    font-size: 1rem;
+  }
+  .infoRowMainpage {
+    font-size: 0.85rem;
+  }
+  .priceMainpage {
+    font-size: 1.1rem;
+  }
+  .actionButtonMainpage {
+    font-size: 0.9rem !important;
   }
 }

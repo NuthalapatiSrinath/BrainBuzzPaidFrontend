@@ -122,14 +122,14 @@
    This is updated to support the larger CategoryCard component.
 */
 .grid {
+  width: 100%;
   display: grid;
-  /* Updated to fit the larger card */
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 22px;
-  justify-items: center;
+  grid-template-columns: repeat(4, 1fr); /* ALWAYS 4 columns */
+  gap: 20px;
+  justify-items: start; /* Makes the left alignment consistent */
   align-items: start;
+  box-sizing: border-box;
 }
-
 /*
   The .card, .cardImage, and .cardTitle styles are
   REMOVED from here because CategoryCard provides

@@ -1,4 +1,3 @@
-// src/pages/CurrentAffairsSubcategories/CurrentAffairsSubcategories.jsx
 import React, { useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
@@ -6,6 +5,8 @@ import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import styles from "./CurrentAffairsSubcategories.module.css";
 import DATA from "../../../data/CurrentAffairsSubcategories";
+// ✅ 1. Import the CategoryCard component
+import CategoryCard from "../../../components/CategoryCard/CategoryCard";
 
 export default function CurrentAffairsSubcategories() {
   const { category: paramCategory } = useParams();
@@ -26,6 +27,7 @@ export default function CurrentAffairsSubcategories() {
         title: c.title,
         logo: c.logo || c.hero || "/images/default-hero.png",
         path: `/currentaffairs/${c.key}`,
+        description: c.description || "", // ✅ Pass description
       }));
       return {
         title: "Current Affairs",
@@ -48,7 +50,7 @@ export default function CurrentAffairsSubcategories() {
       title: cat.title || key.toUpperCase(),
       hero: cat.hero || `/images/${key}-hero.png`,
       tiles: (cat.tiles || []).map((t) => ({
-        ...t,
+        ...t, // This includes id, title, logo, and description
         path: t.path || `/currentaffairs/${key}/${t.id}`,
       })),
     };
@@ -57,13 +59,18 @@ export default function CurrentAffairsSubcategories() {
   const tiles = useMemo(() => {
     const q = (query || "").trim().toLowerCase();
     if (!q) return entry.tiles || [];
-    return (entry.tiles || []).filter((t) =>
-      (t.title || "").toLowerCase().includes(q)
+    return (entry.tiles || []).filter(
+      (t) =>
+        (t.title || "").toLowerCase().includes(q) ||
+        (t.description || "").toLowerCase().includes(q) // ✅ Search description too
     );
   }, [entry, query]);
 
-  const handleTileClick = (t) =>
-    navigate(t.path || `/currentaffairs/${paramCategory || t.id}`);
+  // ✅ 2. Create a handler that accepts the slug
+  const handleNavigate = (slug) => {
+    if (!slug) return;
+    navigate(slug);
+  };
 
   return (
     <div className={styles.pageWrapper}>
@@ -102,21 +109,23 @@ export default function CurrentAffairsSubcategories() {
           />
         </div>
 
+        {/* ✅ 3. Use CategoryCard in the grid */}
         <div className={styles.grid}>
           {tiles.map((t) => (
-            <button
+            <CategoryCard
               key={t.id}
-              className={styles.card}
-              onClick={() => handleTileClick(t)}
-              type="button"
-            >
-              <img src={t.logo} alt={t.title} className={styles.cardImage} />
-              <div className={styles.cardTitle}>{t.title}</div>
-            </button>
+              name={t.title}
+              logo={t.logo}
+              slug={t.path} // Pass the full path as the slug
+              description={t.description} // Pass the description
+              onClick={handleNavigate} // Pass the handler
+              buttonLabel="View Articles"
+              ariaLabel={`Go to ${t.title}`}
+            />
           ))}
 
           {tiles.length === 0 && (
-            <div style={{ padding: 24, color: "#666" }}>
+            <div className={styles.noResults} role="status" aria-live="polite">
               No subcategories match “{query}”
             </div>
           )}

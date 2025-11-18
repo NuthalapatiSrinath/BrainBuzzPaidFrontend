@@ -50,10 +50,26 @@ import PaperDetail from "../sections/CategoryPublications/PaperDetail";
 import MyCoursesPage from "../pages/TopBar/TopbarPanelPages/MyCoursesPage/MyCoursesPage.jsx";
 import MyTestSeries from "../pages/TopBar/TopbarPanelPages/MyTestSeries/MyTestSeries.jsx";
 import CoursesDataPage from "../pages/OnlineCourses/CoursesDataPage/CoursesDataPage.jsx";
+// ✅ FIX: Corrected LiveClasses path assuming it's in src/pages/
 import LiveClasses from "../pages/LiveClasses/LiveClasses.jsx";
 import AllLiveClassesPage from "../pages/LiveClasses/AllLiveClassesPage/AllLiveClassesPage.jsx";
 import LiveClassesSubcategories from "../pages/LiveClasses/LiveClassesSubcategories/LiveClassesSubcategories.jsx";
 import SubcategoryClassesPage from "../pages/LiveClasses/SubcategoryClassesPage/SubcategoryClassesPage.jsx";
+
+// ✅ 1. Import all Test Series pages from the correct subfolder
+import TestSeriesPage from "../pages/TestSeries/TestSeriesPage/TestSeriesPage.jsx";
+import TestSeriesListPage from "../pages/TestSeries/TestSeriesListPage/TestSeriesListPage.jsx";
+import TestSeriesDescriptionPage from "../pages/TestSeries/TestSeriesDescriptionPage/TestSeriesDescriptionPage.jsx";
+import BuyNowPage from "../pages/BuyNowPage/BuyNowPage.jsx";
+import TestInstructionsPage from "../pages/TestSeries/TestInstructionsPage/TestInstructionsPage.jsx";
+import TestPlayPage from "../pages/TestSeries/TestPlayPage/TestPlayPage.jsx";
+import TestResultPage from "../pages/TestSeries/TestResultPage/TestResultPage.jsx";
+import OnlineCoursesPage from "../pages/OnlineCourses/OnlineCoursesPage/OnlineCoursesPage.jsx";
+import OnlineCoursesAllPage from "../pages/OnlineCourses/OnlineCoursesAllPage/OnlineCoursesAllPage.jsx";
+import OnlineCoursesListPage from "../pages/OnlineCourses/OnlineCoursesListPage/OnlineCoursesListPage.jsx";
+import OnlineCoursesSubcategories from "../pages/OnlineCourses/OnlineCoursesSubcategories/OnlineCoursesSubcategories.jsx";
+import CourseDescriptionPage from "../pages/OnlineCourses/CourseDescriptionPage/CourseDescriptionPage.jsx";
+import CourseVideoPlayerPage from "../pages/OnlineCourses/CourseVideoPlayerPage/CourseVideoPlayerPage.jsx";
 
 function AppRoutes() {
   return (
@@ -68,24 +84,39 @@ function AppRoutes() {
           <Route path="/mycourses" element={<MyCoursesPage />} />
           <Route path="/coursesdatapage" element={<CoursesDataPage />} />
           <Route path="/mytestseries" element={<MyTestSeries />} />
+
+          {/* ============================================================
+                📚 ONLINE COURSES (NEW)
+            ============================================================ */}
+          <Route path="online-courses" element={<OnlineCoursesPage />} />
+          <Route path="online-courses/all" element={<OnlineCoursesAllPage />} />
+          <Route
+            path="online-courses/:category"
+            element={<OnlineCoursesSubcategories />}
+          />
+          <Route
+            path="online-courses/:category/:subcategory/:courseId/video/:videoId"
+            element={<CourseVideoPlayerPage />}
+          />
+          <Route
+            path="online-courses/:category/:subcategory"
+            element={<OnlineCoursesListPage />}
+          />
+          {/* ✅ 2. Add the new route for the details page */}
+          <Route
+            path="online-courses/:category/:subcategory/:courseId/:tab?"
+            element={<CourseDescriptionPage />}
+          />
+
           {/* ============================================================
                 📺 LIVE CLASSES
             ============================================================ */}
-
-          {/* This is the main landing page for Live Classes */}
           <Route path="/liveclasses" element={<LiveClasses />} />
-
-          {/* This is the page that shows all classes in one list */}
           <Route path="liveclasses/all" element={<AllLiveClassesPage />} />
-
-          {/* This page shows the subcategories (e.g., GS-Prelims) */}
           <Route
             path="/liveclasses/:category"
             element={<LiveClassesSubcategories />}
           />
-
-          {/* 2. USE THE NEW PAGE HERE */}
-          {/* This page shows the final list of classes for that subcategory */}
           <Route
             path="/liveclasses/:category/:subcategory"
             element={<SubcategoryClassesPage />}
@@ -163,6 +194,48 @@ function AppRoutes() {
             path="previous-papers/:category/:subcategory/:paperId"
             element={<PaperDetail />}
           />
+
+          {/* ============================================================
+                🏆 TEST SERIES
+            ============================================================ */}
+          {/* ✅ 2. All routes now point to the correct components */}
+
+          {/* Main landing page (e.g., /test-series) */}
+          <Route path="test-series" element={<TestSeriesPage />} />
+
+          {/* List page for a specific category (e.g., /test-series/upsc) */}
+          <Route
+            path="test-series/:category"
+            element={<TestSeriesListPage />}
+          />
+
+          {/* Description/Tests/Pricing page (e.g., /test-series/upsc/upsc-gs-b54/description) */}
+          <Route
+            path="test-series/:category/:seriesId/:tab?"
+            element={<TestSeriesDescriptionPage />}
+          />
+
+          {/* Step 1: Instructions Page */}
+          <Route
+            path="test-series/:category/:seriesId/instructions"
+            element={<TestInstructionsPage />}
+          />
+
+          {/* Step 2: Test Play Page */}
+          <Route
+            path="test-series/:category/:seriesId/play/:testId"
+            element={<TestPlayPage />}
+          />
+
+          {/* Step 3: Test Result Page */}
+          <Route
+            path="test-series/:category/:seriesId/result/:testId"
+            element={<TestResultPage />}
+          />
+
+          {/* Buy Now route (shared) */}
+          <Route path="buy-now/:buyNowId" element={<BuyNowPage />} />
+
           {/* ============================================================
               🧭 ABOUT & CONTACT
           ============================================================ */}

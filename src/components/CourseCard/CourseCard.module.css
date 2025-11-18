@@ -4,6 +4,7 @@
  */
 
 .card {
+  /* ... (existing .card styles unchanged) ... */
   display: flex;
   flex-direction: column;
   background: var(--White_Color, #fff);
@@ -12,25 +13,28 @@
   overflow: hidden;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+  min-width: 300px;
   max-width: 380px; /* Max width, adjust as needed */
   margin: 0 auto; /* For demonstration */
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  /* ... (existing .card:hover styles unchanged) ... */
+  /* transform: translateY(-5px); */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 }
 
 /* === Top Section (Blue) === */
 .topSection {
-  /* Using your app's background color, which seems to be this light blue */
+  /* ... (existing .topSection styles unchanged) ... */
   background-color: var(--Background_Color, #ebf0ff);
   padding: 1.25rem;
   position: relative;
-  color: var(--Black_Color, #000); /* Text color is dark, not white */
+  color: var(--Black_Color, #000);
 }
 
 .title {
+  /* ... (existing .title styles unchanged) ... */
   font-size: 1.4rem; /* e.g., 22px */
   font-weight: 700;
   margin: 0 0 0.25rem 0;
@@ -39,6 +43,7 @@
 
 .subtitle,
 .batchInfo {
+  /* ... (existing .subtitle, .batchInfo styles unchanged) ... */
   font-size: 0.95rem; /* e.g., 15px */
   margin: 0 0 0.5rem 0;
   font-weight: 500;
@@ -47,15 +52,18 @@
 }
 
 .batchInfo {
+  /* ... (existing .batchInfo styles unchanged) ... */
   margin-bottom: 0.75rem;
 }
 
 .tagsWrapper {
+  /* ... (existing .tagsWrapper styles unchanged) ... */
   display: flex;
   gap: 0.5rem;
 }
 
 .tag {
+  /* ... (existing .tag styles unchanged) ... */
   font-size: 0.8rem; /* e.g., 13px */
   padding: 4px 10px;
   border-radius: 6px;
@@ -63,16 +71,19 @@
 }
 
 .liveTag {
+  /* ... (existing .liveTag styles unchanged) ... */
   background-color: var(--Error_Color, #c0392b);
   color: var(--White_Color, #fff);
 }
 
 .mediumTag {
+  /* ... (existing .mediumTag styles unchanged) ... */
   background-color: var(--Success_Color, #27ae60);
   color: var(--White_Color, #fff);
 }
 
 .aiBadge {
+  /* ... (existing .aiBadge styles unchanged) ... */
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -86,6 +97,7 @@
 }
 
 .liveCircle {
+  /* ... (existing .liveCircle styles unchanged) ... */
   position: absolute;
   bottom: 1.25rem;
   right: 1.25rem;
@@ -105,13 +117,16 @@
 
 /* === Bottom Section (White) === */
 .bottomSection {
+  /* ... (existing .bottomSection styles unchanged) ... */
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.9rem; /* Space between elements */
+  flex-grow: 1; /* ✅ This makes the .actions buttons stick to the bottom */
 }
 
 .mainTitle {
+  /* ... (existing .mainTitle styles unchanged) ... */
   font-size: 1.1rem; /* e.g., 18px */
   font-weight: 600;
   color: var(--Black_Color, #000);
@@ -120,6 +135,7 @@
 }
 
 .courseTypeTag {
+  /* ... (existing .courseTypeTag styles unchanged) ... */
   align-self: flex-start;
   font-size: 0.8rem;
   font-weight: 600;
@@ -130,6 +146,7 @@
 }
 
 .infoRow {
+  /* ... (existing .infoRow styles unchanged) ... */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -140,28 +157,34 @@
 }
 
 .infoItem {
+  /* ... (existing .infoItem styles unchanged) ... */
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
 
 .icon {
+  /* ... (existing .icon styles unchanged) ... */
   font-size: 1.1rem; /* 18px */
   color: var(--Primary_Color, #1f4d9d);
 }
 
 .dropdownIcon {
+  /* ... (existing .dropdownIcon styles unchanged) ... */
   font-size: 0.8rem;
   margin-left: 0.25rem;
   color: var(--Grey_Color, #6b7280);
 }
 
-/* === Progress Bar === */
+/* === Progress Bar ('user' variant) === */
 .progressWrapper {
+  /* ... (existing .progressWrapper styles unchanged) ... */
   width: 100%;
+  margin-top: auto; /* Pushes to bottom */
 }
 
 .progressBar {
+  /* ... (existing .progressBar styles unchanged) ... */
   width: 100%;
   height: 6px;
   background-color: #f0f0f0;
@@ -170,6 +193,7 @@
 }
 
 .progressFill {
+  /* ... (existing .progressFill styles unchanged) ... */
   height: 100%;
   background-color: var(--Primary_Color, #1f4d9d);
   border-radius: 3px;
@@ -177,6 +201,7 @@
 }
 
 .progressText {
+  /* ... (existing .progressText styles unchanged) ... */
   text-align: right;
   font-size: 0.8rem; /* 13px */
   color: var(--Grey_Color, #6b7280);
@@ -184,8 +209,9 @@
   margin-top: 0.25rem;
 }
 
-/* === Responsive === */
+/* === Responsive (Original) === */
 @media (max-width: 400px) {
+  /* ... (existing media query unchanged) ... */
   .title {
     font-size: 1.2rem;
   }
@@ -201,5 +227,64 @@
     font-size: 0.8rem;
     bottom: 1rem;
     right: 1rem;
+  }
+}
+
+/* ======================================== */
+/* === ✅ NEW "STORE" VARIANT STYLES     === */
+/* ======================================== */
+
+/* --- Price Row (New) --- */
+/* These styles are copied from TestSeriesCard to match your image */
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.price {
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  color: #1f4d9d;
+}
+
+.originalPrice {
+  font-size: 0.9rem; /* 14px */
+  font-weight: 500;
+  color: #1f4d9d;
+  text-decoration: line-through;
+}
+
+.discount {
+  font-size: 0.9rem; /* 14px */
+  color: var(--Success_Color, #27ae60);
+  font-weight: 600;
+}
+
+/* === Actions ('store' variant) === */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto; /* Pushes to bottom */
+  padding-top: 0.5rem;
+}
+
+.actionButton {
+  flex: 1; /* Make buttons share space */
+  padding: 10px 0px !important;
+  font-size: 0.95rem !important; /* 15px */
+  font-weight: 500 !important;
+  border-radius: 8px !important; /* Slightly smaller radius */
+}
+
+/* Responsive for new styles */
+@media (max-width: 400px) {
+  .price {
+    font-size: 1.1rem;
+  }
+  .actionButton {
+    font-size: 0.9rem !important;
   }
 }

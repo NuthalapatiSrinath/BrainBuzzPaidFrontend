@@ -1,0 +1,147 @@
+.heroWrapper {
+  width: 100%;
+  padding: 2rem 1.5rem;
+  /* Matching the light purple gradient from the image */
+  background: linear-gradient(90deg, #ecf1ff 0%, #a7b6e1 100%);
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.heroContent {
+  display: grid;
+  grid-template-columns: 3fr 5fr 2fr; /* 3-column layout */
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 980px; /* Aligns with the contentArea below it */
+}
+
+/* 1. Image */
+.imageContainer {
+  width: 100%;
+  max-width: 250px;
+  justify-self: center;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* 2. Details */
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+
+.pills {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* --- UPDATED --- */
+/* This now styles your QuizButton component */
+.pillButton {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  color: #2d3748 !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  box-shadow: none !important;
+}
+
+.pillButton:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+/* --- END UPDATED --- */
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.originalPrice {
+  font-size: 1rem;
+  color: #4a5568;
+  text-decoration: line-through;
+}
+
+.discount {
+  font-size: 1rem;
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.couponButton {
+  background: none;
+  border: none;
+  color: var(--Primary_Color, #1f4d9d);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+.buyButton {
+  background-color: var(--Primary_Color) !important;
+  color: #fff !important;
+  padding: 10px 24px !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
+}
+
+/* 3. Logo */
+.logoContainer {
+  justify-self: flex-end;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .heroContent {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .imageContainer {
+    max-width: 200px;
+  }
+
+  .detailsContainer {
+    align-items: center;
+  }
+
+  .logoContainer {
+    justify-self: center;
+    order: -1; /* Move logo to the top on mobile */
+  }
+}

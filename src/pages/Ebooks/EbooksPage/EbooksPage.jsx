@@ -1,4 +1,3 @@
-// src/pages/Ebooks/EbooksPage/EbooksPage.jsx
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../../../components/SearchBar/SearchBar";
@@ -13,6 +12,15 @@ export default function EbooksPage() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
+  // ✅ 2. DEFINE THE STATIC "VIEW ALL" CARD
+  const viewAllCard = {
+    key: "all",
+    title: "View All Publications",
+    logo: "/images/goals.png", // Using a distinct logo
+    description: "Browse all e-book subcategories from all exams in one place.",
+    slug: "all", // This will be used for navigation
+  };
+
   const categories = useMemo(() => {
     try {
       return Array.isArray(EBOOKS_DATA?.categories)
@@ -26,7 +34,11 @@ export default function EbooksPage() {
   // filter by search text
   const filtered = useMemo(() => {
     const q = (search || "").trim().toLowerCase();
-    if (!q) return categories;
+    if (!q) {
+      // ✅ If not searching, show "View All" card + all categories
+      return [viewAllCard, ...categories];
+    }
+    // ✅ If searching, only search categories (hide "View All")
     return categories.filter((c) => {
       const name = (c.title || c.name || "").toLowerCase();
       const key = (c.key || c.slug || "").toLowerCase();
@@ -94,8 +106,8 @@ export default function EbooksPage() {
                 // Map data from EBOOKS_DATA to CategoryCard props
                 name={title}
                 logo={logo}
-                slug={cat.key || cat.slug}
-                description={cat.description || ""} // Add a description if your data has one
+                slug={cat.slug || cat.key} // ✅ Use slug for "all" card, key for others
+                description={cat.description || ""} // ✅ Description is passed
                 buttonLabel="View Books"
                 onClick={handleNavigate} // The card will pass the slug to this function
                 ariaLabel={`Go to ${title} publications`}

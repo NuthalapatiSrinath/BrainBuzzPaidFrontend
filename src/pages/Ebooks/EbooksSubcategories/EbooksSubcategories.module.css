@@ -55,15 +55,14 @@
   max-width: 400px; /* Constrains search bar width */
 }
 
-/* --- GRID (MODIFIED FOR CATEGORY-CARD) --- */
 .grid {
   width: 100%;
   display: grid;
-  /* This minmax is designed for the CategoryCard component */
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* ALWAYS 4 columns */
   gap: 20px;
-  justify-items: center;
+  justify-items: start; /* Makes the left alignment consistent */
   align-items: start;
+  box-sizing: border-box;
 }
 
 /* We don't need .card styles here, as CategoryCard brings its own */

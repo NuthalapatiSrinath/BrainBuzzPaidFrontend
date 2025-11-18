@@ -1,0 +1,68 @@
+/* This CSS is based on TestSeriesListPage.module.css for a consistent UI */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background: var(--White_Color, #fff); /* White background */
+}
+
+/* === SEARCH BAR === */
+.searchBarWrapper {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: flex-start; /* Left align */
+  box-sizing: border-box;
+}
+
+/* === CONTENT GRID === */
+.contentArea {
+  width: 100%;
+  /* max-width: 1200px; */
+  padding: 0 2rem 4rem 2rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ALWAYS 4 columns */
+  gap: 20px;
+  justify-items: start; /* Makes the left alignment consistent */
+  align-items: start;
+  box-sizing: border-box;
+}
+
+.noResults {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 24px;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .searchBarWrapper,
+  .contentArea {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+  }
+  .searchBarWrapper {
+    justify-content: center; /* Center search bar on mobile */
+  }
+}

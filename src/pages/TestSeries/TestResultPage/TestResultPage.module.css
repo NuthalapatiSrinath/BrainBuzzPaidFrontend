@@ -1,0 +1,339 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  background-color: #f3f7fd; /* Light background */
+}
+
+/* --- ✅ UPDATED Header --- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Changed */
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: #fff;
+  border-bottom: 1px solid #e0e7ff;
+}
+.logoLink {
+  flex-shrink: 0;
+  /* ✅ Hide the logo link from the new image */
+  display: none;
+}
+.logo {
+  height: 40px;
+  width: 40px;
+}
+.headerTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  flex-grow: 1; /* ✅ Allow title to take space */
+}
+
+/* ✅ NEW: Styles for the header meta items */
+.headerMeta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+}
+.metaItem svg {
+  font-size: 1rem;
+  color: var(--Primary_Color, #1f4d9d);
+}
+
+/* --- Main Content --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.mainTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--Primary_Color, #1f4d9d); /* ✅ Color changed to blue */
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.summaryGrid {
+  display: grid;
+  /* ✅ UPDATED: Changed grid to match new layout */
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+/* --- Card Base --- */
+.rankCard,
+.statsCard,
+.chartCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+}
+
+/* --- Rank Card (Unchanged) --- */
+.rankCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.rankImage {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+.rankText {
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--Primary_Color);
+}
+.rankSubtext {
+  font-size: var(--Font_Size_6);
+  color: var(--Black_Color);
+}
+
+/* --- ✅ UPDATED Stats Card (Vertical Layout) --- */
+.statsCard {
+  display: flex; /* Changed from grid */
+  flex-direction: column; /* Changed */
+  gap: 1.5rem;
+  justify-content: center; /* Center items vertically */
+  /* padding-left: 2.5rem; Indent to match image */
+}
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.statIcon {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  width: 28px; /* Ensure icon has a size */
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Use custom images from screenshot */
+.statIconImg {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+/* Using FA icons as fallback for 'Attempt' */
+.statIcon.score {
+  color: #f59e0b; /* Amber */
+}
+.statIcon.speed {
+  color: #ec4899; /* Pink */
+}
+.statIcon.accuracy {
+  color: #27ae60; /* Green */
+}
+.statIcon.attempt {
+  color: #3b82f6; /* Blue */
+}
+
+.statValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111;
+}
+.statLabel {
+  font-size: 0.9rem;
+  color: #555;
+  /* ✅ Make label appear above value */
+  margin-bottom: 2px;
+}
+
+/* ✅ Re-order the stat text */
+.statItem > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- ✅ UPDATED Chart Card --- */
+.chartCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem; /* Increased gap */
+}
+.chartPlaceholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  /* ✅ UPDATED Conic Gradient for 3 colors */
+  background: conic-gradient(
+    #27ae60 0deg var(--correct-deg),
+    #e53935 var(--correct-deg) var(--incorrect-deg),
+    #e0e7ff var(--incorrect-deg) 360deg /* Skipped color */
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chartInner {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #111;
+}
+.chartLegend {
+  display: flex;
+  flex-direction: column; /* ✅ Changed to column */
+  gap: 0.75rem; /* ✅ Adjusted gap */
+  align-items: flex-start; /* ✅ Align text left */
+  width: 100%;
+  padding-left: 1rem; /* Indent legend */
+}
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500; /* ✅ Match image */
+}
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+.legendColor.correct {
+  background: #27ae60;
+}
+.legendColor.incorrect {
+  background: #e53935;
+}
+/* ✅ Added skipped style */
+.legendColor.skipped {
+  background: #e0e7ff; /* Light grey/blue */
+}
+/* ✅ Added text colors to match */
+.legendItem:nth-child(1) .legendText {
+  color: #27ae60;
+}
+.legendItem:nth-child(2) .legendText {
+  color: #e53935;
+}
+.legendItem:nth-child(3) .legendText {
+  color: #a0aec0; /* Grey */
+}
+
+/* --- Explanation Section (Unchanged) --- */
+.explanationSection {
+  margin-top: 2rem;
+  text-align: center;
+}
+.explanationTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 1rem;
+}
+.explanationImage {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Responsive (Unchanged) --- */
+@media (max-width: 900px) {
+  .summaryGrid {
+    grid-template-columns: 1fr 1fr; /* 2 cols */
+  }
+  .rankCard {
+    grid-column: 1 / -1; /* Rank spans full width */
+    order: -1; /* Show rank first */
+  }
+}
+@media (max-width: 600px) {
+  .summaryGrid {
+    grid-template-columns: 1fr; /* 1 col */
+  }
+  .statsCard {
+    /* ✅ Changed from 1fr to auto */
+    grid-template-columns: auto;
+    flex-direction: row; /* Allow stats to be horizontal again */
+    flex-wrap: wrap; /* And wrap */
+    justify-content: space-around;
+    padding-left: 1.5rem; /* Reset padding */
+  }
+  .container {
+    padding: 1rem;
+  }
+  .mainTitle {
+    font-size: 1.25rem;
+  }
+  .header {
+    padding: 0.75rem 1rem;
+  }
+  .headerTitle {
+    font-size: 1rem;
+  }
+  .headerMeta {
+    display: none; /* Hide meta on small mobile */
+  }
+}
+
+/* --- Promotion Section Styles (Unchanged) --- */
+.promoSection {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e7ff;
+}
+
+.promoTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.promoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.5rem;
+  justify-content: start;
+}
+
+@media (max-width: 900px) {
+  .promoGrid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .promoGrid {
+    grid-template-columns: 1fr;
+  }
+}

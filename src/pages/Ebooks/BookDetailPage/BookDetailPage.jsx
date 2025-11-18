@@ -1,11 +1,12 @@
 import React, { useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../../components/Header/Header";
-import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader";
+// import Header from "../../../components/Header/Header"; // REMOVED
+// import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader"; // REMOVED
 import Button from "../../../components/Button/Button";
 import TabSwitchPage from "../../../components/TabSwitchPage/TabSwitchPage";
-import AuthorCard from "../../../components/AuthorCard/AuthorCard"; // Import new component
-import PricingTab from "./PricingTabContent/PricingTabContent"; // Import new component
+import AuthorCard from "../../../components/AuthorCard/AuthorCard";
+import PricingTab from "./PricingTabContent/PricingTabContent"; // Corrected Import Path
+import CourseHero from "../../../components/CourseHero/CourseHero"; // 1. IMPORT NEW HERO
 import EBOOKS_DATA from "../../../data/ebooks";
 import styles from "./BookDetailPage.module.css";
 
@@ -131,7 +132,6 @@ export default function BookDetailPage() {
         title={book?.title || "IAS GS FOUNDATION COURSE"}
         price="Rs.6000"
         onBuyNow={() => alert("Redirecting to Buy...")}
-        onApplyCoupon={() => alert("Apply Coupon clicked")}
       />
     </div>
   );
@@ -190,27 +190,25 @@ export default function BookDetailPage() {
     );
   }
 
-  const headerTitle = `${catInfo?.title || "E-Books"} – ${
-    subcategory?.toUpperCase() || ""
+  // This title is for the new CourseHero
+  const heroTitle = `${catInfo?.title || "E-Books"} - ${
+    book?.title || "Test Series"
   }`;
 
   return (
     <div className={styles.pageWrapper}>
-      <Header
-        imageSrc={catInfo?.hero || "/images/ebooks-hero.png"}
-        alt={`${headerTitle} hero`}
+      {/* 2. RENDER THE NEW COURSEHERO COMPONENT */}
+      <CourseHero
+        title={heroTitle}
+        price={6000} // Mock data from image
+        originalPrice={9000} // Mock data from image
+        discount="(10% off)" // Mock data from image
+        onBuyNow={() => alert("Redirecting to Buy...")}
       />
-      <CategoryHeader
-        title={headerTitle}
-        languages={[
-          { key: "en", label: "English" },
-          { key: "hi", label: "Hindi" },
-          { key: "te", label: "Telugu" },
-        ]}
-        active={localStorage.getItem("bb_lang_code") || "en"}
-        onChange={(k) => localStorage.setItem("bb_lang_code", k)}
-        showDivider
-      />
+
+      {/* 3. REMOVED OLD HEADER AND CATEGORYHEADER */}
+      {/* <Header ... /> */}
+      {/* <CategoryHeader ... /> */}
 
       <main className={styles.contentArea}>
         <TabSwitchPage

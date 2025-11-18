@@ -56,11 +56,11 @@
 .grid {
   width: 100%;
   display: grid;
-  /* This minmax is wider to fit the CategoryCard component */
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* ALWAYS 4 columns */
   gap: 20px;
-  justify-content: start;
+  justify-items: start; /* Makes the left alignment consistent */
   align-items: start;
+  box-sizing: border-box;
 }
 
 /* RESPONSIVE (Also modified to support the new grid) */

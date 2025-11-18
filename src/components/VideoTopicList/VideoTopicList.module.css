@@ -1,0 +1,100 @@
+/* Styles for the left-side video topic list */
+.sidebar {
+  width: 100%;
+  max-width: 320px;
+  height: 100%;
+  background: var(--White_Color, #fff);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--Black_Color, #333);
+  text-decoration: none;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.headerTitle {
+  /* Truncate long titles */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topicList {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.topicItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.topicItem:hover {
+  background-color: #f9faff;
+}
+
+.activeBar {
+  width: 6px;
+  height: 100%;
+  background-color: transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.topicItem.active .activeBar {
+  background-color: var(--Primary_Color, #1f4d9d);
+}
+
+.topicItem.active {
+  background-color: #ebf0ff;
+}
+
+.topicInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topicTitle {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.topicItem.active .topicTitle {
+  color: var(--Primary_Color, #1f4d9d);
+  font-weight: 600;
+}
+
+.topicMeta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.clockIcon {
+  font-size: 0.75rem;
+}

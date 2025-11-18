@@ -1,0 +1,186 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  background-color: #f3f7fd; /* Light background */
+  padding: 1rem;
+}
+
+.header {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 0.5rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.backText {
+  color: var(--Primary_Color, #1f4d9d);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 300px; /* Main content and sidebar */
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.instructionsPanel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.panelBody {
+  padding: 1.5rem;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 1rem;
+}
+
+.instructionsList {
+  margin-left: 1.25rem;
+  padding-left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #444;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.langSelector {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.langSelector label {
+  font-weight: 500;
+  color: #333;
+}
+
+.langDropdown {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+.langNote {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 1.5rem;
+}
+
+.declaration {
+  margin-top: 1rem;
+}
+
+.declaration label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.declaration input[type="checkbox"] {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.panelFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.footerBackLink {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--Primary_Color, #1f4d9d);
+  text-decoration: none;
+}
+
+.beginButton {
+  padding: 10px 20px !important;
+  font-size: 0.95rem !important;
+}
+
+/* Profile Panel */
+.profilePanel {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  height: max-content; /* Make it only as tall as its content */
+}
+
+.profileIcon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: #e0e7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a7b6e1;
+}
+.profileIcon svg {
+  width: 50px;
+  height: 50px;
+}
+
+.profileName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr; /* Stack on mobile */
+  }
+  .profilePanel {
+    order: -1; /* Move profile to top */
+  }
+}

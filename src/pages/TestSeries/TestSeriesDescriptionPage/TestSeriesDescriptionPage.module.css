@@ -1,0 +1,174 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(90deg, #fff6e8 0%, #ffffff 50%, #fff6e8 100%);
+}
+
+.contentArea {
+  /* max-width: 980px; */
+  margin: 24px auto;
+  padding: 0 20px;
+}
+
+/* --- TABS --- */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* Aligns tabs to the left */
+  gap: 12px;
+  margin-bottom: 1px; /* Remove margin */
+  padding: 1rem 1.5rem;
+  background-color: #f3f7fd; /* Light blue/grey background from image */
+  border-radius: 12px 12px 0 0;
+  /* Add box-shadow from image */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.tabButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px; /* Smaller pills */
+  border: none;
+  background: var(--White_Color, #ffffff);
+  cursor: pointer;
+  font-size: 15px; /* Smaller font */
+  font-weight: 500;
+  color: #555;
+  border-radius: 8px; /* Tighter radius */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tabButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+.tabButton.active {
+  background-color: #a7b6e1; /* Light purple/blue from image */
+  color: var(--White_Color, #ffffff);
+  box-shadow: 0 4px 12px rgba(167, 182, 225, 0.3);
+  transform: none;
+  font-weight: 600;
+}
+
+/* --- TAB PANELS --- */
+.panel {
+  background: transparent; /* The TabSwitchPage content wrapper is transparent */
+}
+
+/* This is the base wrapper for ALL tab content panels */
+.panelContent {
+  background: #f3f7fd; /* Light blue background from image */
+  border-radius: 0 0 12px 12px; /* Round bottom corners */
+  padding: 22px;
+  min-height: 400px;
+  box-sizing: border-box;
+  /* Add box-shadow from image */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Description Tab --- */
+.contentTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--Primary_Color, #1f4d9d);
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+.contentTitle:first-child {
+  margin-top: 0;
+}
+
+.descText {
+  color: #333;
+  line-height: 1.7;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.bullets {
+  margin-left: 20px;
+  margin-bottom: 18px;
+  color: #333;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.pdfCard {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 380px; /* Constrain width */
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+}
+
+.pdfIcon img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.pdfMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pdfTitle {
+  font-weight: 600;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.pdfActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.smallDownload {
+  background: #1f4ea6 !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  padding: 8px 16px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 6px 18px rgba(31, 78, 166, 0.12) !important;
+  border: none !important;
+  height: 38px !important;
+}
+
+/* --- Tests Tab --- */
+.testList {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 column list */
+  gap: 16px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .contentArea {
+    padding: 0 1rem;
+    margin: 1.5rem auto;
+  }
+  .tabs {
+    padding: 1rem;
+  }
+  .panelContent {
+    padding: 1rem;
+  }
+  .testList {
+    grid-template-columns: 1fr; /* 1 column on tablet */
+  }
+}

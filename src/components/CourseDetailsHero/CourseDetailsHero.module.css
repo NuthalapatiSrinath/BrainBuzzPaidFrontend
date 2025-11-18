@@ -1,0 +1,225 @@
+/* Styles for the new CourseDetailsHero component */
+/* This is based on your image_b451a3.jpg */
+
+.heroWrapper {
+  width: 100%;
+  background: linear-gradient(90deg, #fff6e8 0%, #ffffff 50%, #fff6e8 100%);
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.heroContainer {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  gap: 2rem;
+  background-color: var(--White_Color, #fff);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+/* --- Left Section (Blue) --- */
+.leftSection {
+  flex: 1.5; /* Takes more space */
+  background-color: var(--Background_Color, #ebf0ff);
+  padding: 1.5rem;
+  position: relative;
+  color: var(--Black_Color, #000);
+}
+
+.title {
+  font-size: 1.75rem; /* Larger */
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: var(--Black_Color, #000);
+}
+
+.subtitle,
+.batchInfo {
+  font-size: 1rem; /* Larger */
+  margin: 0 0 0.75rem 0;
+  font-weight: 500;
+  color: var(--Black_Color, #000);
+  opacity: 0.9;
+}
+
+.batchInfo {
+  margin-bottom: 1rem;
+}
+
+.tagsWrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tag {
+  font-size: 0.9rem; /* Larger */
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.liveTag {
+  background-color: var(--Error_Color, #c0392b);
+  color: var(--White_Color, #fff);
+}
+
+.mediumTag {
+  background-color: var(--Success_Color, #27ae60);
+  color: var(--White_Color, #fff);
+}
+
+.aiBadge {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background-color: var(--Error_Color, #c0392b);
+  color: var(--White_Color, #fff);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 4px 6px;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.liveCircle {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--White_Color, #fff);
+  border: 2px solid var(--Utility_Color1, #9be1ef);
+  color: var(--Primary_Color, #1f4d9d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Right Section (White) --- */
+.rightSection {
+  flex: 1; /* Takes less space */
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align all items to the left */
+  gap: 0.75rem;
+}
+
+.mainTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--Black_Color, #000);
+  margin: 0;
+}
+
+.tagsRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.detailTag {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 16px;
+  color: var(--Primary_Color, #1f4d9d);
+  background-color: #ebf0ff;
+  display: inline-flex; /* For icon */
+  align-items: center;
+  gap: 4px;
+}
+
+.dropdownIcon {
+  font-size: 0.7rem;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--Black_Color, #111);
+}
+
+.originalPrice {
+  font-size: 0.9rem;
+  color: var(--Grey_Color, #777);
+  text-decoration: line-through;
+}
+
+.discount {
+  font-size: 0.9rem;
+  color: var(--Success_Color, #27ae60);
+  font-weight: 600;
+}
+
+.couponButton {
+  background: none;
+  border: none;
+  color: var(--Primary_Color, #1f4d9d);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0; /* Align left, no extra padding */
+  align-self: flex-start;
+  font-size: 0.9rem;
+}
+.couponButton:hover {
+  text-decoration: underline;
+}
+
+.buyButton {
+  width: 100%; /* Button is full width */
+  margin-top: 0.5rem;
+  padding: 12px 20px !important;
+  font-size: 1rem !important;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .heroWrapper {
+    padding: 1rem;
+  }
+  .heroContainer {
+    flex-direction: column;
+  }
+  .leftSection,
+  .rightSection {
+    flex: 1;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroWrapper {
+    padding: 0.5rem;
+  }
+  .leftSection,
+  .rightSection {
+    padding: 1rem;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  .subtitle,
+  .batchInfo {
+    font-size: 0.9rem;
+  }
+  .liveCircle {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+}

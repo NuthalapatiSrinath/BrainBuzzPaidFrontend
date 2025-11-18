@@ -1,27 +1,19 @@
-// src/pages/DailyQuizzesSubcategories/DailyQuizzesSubcategories.jsx
 import React, { useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader";
 import SearchBar from "../../../components/SearchBar/SearchBar";
-import DAILY_QUIZZES from "../../../data/dailyQuizzes"; // ✅ new dynamic source
+import DAILY_QUIZZES from "../../../data/dailyQuizzes";
 import styles from "./DailyQuizzesSubcategories.module.css";
+// ✅ 1. IMPORT THE CATEGORYCARD COMPONENT
+import CategoryCard from "../../../components/CategoryCard/CategoryCard";
 
 /**
  * DailyQuizzesSubcategories
  *
  * Supports:
- *  - /dailyquizzes            → shows all quiz exam categories (UPSC, CGL, etc.)
- *  - /dailyquizzes/:category  → shows quiz subcategories for a given exam (Prelims, Tier 1, etc.)
- *
- * Data structure expected from src/data/dailyQuizzes.js:
- * {
- *   categories: [{ key, title, logo, hero }],
- *   subcategories: {
- *     upsc: [{ id, title, logo, path, quizzes }],
- *     ...
- *   }
- * }
+ * - /dailyquizzes            → (Handled by DailyQuizzesPage.jsx)
+ * - /dailyquizzes/:category  → shows quiz subcategories for a given exam (Prelims, Tier 1, etc.)
  */
 
 export default function DailyQuizzesSubcategories() {
@@ -39,7 +31,7 @@ export default function DailyQuizzesSubcategories() {
   /** Build entry (either list of categories, or subcategories of one exam) */
   const entry = useMemo(() => {
     if (!category) {
-      // Main quizzes landing — show all categories
+      // Fallback in case this route is hit without a category
       return {
         title: "Daily Quizzes",
         hero: "/images/dailyquizzes-hero.png",
@@ -48,6 +40,7 @@ export default function DailyQuizzesSubcategories() {
           title: cat.title,
           logo: cat.logo || cat.hero,
           path: `/dailyquizzes/${cat.key}`,
+          description: cat.description || "",
         })),
       };
     }
@@ -60,16 +53,18 @@ export default function DailyQuizzesSubcategories() {
     return {
       title: catMeta?.title || catKey.toUpperCase(),
       hero: catMeta?.hero || `/images/${catKey}-hero.png`,
+      // ✅ Map all data from the data file to the tiles array
       tiles: subList.map((s) => ({
         id: s.id,
         title: s.title,
-        logo: s.logo || "/images/default-sub.png",
+        logo: s.logo || "/images/default-sub.png", // Fallback logo
         path: s.path || `/dailyquizzes/${catKey}/${s.id}`,
+        description: s.description || "", // ✅ THIS IS THE FIX
       })),
     };
   }, [category, topCategories]);
 
-  /** Search filtering */
+  /** Search filtering (now also searches description) */
   const tiles = useMemo(() => {
     const q = (query || "").trim().toLowerCase();
     if (!entry) return [];
@@ -78,9 +73,19 @@ export default function DailyQuizzesSubcategories() {
     return all.filter(
       (t) =>
         (t.title || "").toLowerCase().includes(q) ||
-        (t.id || "").toLowerCase().includes(q)
+        (t.id || "").toLowerCase().includes(q) ||
+        (t.description || "").toLowerCase().includes(q)
     );
   }, [entry, query]);
+
+  // Navigation handler for the card
+  const handleNavigate = (path) => {
+    try {
+      navigate(path);
+    } catch (err) {
+      console.error("Navigation failed:", err, path);
+    }
+  };
 
   /** Handle no data fallback */
   if (!entry)
@@ -92,10 +97,10 @@ export default function DailyQuizzesSubcategories() {
 
   return (
     <div className={styles.pageWrapper}>
-      {/* HERO */}
+      {/* HERO (No change) */}
       {entry.hero && <Header imageSrc={entry.hero} alt={entry.title} />}
 
-      {/* HEADER */}
+      {/* HEADER (No change) */}
       <CategoryHeader
         title={entry.title}
         languages={[
@@ -111,7 +116,7 @@ export default function DailyQuizzesSubcategories() {
         showDivider
       />
 
-      {/* BODY */}
+      {/* BODY (No change) */}
       <section className={styles.subSection}>
         <div className={styles.headerRow}>
           <h2 className={styles.heading}>{entry.title}</h2>
@@ -126,35 +131,23 @@ export default function DailyQuizzesSubcategories() {
           />
         </div>
 
+        {/* ✅ Grid now correctly passes the description */}
         <div className={styles.grid}>
           {tiles.map((t) => (
-            <button
+            <CategoryCard
               key={t.id}
-              type="button"
-              className={styles.card}
-              onClick={() => {
-                try {
-                  navigate(t.path);
-                } catch (err) {
-                  console.error("Navigation failed:", err, t.path);
-                }
-              }}
-              aria-label={`Open ${t.title}`}
-            >
-              <img
-                src={t.logo}
-                alt={t.title}
-                className={styles.cardImage}
-                onError={(e) =>
-                  (e.currentTarget.src = "/images/default-sub.png")
-                }
-              />
-              <div className={styles.cardTitle}>{t.title}</div>
-            </button>
+              name={t.title}
+              logo={t.logo}
+              slug={t.path} // Pass the full path as the slug
+              onClick={handleNavigate} // Use the new handler
+              description={t.description} // This now receives the description
+              buttonLabel="View Quizzes"
+              ariaLabel={`Go to ${t.title} quizzes`}
+            />
           ))}
 
           {tiles.length === 0 && (
-            <div style={{ padding: 24, color: "#666" }}>
+            <div className={styles.noResults} role="status" aria-live="polite">
               No quizzes found for “{query}”
             </div>
           )}

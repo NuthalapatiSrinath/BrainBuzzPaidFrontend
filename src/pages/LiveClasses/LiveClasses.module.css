@@ -130,10 +130,13 @@
    to maintain equal sizes. Desktop will fit many columns; narrow screens go 2 columns.
 /* example grid — add to your CurrentAffairsPage.module.css */
 .grid {
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(4, 1fr); /* ALWAYS 4 columns */
+  gap: 20px;
+  justify-items: start; /* Makes the left alignment consistent */
   align-items: start;
+  box-sizing: border-box;
 }
 
 /* tile — fixed height ensures uniform size */

@@ -1,0 +1,237 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+/* Page styles copied from DailyQuizzesPage for consistency */
+.pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background: linear-gradient(90deg, #fff6e8 0%, #ffffff 50%, #fff6e8 100%);
+}
+
+/* ===== HERO (Unchanged) ===== */
+.hero {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 56px 0 28px;
+  background: transparent;
+}
+
+.heroContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 86%;
+  height: 250px;
+  background: linear-gradient(90deg, #ecf1ff 0%, #a7b6e1 100%);
+  border-radius: 8px;
+  overflow: visible;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  position: relative;
+  padding: 18px 28px;
+}
+
+.heroTextBox {
+  flex: 0 0 46%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 2;
+}
+.searchBar {
+  padding-bottom: 1rem;
+  /* ✅ ALIGNMENT FIX: Make search bar align left */
+  display: flex;
+  justify-content: flex-start;
+}
+.heroTitle {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--Primary_Color, #1f4d9d);
+  background: #ffffff;
+  padding: 16px 30px;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.heroImageBox {
+  flex: 0 0 44%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+  overflow: visible;
+  z-index: 3;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  position: relative;
+  top: -48px;
+  z-index: 4;
+  transition: transform 0.25s ease;
+}
+
+/* ===== CATEGORIES (Unchanged) ===== */
+.categories {
+  width: 100%;
+  /* max-width: 1400px; */
+  padding: 28px 40px 80px;
+  box-sizing: border-box;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.heading {
+  font-size: 22px;
+  color: var(--Primary_Color, #1f4d9d);
+  font-weight: 600;
+  margin: 0;
+}
+
+.headingUnderline {
+  display: inline-block;
+  height: 4px;
+  width: 80px;
+  background: var(--Primary_Color, #1f4d9d);
+  border-radius: 2px;
+}
+
+.subtitle {
+  color: #111;
+  /* max-width: 900px; */
+  margin: 8px 0 28px 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ===== GRID (FIXED) ===== */
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ALWAYS 4 columns */
+  gap: 20px;
+  justify-items: start; /* Makes the left alignment consistent */
+  align-items: start;
+  box-sizing: border-box;
+}
+
+.noResults {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 24px;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  /* Hero styles (unchanged) */
+  .heroContent {
+    flex-direction: row;
+    width: 94%;
+    max-width: 760px;
+    height: 220px;
+    padding: 14px;
+    gap: 14px;
+    align-items: stretch;
+  }
+  .heroTextBox {
+    flex: 0 0 50%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    order: 0;
+    padding-left: 8px;
+  }
+  .heroTitle {
+    font-size: 20px;
+    padding: 12px 20px;
+  }
+  .heroImageBox {
+    flex: 0 0 50%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: visible;
+    order: 1;
+  }
+  .heroImage {
+    width: 92%;
+    top: -36px;
+  }
+  .categories {
+    padding: 20px;
+  }
+
+  /* Updated grid rule for tablets */
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  /* Hero styles (unchanged) */
+  .heroContent {
+    flex-direction: row;
+    width: 96%;
+    max-width: 420px;
+    height: 170px;
+    padding: 10px;
+    gap: 10px;
+    align-items: center;
+  }
+  .heroTextBox {
+    flex: 0 0 52%;
+    justify-content: flex-start;
+    padding-left: 6px;
+  }
+  .heroTitle {
+    font-size: 18px;
+    padding: 10px 14px;
+  }
+  .heroImageBox {
+    flex: 0 0 48%;
+    align-items: center;
+    justify-content: center;
+  }
+  .heroImage {
+    width: 68%;
+    top: -18px;
+  }
+  .categories {
+    padding: 16px;
+  }
+
+  /* Updated grid rule for phones */
+  .grid {
+    grid-template-columns: 1fr; /* Stack to 1 column */
+    gap: 14px;
+  }
+}
+
+/* Search active styles */
+@media (min-width: 901px) {
+  .searchActive {
+    justify-content: start; /* ✅ ALIGNS TO THE LEFT */
+  }
+  .searchActive {
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)) !important;
+    margin: 0;
+  }
+}

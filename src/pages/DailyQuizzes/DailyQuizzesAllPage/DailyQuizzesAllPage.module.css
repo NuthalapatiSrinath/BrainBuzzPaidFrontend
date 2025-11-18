@@ -1,0 +1,96 @@
+/* * Neat CSS for the 'All Daily Quizzes' page.
+ * Based on your screenshot and AllLiveClassesPage.
+ */
+
+.pageWrapper {
+  min-height: 100vh;
+  /* Switched to white background as per your screenshot */
+  background-color: var(--White_Color, #fff);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Container for SearchBar */
+.filterBar {
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  padding: 1.5rem;
+  /* ✅ ALIGNMENT FIX: Changed from center to start */
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* This is the container for the FilterPills component */
+/* We target its global class to style it */
+:global(.pillContainer) {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 1.5rem 1.5rem;
+  /* ✅ ALIGNMENT FIX: Changed from center to start */
+  justify-content: flex-start;
+}
+.filterPills {
+  padding: 1rem;
+}
+/* Main content area for the grid */
+.contentArea {
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.noResults {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #555;
+  padding: 3rem;
+}
+
+.categorySection {
+  margin-bottom: 1.5rem;
+}
+
+.categoryTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 1.5rem;
+  /* Underline matches your screenshot */
+  border-bottom: 3px solid var(--Primary_Color, #1f4d9d);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+/* * ✅ --- ALIGNMENT FIX --- ✅
+ * This grid now uses `justify-content: start` to align cards to the left,
+ * as you requested.
+ */
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ALWAYS 4 columns */
+  gap: 20px;
+  justify-items: start; /* Makes the left alignment consistent */
+  align-items: start;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+  .filterBar,
+  :global(.pillContainer),
+  .contentArea {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Stack to 1 column on small phones */
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .categoryTitle {
+    font-size: 1.4rem;
+  }
+}

@@ -6,7 +6,12 @@ const base10Questions = [
   {
     id: "sample-q-1",
     question: "Which of these is part of the Basic Structure doctrine?",
-    options: ["Parliamentary system", "Fundamental rights", "Directive Principles", "Secularism"],
+    options: [
+      "Parliamentary system",
+      "Fundamental rights",
+      "Directive Principles",
+      "Secularism",
+    ],
     correct: "Secularism",
     explanation:
       "Basic Structure protects essential features like secularism, democracy and the rule of law.",
@@ -14,14 +19,24 @@ const base10Questions = [
   {
     id: "sample-q-2",
     question: "Article 368 deals with:",
-    options: ["Emergency", "Amendment of Constitution", "President protection", "Distribution of powers"],
+    options: [
+      "Emergency",
+      "Amendment of Constitution",
+      "President protection",
+      "Distribution of powers",
+    ],
     correct: "Amendment of Constitution",
     explanation: "Article 368 empowers Parliament to amend the Constitution.",
   },
   {
     id: "sample-q-3",
     question: "President of India is elected by:",
-    options: ["Direct vote", "MPs only", "MPs and MLAs", "Nominated electorate"],
+    options: [
+      "Direct vote",
+      "MPs only",
+      "MPs and MLAs",
+      "Nominated electorate",
+    ],
     correct: "MPs and MLAs",
     explanation: "Elected by an electoral college of MPs and MLAs.",
   },
@@ -42,23 +57,41 @@ const base10Questions = [
   {
     id: "sample-q-6",
     question: "Separation of Powers in India is:",
-    options: ["Complete separation", "Partial with checks", "No separation", "Only Exec & Judiciary"],
+    options: [
+      "Complete separation",
+      "Partial with checks",
+      "No separation",
+      "Only Exec & Judiciary",
+    ],
     correct: "Partial with checks",
-    explanation: "India has separation with overlaps and checks (e.g., judicial review).",
+    explanation:
+      "India has separation with overlaps and checks (e.g., judicial review).",
   },
   {
     id: "sample-q-7",
     question: "Supreme Court resolves disputes between:",
-    options: ["Union and States", "Banks", "Finance Commission", "Election Commission"],
+    options: [
+      "Union and States",
+      "Banks",
+      "Finance Commission",
+      "Election Commission",
+    ],
     correct: "Union and States",
-    explanation: "The Supreme Court adjudicates disputes between the Union and States.",
+    explanation:
+      "The Supreme Court adjudicates disputes between the Union and States.",
   },
   {
     id: "sample-q-8",
     question: "Doctrine of Judicial Review is inspired by:",
-    options: ["British Constitution", "American Constitution", "French Constitution", "German Constitution"],
+    options: [
+      "British Constitution",
+      "American Constitution",
+      "French Constitution",
+      "German Constitution",
+    ],
     correct: "American Constitution",
-    explanation: "Judicial review concept in India was influenced by the U.S. system.",
+    explanation:
+      "Judicial review concept in India was influenced by the U.S. system.",
   },
   {
     id: "sample-q-9",
@@ -70,9 +103,15 @@ const base10Questions = [
   {
     id: "sample-q-10",
     question: "Constant price GDP is used to measure:",
-    options: ["Current price growth", "Real growth (base-year prices)", "Nominal GDP", "Inflation only"],
+    options: [
+      "Current price growth",
+      "Real growth (base-year prices)",
+      "Nominal GDP",
+      "Inflation only",
+    ],
     correct: "Real growth (base-year prices)",
-    explanation: "Constant price GDP removes inflation effects by using base-year prices.",
+    explanation:
+      "Constant price GDP removes inflation effects by using base-year prices.",
   },
 ];
 
@@ -87,7 +126,12 @@ const base2Questions = [
   {
     id: "mini-q-2",
     question: "What does GDP stand for?",
-    options: ["Gross Domestic Product", "General Domestic Product", "Gross Domestic Placement", "General Debt Position"],
+    options: [
+      "Gross Domestic Product",
+      "General Domestic Product",
+      "Gross Domestic Placement",
+      "General Debt Position",
+    ],
     correct: "Gross Domestic Product",
     explanation: "GDP stands for Gross Domestic Product.",
   },
@@ -100,8 +144,17 @@ function cloneQuestions(arr, prefix = "") {
   }));
 }
 
-function makeQuiz({ id, title, date, description, questionCount = 2, full10 = false }) {
-  const questions = full10 ? cloneQuestions(base10Questions, id) : cloneQuestions(base2Questions, id);
+function makeQuiz({
+  id,
+  title,
+  date,
+  description,
+  questionCount = 2,
+  full10 = false,
+}) {
+  const questions = full10
+    ? cloneQuestions(base10Questions, id)
+    : cloneQuestions(base2Questions, id);
   return {
     id,
     title,
@@ -122,7 +175,9 @@ function buildQuizzesForMonth(year, monthIndex, titles) {
     const title = titles[i];
     const day = days[i % days.length];
     const date = new Date(year, monthIndex, day).toISOString().slice(0, 10);
-    const id = `${String(title).toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${year}-${monthIndex + 1}-${i + 1}`;
+    const id = `${String(title)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")}-${year}-${monthIndex + 1}-${i + 1}`;
     quizzes.push(
       makeQuiz({
         id,
@@ -139,10 +194,58 @@ function buildQuizzesForMonth(year, monthIndex, titles) {
 // We'll create months Jul - Oct 2025 like your image (four group boxes)
 // each month will have 6 quizzes (first with 10 questions, others 2)
 const monthsData = [
-  { year: 2025, monthIndex: 9, monthName: "October", titles: ["UPSC Static Quiz – Polity", "UPSC Static Quiz – Economy", "UPSC Static Quiz – History", "UPSC Static Quiz – Geography", "UPSC Static Quiz – Art and Culture", "UPSC Static Quiz – History"] },
-  { year: 2025, monthIndex: 8, monthName: "September", titles: ["UPSC Static Quiz – Art and Culture", "UPSC Static Quiz – Economy", "UPSC Static Quiz – History", "UPSC Static Quiz – Polity", "UPSC Static Quiz – Geography", "UPSC Static Quiz – History"] },
-  { year: 2025, monthIndex: 7, monthName: "August", titles: ["UPSC Static Quiz – Economy", "UPSC Static Quiz – History", "UPSC Static Quiz – Polity", "UPSC Static Quiz – Geography", "UPSC Static Quiz – Art and Culture", "UPSC Static Quiz – History"] },
-  { year: 2025, monthIndex: 6, monthName: "July", titles: ["UPSC Static Quiz – Economy", "UPSC Static Quiz – History", "UPSC Static Quiz – Polity", "UPSC Static Quiz – Geography", "UPSC Static Quiz – Art and Culture", "UPSC Static Quiz – History"] },
+  {
+    year: 2025,
+    monthIndex: 9,
+    monthName: "October",
+    titles: [
+      "UPSC Static Quiz – Polity",
+      "UPSC Static Quiz – Economy",
+      "UPSC Static Quiz – History",
+      "UPSC Static Quiz – Geography",
+      "UPSC Static Quiz – Art and Culture",
+      "UPSC Static Quiz – History",
+    ],
+  },
+  {
+    year: 2025,
+    monthIndex: 8,
+    monthName: "September",
+    titles: [
+      "UPSC Static Quiz – Art and Culture",
+      "UPSC Static Quiz – Economy",
+      "UPSC Static Quiz – History",
+      "UPSC Static Quiz – Polity",
+      "UPSC Static Quiz – Geography",
+      "UPSC Static Quiz – History",
+    ],
+  },
+  {
+    year: 2025,
+    monthIndex: 7,
+    monthName: "August",
+    titles: [
+      "UPSC Static Quiz – Economy",
+      "UPSC Static Quiz – History",
+      "UPSC Static Quiz – Polity",
+      "UPSC Static Quiz – Geography",
+      "UPSC Static Quiz – Art and Culture",
+      "UPSC Static Quiz – History",
+    ],
+  },
+  {
+    year: 2025,
+    monthIndex: 6,
+    monthName: "July",
+    titles: [
+      "UPSC Static Quiz – Economy",
+      "UPSC Static Quiz – History",
+      "UPSC Static Quiz – Polity",
+      "UPSC Static Quiz – Geography",
+      "UPSC Static Quiz – Art and Culture",
+      "UPSC Static Quiz – History",
+    ],
+  },
 ];
 
 // Build UPSC -> prelims quizzes by concatenating generated month quizzes (gives many entries)
@@ -179,18 +282,86 @@ const finalUpscPrelims = [...handcraftedQuizzes, ...upscPrelimsQuizzes];
 
 // Build the full DAILY_QUIZZES object
 const DAILY_QUIZZES = {
- categories: [
-    { key: "upsc", title: "UPSC", logo: "/images/upsc.png", hero: "/images/upsc.png" },
-    { key: "cgl", title: "SSC CGL", logo: "/images/cgl.png", hero: "/images/cgl.png" },
-    { key: "chsl", title: "SSC CHSL", logo: "/images/chsl.png", hero: "/images/chsl.png" },
-    { key: "appsc", title: "APPSC", logo: "/images/appsc.png", hero: "/images/appsc.png" },
-    { key: "tspsc", title: "TSPSC", logo: "/images/tspsc.png", hero: "/images/tspsc.png" },
-    { key: "appolice", title: "AP POLICE SI", logo: "/images/appolice.png", hero: "/images/appolice.png" },
-    { key: "tspolice", title: "TS POLICE SI", logo: "/images/tspolice.png", hero: "/images/tspolice.png" },
-    { key: "sbi", title: "State Bank of India PO", logo: "/images/sbi.png", hero: "/images/sbi.png" },
-    { key: "ibps", title: "IBPS", logo: "/images/ibps.png", hero: "/images/ibps.png" },
-    { key: "railways", title: "Railways", logo: "/images/railway.png", hero: "/images/railway.png" },
-    { key: "others", title: "OTHERS…", logo: "/images/brainbuzz.png", hero: "/images/brainbuzz.png" },
+  categories: [
+    {
+      key: "upsc",
+      title: "UPSC",
+      logo: "/images/upsc.png",
+      hero: "/images/upsc.png",
+      description:
+        "Quizzes for UPSC Civil Services, including Prelims and Mains.",
+    },
+    {
+      key: "cgl",
+      title: "SSC CGL",
+      logo: "/images/cgl.png",
+      hero: "/images/cgl.png",
+      description: "Practice quizzes for SSC CGL Tier I, Tier II, and more.",
+    },
+    {
+      key: "chsl",
+      title: "SSC CHSL",
+      logo: "/images/chsl.png",
+      hero: "/images/chsl.png",
+      description: "Quizzes for SSC CHSL (10+2) covering LDC, DEO, and PSA.",
+    },
+    {
+      key: "appsc",
+      title: "APPSC",
+      logo: "/images/appsc.png",
+      hero: "/images/appsc.png",
+      description: "Andhra Pradesh Public Service Commission exam quizzes.",
+    },
+    {
+      key: "tspsc",
+      title: "TSPSC",
+      logo: "/images/tspsc.png",
+      hero: "/images/tspsc.png",
+      description: "Telangana State Public Service Commission quiz series.",
+    },
+    {
+      key: "appolice",
+      title: "AP POLICE SI",
+      logo: "/images/appolice.png",
+      hero: "/images/appolice.png",
+      description:
+        "Quizzes for Andhra Pradesh Police Sub-Inspector recruitment.",
+    },
+    {
+      key: "tspolice",
+      title: "TS POLICE SI",
+      logo: "/images/tspolice.png",
+      hero: "/images/tspolice.png",
+      description: "Practice tests for Telangana State Police SI exams.",
+    },
+    {
+      key: "sbi",
+      title: "State Bank of India PO",
+      logo: "/images/sbi.png",
+      hero: "/images/sbi.png",
+      description: "Quizzes for SBI Probationary Officer exams.",
+    },
+    {
+      key: "ibps",
+      title: "IBPS",
+      logo: "/images/ibps.png",
+      hero: "/images/ibps.png",
+      description: "Quizzes for IBPS PO, Clerk, and Specialist Officer exams.",
+    },
+    {
+      key: "railways",
+      title: "Railways",
+      logo: "/images/railway.png",
+      hero: "/images/railway.png",
+      description: "Quizzes for Railway Recruitment Board (RRB) exams.",
+    },
+    {
+      key: "others",
+      title: "OTHERS…",
+      logo: "/images/brainbuzz.png",
+      hero: "/images/brainbuzz.png",
+      description: "Miscellaneous quizzes for other competitive exams.",
+    },
   ],
 
   subcategories: {
@@ -200,6 +371,8 @@ const DAILY_QUIZZES = {
         title: "Prelims Quiz",
         logo: "/images/upsc.png",
         path: "/dailyquizzes/upsc/prelims",
+        description:
+          "Daily static and current affairs quizzes for UPSC Prelims.",
         quizzes: finalUpscPrelims,
       },
       {
@@ -207,6 +380,8 @@ const DAILY_QUIZZES = {
         title: "Mains Quiz",
         logo: "/images/upsc.png",
         path: "/dailyquizzes/upsc/mains",
+        description:
+          "Practice quizzes and answer writing prompts for UPSC Mains.",
         quizzes: [
           {
             id: "upsc-mains-essay-001",
@@ -227,6 +402,7 @@ const DAILY_QUIZZES = {
         title: "Tier I Quiz",
         logo: "/images/cgl.png",
         path: "/dailyquizzes/cgl/tier1",
+        description: "Full-length and sectional quizzes for SSC CGL Tier I.",
         quizzes: [
           makeQuiz({
             id: "cgl-tier1-q1",
@@ -246,12 +422,15 @@ const DAILY_QUIZZES = {
         title: "Tier I Quiz",
         logo: "/images/chsl.png",
         path: "/dailyquizzes/chsl/tier1",
+        description:
+          "Practice sets for SSC CHSL Tier I General Awareness and Quant.",
         quizzes: [
           makeQuiz({
             id: "chsl-tier1-q1",
             title: "CHSL General Awareness Set",
             date: "2025-08-06",
-            description: "Quick general awareness and reasoning questions for CHSL Tier-1 revision.",
+            description:
+              "Quick general awareness and reasoning questions for CHSL Tier-1 revision.",
             full10: true,
           }),
         ],
@@ -264,17 +443,21 @@ const DAILY_QUIZZES = {
         title: "SBI PO Quiz",
         logo: "/images/sbi.png",
         path: "/dailyquizzes/sbi/sbi",
+        description:
+          "Quizzes on Banking Awareness, Quant, and Reasoning for SBI PO.",
         quizzes: [
           makeQuiz({
             id: "sbi-po-q1",
             title: "Banking Awareness Set 1",
             date: "2025-07-10",
-            description: "Banking awareness, financial sector and current banking affairs — 10 questions for PO aspirants.",
+            description:
+              "Banking awareness, financial sector and current banking affairs — 10 questions for PO aspirants.",
             full10: true,
           }),
         ],
       },
     ],
+    // Empty subcategories for others are implicitly handled
   },
 };
 

@@ -1,0 +1,98 @@
+/* This file is based on DailyQuizzesSubcategories.module.css for a consistent UI */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+.pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(90deg, #fff6e8 0%, #ffffff 50%, #fff6e8 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subSection {
+  width: 100%;
+  max-width: 1200px;
+  padding: 22px 2rem 80px 2rem;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.heading {
+  font-size: 18px;
+  color: var(--Primary_Color, #1f4d9d);
+  font-weight: 600;
+  margin: 0;
+}
+
+.headingUnderline {
+  width: 72px;
+  height: 4px;
+  background: var(--Primary_Color, #1f4d9d);
+  border-radius: 2px;
+  display: inline-block;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+}
+
+.subtitle {
+  color: #111;
+  max-width: 1000px;
+  margin: 8px 0 18px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.searchRow {
+  margin: 12px 0 22px;
+  display: flex;
+  align-items: center;
+}
+
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* ALWAYS 4 columns */
+  gap: 20px;
+  justify-items: start; /* Makes the left alignment consistent */
+  align-items: start;
+  box-sizing: border-box;
+}
+
+.noResults {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 24px;
+  color: #555;
+  font-size: 1rem;
+}
+
+@media (max-width: 900px) {
+  .subSection {
+    width: 94%;
+    padding: 18px 0 60px;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .subSection {
+    padding: 14px 8px 60px;
+    width: 96%;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

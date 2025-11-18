@@ -1,0 +1,20 @@
+/* * Styles for BuyNowPage.jsx
+ * This page centers the PricingTabContent component.
+ */
+
+.pageWrapper {
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 1rem;
+  box-sizing: border-box;
+  background: linear-gradient(90deg, #fff6e8 0%, #ffffff 50%, #fff6e8 100%);
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px; /* Constrain the width of the pricing component */
+}

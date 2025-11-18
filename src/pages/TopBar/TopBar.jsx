@@ -30,10 +30,11 @@ const BOTTOM_NAV = [
   {
     key: "onlineCourses",
     label: "Online Courses",
+    href: "/online-courses",
     dropdown: [
       {
         label: "UPSC",
-        href: "/courses/upsc",
+        href: "/online-courses/upsc",
         icon: "/images/upsc.png",
       },
       // ... other course categories
@@ -43,6 +44,7 @@ const BOTTOM_NAV = [
   {
     key: "testSeries",
     label: "Test Series",
+    href: "/test-series",
     dropdown: [
       {
         label: "UPSC",
@@ -288,7 +290,7 @@ export default function Topbar() {
                             <a
                               href={
                                 it.key === "onlineCourses"
-                                  ? normalizeHref("/courses")
+                                  ? normalizeHref("/online-courses")
                                   : normalizeHref("/test-series")
                               }
                               className={styles.bottomLink}
@@ -488,7 +490,7 @@ export default function Topbar() {
                             it.key === "onlineCourses"
                               ? normalizeHref("/courses")
                               : it.key === "testSeries"
-                              ? normalizeHref("/test-series")
+                              ? normalizeHref("/testseries")
                               : normalizeHref(it.href)
                           }
                           className={styles.mobileAccItem}
