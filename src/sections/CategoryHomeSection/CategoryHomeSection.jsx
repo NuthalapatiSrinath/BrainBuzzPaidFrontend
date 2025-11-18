@@ -10,13 +10,13 @@ const categoryData = [
   {
     label: "Online Courses",
     imageSrc: "/images/aboutus/icons/online-courses.png",
-    to: "/courses",
+    to: "/online-courses",
     bgColor: "var(--Utility_Color1)",
   },
   {
     label: "Live Class",
     imageSrc: "/images/aboutus/icons/live-class.png",
-    to: "/live-class",
+    to: "/liveclasses",
     bgColor: "var(--Utility_Color2)",
   },
   {
@@ -40,7 +40,7 @@ const categoryData = [
   {
     label: "Publications",
     imageSrc: "/images/aboutus/icons/question-paper.png",
-    to: "/publications",
+    to: "/ebooks",
     bgColor: "var(--Info_Color)",
   },
 ];

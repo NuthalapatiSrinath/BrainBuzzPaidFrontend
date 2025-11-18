@@ -1,7 +1,7 @@
 /* Styles for the left-side video topic list */
 .sidebar {
   width: 100%;
-  max-width: 320px;
+  /* ✅ Let the wrapper div control max-width */
   height: 100%;
   background: var(--White_Color, #fff);
   display: flex;
@@ -21,6 +21,7 @@
   color: var(--Black_Color, #333);
   text-decoration: none;
   border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 .headerTitle {
@@ -46,6 +47,7 @@
   border-bottom: 1px solid #f0f0f0;
   position: relative;
   transition: background-color 0.2s ease;
+  flex-shrink: 0; /* Prevent items from shrinking */
 }
 
 .topicItem:hover {

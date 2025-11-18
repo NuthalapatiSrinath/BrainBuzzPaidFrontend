@@ -70,6 +70,8 @@ import OnlineCoursesListPage from "../pages/OnlineCourses/OnlineCoursesListPage/
 import OnlineCoursesSubcategories from "../pages/OnlineCourses/OnlineCoursesSubcategories/OnlineCoursesSubcategories.jsx";
 import CourseDescriptionPage from "../pages/OnlineCourses/CourseDescriptionPage/CourseDescriptionPage.jsx";
 import CourseVideoPlayerPage from "../pages/OnlineCourses/CourseVideoPlayerPage/CourseVideoPlayerPage.jsx";
+import PaymentPage from "../pages/PaymentPages/PaymentPage/PaymentPage.jsx";
+import PaymentAddressPage from "../pages/PaymentPages/PaymentAddressPage/PaymentAddressPage.jsx";
 
 function AppRoutes() {
   return (
@@ -81,6 +83,11 @@ function AppRoutes() {
         <Route path="/" element={<DashboardLayout />}>
           {/* Home */}
           <Route index element={<HomePage />} />
+          <Route path="/buy-now/:buyNowId" element={<PaymentPage />} />
+          <Route
+            path="/payment-address/:buyNowId"
+            element={<PaymentAddressPage />}
+          />
           <Route path="/mycourses" element={<MyCoursesPage />} />
           <Route path="/coursesdatapage" element={<CoursesDataPage />} />
           <Route path="/mytestseries" element={<MyTestSeries />} />

@@ -1,13 +1,16 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "./VideoTopicList.module.css";
-import { FaArrowLeft, FaRegClock } from "react-icons/fa";
+import { FaArrowLeft, FaRegClock, FaLock } from "react-icons/fa";
 
 // This is a single item in the list
 const TopicItem = ({ video, path, isActive }) => (
   <Link
     to={path}
-    className={`${styles.topicItem} ${isActive ? styles.active : ""}`}
+    // ✅ 2. Add 'locked' class if video is locked
+    className={`${styles.topicItem} ${isActive ? styles.active : ""} ${
+      video.isLocked ? styles.locked : ""
+    }`}
   >
     <div className={styles.activeBar}></div>
     <div className={styles.topicInfo}>
@@ -16,6 +19,8 @@ const TopicItem = ({ video, path, isActive }) => (
         <FaRegClock className={styles.clockIcon} /> {video.lessonCount}
       </span>
     </div>
+    {/* ✅ 3. Show lock icon */}
+    {video.isLocked && <FaLock className={styles.lockIcon} />}
   </Link>
 );
 

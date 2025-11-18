@@ -9,19 +9,37 @@
 
 .container {
   display: grid;
-  grid-template-columns: 320px 1fr; /* Sidebar | Main Content */
+  /* ✅ UPDATED: Main content on left, sidebar on right */
+  grid-template-columns: 1fr 320px;
   gap: 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
-  height: calc(100vh - 3rem); /* Full height minus padding */
+  /* ✅ Use vh for height, minus padding */
+  height: calc(100vh - 3rem);
 }
 
-/* --- Main Content (Right Side) --- */
+/* --- Main Content (Left Side) --- */
 .mainContent {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem; /* Space between video block and notes */
   height: 100%;
+  min-height: 0; /* Fix for flexbox overflow */
+  overflow-y: auto; /* Allow main content (video + notes) to scroll */
+}
+
+/* ✅ NEW: Wrapper for Video + Meta Row */
+.videoBlock {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* --- Sidebar (Right Side) --- */
+.sidebarWrapper {
+  height: 100%; /* Take full height of container */
   min-height: 0; /* Fix for flexbox overflow */
 }
 
@@ -30,14 +48,102 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   background: #000;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  /* Radius only on top */
+  border-radius: 12px 12px 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-size: 1.2rem;
   font-weight: 500;
+  position: relative; /* For loader and overlay */
+  overflow: hidden;
+}
+
+.videoPlayer {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Loader styles */
+.loaderBackdrop {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: var(--Primary_Color, #1f4d9d);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ✅ NEW: Lock Overlay Styles */
+.lockOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+.lockIconBox {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--Primary_Color, #1f4d9d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lockIcon {
+  font-size: 1.5rem;
+  color: #fff;
+}
+.lockOverlay h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+.lockOverlay p {
+  font-size: 0.9rem;
+  color: #f0f0f0;
+  margin: 0;
+  max-width: 300px;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  /* ✅ Added padding to match image */
+  padding: 1rem;
+  border-top: 1px solid #f0f0f0;
 }
 
 .videoTitle {
@@ -50,7 +156,6 @@
 .navButtons {
   display: flex;
   justify-content: flex-end;
-  margin-top: -0.5rem; /* Pull it closer to the video */
 }
 
 .nextButton {
@@ -70,6 +175,37 @@
     gap: 1rem;
   }
   .mainContent {
+    order: 1; /* ✅ Show video/notes first */
     height: auto;
+    overflow-y: visible; /* Don't need internal scroll */
+  }
+  .sidebarWrapper {
+    order: 2; /* ✅ Show sidebar second */
+    /* ✅ Give sidebar a fixed, scrollable height */
+    height: 400px;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageWrapper {
+    padding: 0.5rem;
+  }
+  .container {
+    gap: 0.5rem;
+  }
+  .mainContent,
+  .sidebarWrapper {
+    margin: 0;
+  }
+  .sidebarWrapper {
+    height: 300px;
+  }
+  .videoTitle {
+    font-size: 1rem;
+  }
+  .nextButton {
+    padding: 8px 16px !important;
+    font-size: 0.85rem !important;
   }
 }

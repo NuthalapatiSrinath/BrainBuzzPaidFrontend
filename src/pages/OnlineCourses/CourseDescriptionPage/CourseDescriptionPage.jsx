@@ -1,22 +1,17 @@
 import React, { useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./CourseDescriptionPage.module.css";
+import { ONLINE_COURSES_SUBCATEGORIES } from "../../../data/onlineCourses.js";
 import { useDispatch } from "react-redux";
 import { openModal } from "../../../redux/slices/modalSlice";
 
-// --- Import Data ---
-import {
-  ONLINE_COURSES_CATEGORIES,
-  ONLINE_COURSES_SUBCATEGORIES,
-} from "../../../data/onlineCourses.js";
-
-// --- Import Components ---
-import CourseDetailsHero from "../../../components/CourseDetailsHero/CourseDetailsHero.jsx"; // The new hero
-import Button from "../../../components/Button/Button";
+// Import Components
+import CourseHero from "../../../components/CourseDetailsHero/CourseDetailsHero.jsx"; // The new hero
 import ClassesVideoCard from "../../../components/ClassesVideoCard/ClassesVideoCard";
 import AuthorCard from "../../../components/AuthorCard/AuthorCard";
 import TakeTestCard from "../../../components/TakeTestCard/TakeTestCard";
 import PricingTabContent from "../../Ebooks/BookDetailPage/PricingTabContent/PricingTabContent";
+import Button from "../../../components/Button/Button";
 
 export default function CourseDescriptionPage() {
   const { category, subcategory, courseId, tab } = useParams();
@@ -31,9 +26,6 @@ export default function CourseDescriptionPage() {
     const catKey = String(category).toLowerCase();
     const subKey = String(subcategory).toLowerCase();
 
-    const categoryInfo = ONLINE_COURSES_CATEGORIES.find(
-      (c) => c.key === catKey
-    );
     const subcategoryInfo = (ONLINE_COURSES_SUBCATEGORIES[catKey] || []).find(
       (s) => s.id === subKey
     );
@@ -107,11 +99,15 @@ export default function CourseDescriptionPage() {
           <img src="/images/pdf-icon.png" alt="PDF" />
         </div>
         <div className={styles.pdfMeta}>
-          <div className={styles.pdfTitle}>IAS GS Foundation Structure.pdf</div>
+          <div className={styles.pdfTitle}>
+            {courseData?.structurePdf?.title}
+          </div>
           <div className={styles.pdfActions}>
             <Button
               label="Download"
-              onClick={() => window.open(courseData?.pdfStructureUrl || "#")}
+              onClick={() =>
+                window.open(courseData?.structurePdf?.url, "_blank")
+              }
               className={styles.smallDownload}
             />
           </div>
@@ -148,11 +144,10 @@ export default function CourseDescriptionPage() {
       <div className={styles.tutorsGrid}>
         {(courseData?.tutors || []).map((tutor) => (
           <AuthorCard
-            key={tutor.name}
+            key={tutor.id}
+            avatarSrc={tutor.img}
             name={tutor.name}
-            qualification="" // Your data doesn't have this, so it's empty
-            language={tutor.language}
-            imageUrl={tutor.imageUrl}
+            title={tutor.title}
           />
         ))}
       </div>
@@ -193,7 +188,7 @@ export default function CourseDescriptionPage() {
               <div className={styles.pdfActions}>
                 <Button
                   label="Download"
-                  onClick={() => window.open(note.pdfUrl || "#")}
+                  onClick={() => window.open(note.pdfUrl, "_blank")}
                   className={styles.smallDownload}
                 />
               </div>
@@ -222,8 +217,8 @@ export default function CourseDescriptionPage() {
     { id: "description", label: "Description" },
     { id: "classes", label: "Classes" },
     { id: "tutors", label: "Tutors" },
-    { id: "testseries", label: "Test Series" },
-    { id: "studynotes", label: "Study Notes" },
+    { id: "test-series", label: "Test Series" },
+    { id: "study-notes", label: "Study Notes" },
     { id: "pricing", label: "Pricing" },
   ];
 
@@ -241,7 +236,7 @@ export default function CourseDescriptionPage() {
   return (
     <div className={styles.pageWrapper}>
       {/* 1. Render the new Hero component */}
-      <CourseDetailsHero courseData={courseData} onBuyNow={handleBuyNow} />
+      <CourseHero courseData={courseData} onBuyNow={handleBuyNow} />
 
       {/* 2. Render the tabs and content */}
       <main className={styles.contentArea}>
@@ -267,8 +262,8 @@ export default function CourseDescriptionPage() {
           {activeTab === "description" && descriptionContent}
           {activeTab === "classes" && classesContent}
           {activeTab === "tutors" && tutorsContent}
-          {activeTab === "testseries" && testSeriesContent}
-          {activeTab === "studynotes" && studyNotesContent}
+          {activeTab === "test-series" && testSeriesContent}
+          {activeTab === "study-notes" && studyNotesContent}
           {activeTab === "pricing" && pricingContent}
         </div>
       </main>
