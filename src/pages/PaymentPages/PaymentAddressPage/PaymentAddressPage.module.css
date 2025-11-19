@@ -1,55 +1,297 @@
-/* ✅ FIX: Path updated to ../PaymentPage.module.css */
-/* @import url("../PaymentPage.module.css"); */
+/* Reuse layout styles for consistency */
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(90deg, #fff6e8 0%, #ffffff 50%, #fff6e8 100%);
+  font-family: "Inter", sans-serif;
+  padding-bottom: 60px;
+}
 
-/* Specific styles for the Address Form */
+.headerSection {
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 0 10px 0;
+}
+
+.contentContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --- Left Card: Form --- */
+.formCard {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  flex: 1;
+  min-width: 350px;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
 .addressForm {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* Space between form fields */
+  gap: 20px;
 }
 
-.formRow {
+/* Form Grid System */
+.formGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  gap: 20px;
 }
 
-/* Styles for the <select> dropdown */
-.inputGroup {
+.formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
-.inputLabel {
-  font-size: 0.9rem;
+/* Full width for Address textarea */
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formGroup label {
+  font-size: 14px;
   font-weight: 500;
   color: #333;
 }
 
-.selectInput {
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.required {
+  color: #ff4d4f;
+}
+
+/* --- Input Wrapper & Styling --- */
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
   background-color: #fff;
-  font-family: "Poppins", sans-serif;
-  appearance: none;
-  /* background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); */
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1em;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
 }
 
-.selectInput:focus {
+.inputWrapper:focus-within {
+  border-color: var(--Primary_Color, #007bff);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  position: absolute;
+  left: 14px;
+  color: #888;
+  pointer-events: none;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 14px 14px 14px 45px;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  color: #333;
+  border-radius: 8px;
   outline: none;
-  border-color: var(--Primary_Color, #1f4d9d);
-  box-shadow: 0 0 0 2px rgba(31, 77, 157, 0.2);
+  font-family: inherit;
 }
 
-/* Responsive adjustment for the form row */
-@media (max-width: 600px) {
-  .formRow {
-    grid-template-columns: 1fr; /* Stack pincode/city */
+.textareaWrapper {
+  align-items: flex-start;
+}
+
+.textareaWrapper .icon {
+  top: 14px;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.select {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Checkbox Section */
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.checkboxGroup input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--Primary_Color, #007bff);
+}
+
+.checkboxGroup label {
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+/* --- Action Buttons (Reset & Save) --- */
+.actionButtons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 25px;
+  border: 1px solid #ddd;
+  background-color: white;
+  color: #555;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.resetButton:hover {
+  background-color: #f5f5f5;
+  border-color: #ccc;
+  color: #333;
+}
+
+/* Target the Save button component */
+.saveButton {
+  flex: 2; /* Make Save button larger/wider than reset */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--Primary_Color, #007bff);
+  color: white;
+  font-weight: 600;
+  border-radius: 6px;
+  height: 100%;
+}
+
+/* --- Right Card: Order Summary --- */
+.summaryCard {
+  background-color: #e6f6fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 25px 30px;
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+.summaryTitle {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--Primary_Color, #007bff);
+  margin-bottom: 20px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 15px;
+  color: #333;
+}
+
+.summaryLabel {
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 400;
+}
+
+.summaryValue {
+  color: rgba(0, 0, 0, 0.9);
+  font-weight: 600;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #cceff5;
+  margin: 10px 0 20px 0;
+  width: 100%;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px; /* Increased spacing for button */
+  font-size: 18px;
+}
+
+.totalLabel {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--Primary_Color, #007bff);
+}
+
+.totalValue {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--Primary_Color, #007bff);
+}
+
+/* Proceed Button on Right Side */
+.proceedButton {
+  width: 100%;
+  background-color: var(--Primary_Color, #007bff);
+  color: white;
+  font-weight: 600;
+  padding: 14px;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-top: auto; /* Push to bottom if card stretches */
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+  .contentContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formCard,
+  .summaryCard {
+    max-width: 100%;
   }
 }

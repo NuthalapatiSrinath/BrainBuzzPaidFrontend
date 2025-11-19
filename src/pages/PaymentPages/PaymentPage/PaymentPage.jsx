@@ -3,45 +3,41 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./PaymentPage.module.css";
 
-// ✅ Corrected imports with ../../../ path
+// Imports
 import BUY_NOW_DATA from "../../../data/buyNowData.js";
-import Button from "../../../components/Button/Button";
 import { openModal } from "../../../redux/slices/modalSlice";
-
-// ✅ Icon for the placeholder image
-import { FaBookOpen } from "react-icons/fa";
+import Button from "../../../components/Button/Button";
+import QuizButton from "../../../components/QuizButton/QuizButton";
 
 export default function PaymentPage() {
   const { buyNowId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Get auth state from Redux to check for login
+  // Get auth state
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  // Get product data from buyNowData.js
+  // Get product data
   const productData = useMemo(() => {
     return BUY_NOW_DATA[buyNowId];
   }, [buyNowId]);
 
-  // ✅ Logic for the "Proceed" button
+  // Logic for the "Proceed" button
   const handleProceed = () => {
-    // Check if user is logged in
     if (!isAuthenticated) {
       console.log("User not logged in, opening login modal.");
-      dispatch(openModal({ type: "login" })); // Dispatches modal open
+      dispatch(openModal({ type: "login" }));
     } else {
-      // User is logged in, proceed to next step (Address)
       console.log("User logged in, proceeding to Address step.");
-      navigate(`/payment-address/${buyNowId}`); // Navigates to next page
+      navigate(`/payment-address/${buyNowId}`);
     }
   };
 
-  // Fallback if productData isn't found
+  // Fallback
   if (!productData) {
     return (
       <div className={styles.pageWrapper}>
-        <div className={styles.container}>
+        <div className={styles.errorContainer}>
           <h2>Product not found</h2>
           <p>The product you are trying to buy is not available.</p>
           <Button label="Go Home" onClick={() => navigate("/")} />
@@ -50,55 +46,77 @@ export default function PaymentPage() {
     );
   }
 
-  // ✅ UI now matches the new image exactly
   return (
     <div className={styles.pageWrapper}>
-      <div className={styles.container}>
-        <div className={styles.gridContainer}>
-          {/* --- Left Column: Product Details --- */}
-          <div className={styles.productColumn}>
-            <div className={styles.productCard}>
-              <div className={styles.productImage}>
-                <FaBookOpen size={60} />
-              </div>
-              <div className={styles.productInfo}>
-                <h1 className={styles.productTitle}>{productData.title}</h1>
-                <p className={styles.productDesc}>{productData.description}</p>
-              </div>
-            </div>
+      {/* Header Section */}
+      <div className={styles.headerSection}>
+        {/* <h2 className={styles.pageHeading}>Payment</h2> */}
+      </div>
+
+      <div className={styles.contentContainer}>
+        {/* --- Left Card: Course Details --- */}
+        <div className={styles.detailsCard}>
+          <h1 className={styles.courseTitle}>{productData.title}</h1>
+
+          {/* Tags Section using QuizButton */}
+          <div className={styles.tagsWrapper}>
+            <QuizButton
+              label="English"
+              active={true}
+              className={styles.activeQuizBtn}
+            />
+            <QuizButton label="3 Months Validity" active={false} />
           </div>
 
-          {/* --- Right Column: Order Summary --- */}
-          <div className={styles.summaryColumn}>
-            <div className={styles.summaryCard}>
-              <h2 className={styles.cardTitle}>Order Summary</h2>
+          {/* Description */}
+          <p className={styles.courseDescription}>
+            {productData.description ||
+              "This course is designed to help aspirants systematically prepare for competitive exams with expert guidance, structured study material and proven strategies. Covering all key subjects, concepts, and problem-solving."}
+          </p>
 
-              <div className={styles.cardContent}>
-                <div className={styles.priceRow}>
-                  <span>Total Items</span>
-                  <span>1</span>
-                </div>
-                <div className={styles.priceRow}>
-                  <span>Total MRP</span>
-                  <span>{productData.price}</span>
-                </div>
-                <div className={styles.priceRow}>
-                  <span>Coupon Discount</span>
-                  <span className={styles.discount}>- Rs. 0</span>
-                </div>
+          {/* Price Block */}
+          <div className={styles.priceBlock}>
+            <span className={styles.currentPrice}>{productData.price}</span>
+            {/* Placeholder for original price styling */}
+            <span className={styles.originalPrice}>Rs. 9999</span>
+            <span className={styles.discount}> (10% off)</span>
+            <button className={styles.applyCouponLink}>Apply Coupon</button>
+          </div>
+        </div>
 
-                <div className={styles.priceRowTotal}>
-                  <strong>Total Amount</strong>
-                  <strong>{productData.price}</strong>
-                </div>
+        {/* --- Right Card: Order Summary --- */}
+        <div className={styles.summaryCard}>
+          <h3 className={styles.summaryTitle}>Order Summary</h3>
 
-                <Button
-                  label="Proceed"
-                  onClick={handleProceed}
-                  className={styles.proceedButton}
-                />
-              </div>
-            </div>
+          <div className={styles.summaryRow}>
+            <span className={styles.summaryLabel}>Total items</span>
+            <span className={styles.summaryValue}>01</span>
+          </div>
+
+          <div className={styles.summaryRow}>
+            <span className={styles.summaryLabel}>Total MRP</span>
+            <span className={styles.summaryValue}>{productData.price}</span>
+          </div>
+
+          <div className={styles.summaryRow}>
+            <span className={styles.summaryLabel}>Coupon Discount</span>
+            <span className={styles.summaryValue}>0</span>
+          </div>
+
+          <div className={styles.divider}></div>
+
+          <div className={styles.totalRow}>
+            <span className={styles.totalLabel}>Total Amount</span>
+            <span className={styles.totalValue}>{productData.price}</span>
+          </div>
+
+          {/* Using the Button Component */}
+          <div className={styles.btnWrapper}>
+            <Button
+              label="Proceed"
+              onClick={handleProceed}
+              className={styles.fullWidthBtn}
+            />
           </div>
         </div>
       </div>

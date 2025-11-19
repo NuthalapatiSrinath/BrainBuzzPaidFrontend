@@ -1,12 +1,8 @@
-/*
- * Styles for MyCoursesSection
- * Uses variables from your global index.css
- */
-
+/* --- Global Section/Page Styling --- */
 .section {
-  width: 100%;
-  padding: 4rem 2rem; /* Vertical and horizontal padding */
-  /* background-color: var(--White_Color, #fff); */
+  padding: 40px 20px;
+  background-color: #f8f9fa; /* Light background for the page */
+  min-height: 100vh;
 }
 
 .container {
@@ -14,92 +10,167 @@
   margin: 0 auto;
 }
 
-/* === Heading Styles (Copied from CategoryHomeSection for consistency) === */
+/* --- Heading --- */
 .headingWrapper {
-  margin-bottom: 2.5rem;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .headingline {
   display: flex;
-  align-items: center; /* Vertically aligns the text and the line */
-  gap: 1rem; /* Adds space between "My Courses" and the line */
+  flex-direction: column;
+  align-items: center;
 }
 
 .heading {
-  font-size: 22px;
-  color: var(--Primary_Color, #1f4d9d);
-  font-weight: 600;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
   margin: 0;
-  white-space: nowrap; /* Prevents "My Courses" from wrapping */
 }
 
 .headingUnderline {
-  height: 4px;
   width: 80px;
-  background: var(--Primary_Color, #1f4d9d);
+  height: 4px;
+  background-color: var(--Primary_Color, #007bff);
+  margin-top: 5px;
   border-radius: 2px;
 }
 
-/* Subtitle style adjusted to match the gray text in the image */
 .subtitle {
-  color: var(--Black_Color);
-  font-weight: 500;
-  margin: 12px 0 24px 0;
-  font-size: var(--Font_Size_6, 17px);
-  line-height: 1.6;
-  /* max-width: 700px; */
+  font-size: 16px;
+  color: #666;
+  margin-top: 10px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* === Grid Styles === */
+/* --- Course Grid --- */
 .gridContainer {
   display: grid;
-  grid-template-columns: 1fr; /* 1 column by default (mobile-first) */
-  gap: 1.5rem; /* Space between cards */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
 }
 
-/* === Responsive Design === */
-@media (min-width: 640px) {
-  /* On small tablets, go to 2 columns */
-  .gridContainer {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* Active state for CourseCard to visually indicate selection */
+.activeCard {
+  /* Assuming CourseCard has box-shadow/border to override */
+  border: 3px solid var(--Primary_Color, #007bff) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 123, 255, 0.2);
 }
 
-@media (min-width: 1024px) {
-  /* On large tablets/small desktops, go to 3 columns */
-  .gridContainer {
-    grid-template-columns: repeat(3, 1fr);
-  }
+/* --- Details Section (New) --- */
+.detailsContainer {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  margin-top: 30px;
 }
 
-@media (min-width: 1280px) {
-  /* On large desktops, go to 4 columns */
-  .gridContainer {
-    grid-template-columns: repeat(4, 1fr);
-  }
+.detailsHeader {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
 }
 
-@media (max-width: 767px) {
-  /* This rule is fine, but the 1fr default above already covers it */
+/* --- Pills Wrapper --- */
+.pillsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.pillItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  background-color: #f5f5f5;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pillItem:hover {
+  background-color: #e0e0e0;
+}
+
+.activePill {
+  border-color: var(--Primary_Color, #007bff);
+  background-color: var(--Primary_Color, #007bff);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.activePill svg {
+  color: white; /* Ensure icon is white in active state */
+}
+
+/* --- Pill Content Area --- */
+.pillContentArea {
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.contentDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contentStat {
+  font-size: 16px;
+  color: #333;
+}
+
+.contentDescription {
+  font-size: 14px;
+  color: #666;
+}
+
+.emptyState {
+  text-align: center;
+  color: #999;
+  padding: 30px;
+}
+
+.viewContentBtn {
+  display: flex; /* For icon alignment */
+  align-items: center;
+  gap: 8px;
+  background-color: #28a745; /* Green button for action */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: fit-content;
+}
+
+.viewContentBtn:hover {
+  background-color: #218838;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
   .gridContainer {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .section {
-    padding: 2.5rem 1rem;
-  }
-
-  .headingline {
-    gap: 0.5rem; /* Reduce gap on mobile */
-  }
-
-  .heading {
-    font-size: 20px; /* Slightly smaller heading on mobile */
-  }
-
-  .subtitle {
-    font-size: var(--Font_Size_2, 15px);
   }
 }

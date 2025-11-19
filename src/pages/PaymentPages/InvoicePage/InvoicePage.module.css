@@ -1,0 +1,265 @@
+.pageBackground {
+  background-color: #525659; /* Dark grey background like PDF viewers */
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+}
+
+/* Toolbar */
+.toolbar {
+  width: 100%;
+  max-width: 210mm; /* A4 width */
+  display: flex;
+  justify-content: flex-end; /* Align items to the right */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.actionGroup {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.downloadBtn {
+  /* background-color: #007bff; */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  /* Ensure it stands out */
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Invoice Paper - A4 Dimensions */
+.invoicePaper {
+  background-color: white;
+  width: 100%;
+  max-width: 210mm;
+  min-height: 297mm; /* A4 Height */
+  padding: 20mm; /* Standard print margin */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  color: #333;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 800;
+  color: #007bff;
+  margin: 0 0 10px 0;
+}
+
+.companyAddress {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.invoiceTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  text-align: right;
+  margin: 0 0 15px 0;
+  letter-spacing: 1px;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.metaLabel {
+  color: #777;
+  font-weight: 500;
+}
+
+.metaValue {
+  font-weight: 600;
+  min-width: 100px;
+  text-align: right;
+}
+
+.paid {
+  color: #28a745;
+  font-weight: 800;
+  border: 1px solid #28a745;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Address Section */
+.addressSection {
+  margin-bottom: 40px;
+}
+
+.billTo h3 {
+  font-size: 16px;
+  color: #007bff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.billTo p {
+  font-size: 14px;
+  margin: 3px 0;
+  line-height: 1.4;
+}
+
+.customerName {
+  font-weight: 700;
+  font-size: 16px;
+  color: #1a1a1a;
+}
+
+/* Table */
+.itemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.itemsTable th {
+  background-color: #f8f9fa;
+  color: #1a1a1a;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+
+.itemsTable td {
+  padding: 15px 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.descCol {
+  width: 50%;
+}
+
+.itemSubtext {
+  font-size: 12px;
+  color: #888;
+  margin: 4px 0 0 0;
+}
+
+.centerCol {
+  text-align: center;
+}
+
+.rightCol {
+  text-align: right;
+}
+
+/* Summary */
+.summarySection {
+  width: 50%;
+  margin-left: auto;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.grandTotal {
+  font-size: 18px;
+  font-weight: 700;
+  color: #007bff;
+  border-top: 2px solid #007bff;
+  padding-top: 15px;
+  margin-top: 10px;
+}
+
+/* Footer */
+.footer {
+  position: absolute;
+  bottom: 20mm;
+  left: 20mm;
+  right: 20mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.terms h4 {
+  font-size: 14px;
+  margin: 0 0 5px 0;
+}
+
+.terms p {
+  font-size: 11px;
+  color: #777;
+  margin: 2px 0;
+}
+
+.signature {
+  text-align: center;
+}
+
+.signature p {
+  font-size: 12px;
+  margin-bottom: 40px;
+  color: #555;
+}
+
+.signBox {
+  font-family: cursive; /* Simple simulation of signature */
+  font-size: 18px;
+  color: #333;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .invoicePaper {
+    padding: 20px;
+    height: auto;
+    min-height: auto;
+  }
+
+  .summarySection {
+    width: 100%;
+  }
+
+  .footer {
+    position: relative;
+    flex-direction: column;
+    gap: 30px;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    align-items: flex-start;
+    margin-top: 40px;
+  }
+
+  .toolbar {
+    justify-content: center;
+  }
+}

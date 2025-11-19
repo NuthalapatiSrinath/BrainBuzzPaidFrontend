@@ -1,121 +1,220 @@
-/* General Layout */
+/* Page Layout */
 .pageWrapper {
-  background-color: #f4f7fa; /* Light grey background from image */
-  min-height: 100vh;
-  padding: 40px 20px;
-}
-
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.gridContainer {
-  display: grid;
-  grid-template-columns: 1fr; /* Single column for mobile */
-  gap: 30px;
-}
-
-/* Desktop layout from image */
-@media (min-width: 992px) {
-  .gridContainer {
-    /* Left column is wider (product) */
-    grid-template-columns: 2fr 1fr;
-  }
-}
-
-/* --- Left Column: Product Details --- */
-.productCard {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e0e0e0;
-  padding: 24px;
-}
-
-.productImage {
-  width: 100%;
-  height: 250px;
-  background-color: #f0f0f0; /* Placeholder grey */
-  border-radius: 6px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #b0b0b0;
-  margin-bottom: 24px;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(90deg, #fff6e8 0%, #ffffff 50%, #fff6e8 100%);
+  font-family: "Inter", sans-serif;
+  padding-bottom: 60px;
 }
 
-.productTitle {
-  font-size: 1.75rem;
+.headerSection {
+  width: 100%;
+  /* Aligns with content width */
+  margin: 0 auto;
+  padding: 30px 0 10px 0;
+}
+
+.pageHeading {
+  font-size: 24px;
   font-weight: 700;
-  color: #222;
-  margin: 0 0 12px 0;
-  line-height: 1.3;
-}
-
-.productDesc {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.6;
-}
-
-/* --- Right Column: Order Summary --- */
-.summaryCard {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e0e0e0;
-  /* This makes the card "stick" on the side when scrolling on desktop */
-  position: sticky;
-  top: 100px;
-}
-
-.cardTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  padding: 20px 24px;
-  border-bottom: 1px solid #f0f0f0;
+  color: #333;
   margin: 0;
+  padding-left: 10px;
+}
+
+.contentContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --- Left Card: Course Details --- */
+.detailsCard {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  flex: 1; /* Takes up available space */
+  min-width: 350px;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+}
+
+.courseTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.tagsWrapper {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+/* Helper to target the quiz buttons if they don't have internal spacing */
+.tagsWrapper > * {
+  font-size: 14px;
+  padding: 8px 16px;
+  min-width: 100px;
+}
+
+.courseDescription {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.currentPrice {
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--Black_Color);
+}
+
+.originalPrice {
+  font-size: var(--Font_Size_6);
+  color: var(--Black_Color);
+  text-decoration: line-through;
+}
+.discount {
+  font-size: var(--Font_Size_7);
+  color: var(--Black_Color);
+}
+.applyCouponLink {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--Primary_Color);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.applyCouponLink:hover {
+  text-decoration: underline;
+}
+
+/* --- Right Card: Order Summary --- */
+.summaryCard {
+  background-color: #e6f6fa; /* Light blue/cyan tint exactly as in image */
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 25px 30px;
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryTitle {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--Primary_Color);
+  margin-bottom: 20px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 15px;
   color: #333;
 }
 
-.cardContent {
-  padding: 24px;
+.summaryLabel {
+  color: rgba(0, 0, 0, 0.4);
+  font-weight: 400;
 }
 
-.priceRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1rem;
-  color: #444;
-  margin-bottom: 18px;
-}
-
-.discount {
-  color: #28a745; /* Green color for discount */
-  font-weight: 500;
-}
-
-.priceRowTotal {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.15rem;
-  border-top: 1px dashed #ccc;
-  padding-top: 20px;
-  margin-top: 10px;
-}
-
-.priceRowTotal strong {
-  color: #222;
-  font-weight: 700;
-}
-
-.proceedButton {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
+.summaryValue {
+  color: rgba(0, 0, 0, 0.8);
   font-weight: 600;
-  margin-top: 20px;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #cceff5; /* Slightly darker than bg */
+  margin: 10px 0 20px 0;
+  width: 100%;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  font-size: 18px;
+}
+
+.totalLabel {
+  font-size: var(--Font_Size_6);
+  font-weight: 500;
+  color: var(--Primary_Color);
+}
+
+.totalValue {
+  font-size: var(--Font_Size_6);
+  font-weight: 500;
+  color: var(--Primary_Color);
+}
+
+/* Wrapper to help style the imported Button component */
+.btnWrapper {
+  width: 100%;
+}
+
+/* Force the imported Button to be full width if it isn't already */
+.fullWidthBtn {
+  width: 100% !important;
+  display: block;
+  /* background-color: #007bff; */
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+/* Error/Fallback Styling */
+.errorContainer {
+  text-align: center;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  .contentContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .detailsCard,
+  .summaryCard {
+    max-width: 100%;
+  }
+
+  .headerSection {
+    padding-left: 20px;
+  }
 }

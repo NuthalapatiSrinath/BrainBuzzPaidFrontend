@@ -1,220 +1,321 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styles from "./PaymentAddressPage.module.css";
-// ✅ FIX: Path updated to ../../../../
+
+// Icons
+import {
+  User,
+  Phone,
+  Mail,
+  MapPin,
+  Navigation,
+  Home,
+  RotateCcw,
+  Save,
+} from "lucide-react";
+
+// Imports
 import BUY_NOW_DATA from "../../../data/buyNowData.js";
 import Button from "../../../components/Button/Button";
-import Input from "../../../components/Input/Input";
-import { FaUserCircle, FaMapMarkerAlt, FaCreditCard } from "react-icons/fa";
-
-// Data for the State dropdown
-const states = [
-  "Andhra Pradesh",
-  "Telangana",
-  "Karnataka",
-  "Tamil Nadu",
-  "Maharashtra",
-  "Delhi",
-  "Other",
-];
 
 export default function PaymentAddressPage() {
   const { buyNowId } = useParams();
   const navigate = useNavigate();
 
-  // Get auth state from Redux
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  // Auth state
+  const { user } = useSelector((state) => state.auth);
+
+  // Initial State Definition
+  const initialState = {
+    fullName: "",
+    mobileNumber: "",
+    email: "",
+    state: "",
+    city: "",
+    pincode: "",
+    address: "",
+    isDefault: false,
+  };
+
+  const [formData, setFormData] = useState(initialState);
+
+  // Pre-fill data when user is available
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: user.name || "",
+        mobileNumber: user.phone || "",
+        email: user.email || "",
+      }));
+    }
+  }, [user]);
 
   // Get product data
   const productData = useMemo(() => {
     return BUY_NOW_DATA[buyNowId];
   }, [buyNowId]);
 
-  // Form state, pre-filled with user data
-  const [addressInfo, setAddressInfo] = useState({
-    fullName: user?.name || "",
-    mobile: user?.phone || "",
-    address: "",
-    landmark: "",
-    pincode: "",
-    city: "",
-    state: "Telangana", // Default state
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setAddressInfo((prev) => ({ ...prev, [name]: value }));
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
-  const handleProceedToPayment = () => {
-    // In a real app, you would save this address
-    console.log("Address Data:", addressInfo);
-    // ✅ UPDATED: Navigate to the new checkout page
-    navigate(`/payment-checkout/${buyNowId}`);
+  // Reset Form Logic
+  const handleReset = () => {
+    setFormData(initialState);
   };
 
-  if (!isAuthenticated) {
-    // This page should not be reachable if not logged in
-    // Redirect back to the login step
-    navigate(`/buy-now/${buyNowId}`);
-    return null;
-  }
+  // Save Address Logic
+  const handleSave = (e) => {
+    e.preventDefault();
+    console.log("Address Saved:", formData);
+    alert("Address Saved Successfully!");
+    // Add backend save logic here
+  };
 
+  // Proceed Logic (Navigation)
+  const handleProceed = () => {
+    // Validation can be added here
+    if (!formData.fullName || !formData.mobileNumber) {
+      alert("Please fill in the required details");
+      return;
+    }
+    console.log("Proceeding to payment method selection...");
+    // ✅ Navigate to Payment Method Page
+    navigate(`/payment-method/${buyNowId}`);
+  };
+
+  // Fallback if no product
   if (!productData) {
-    return (
-      <div className={styles.pageWrapper}>
-        <div className={styles.container}>
-          <h2>Product not found</h2>
-          <Button label="Go Home" onClick={() => navigate("/")} />
-        </div>
-      </div>
-    );
+    return <div className={styles.error}>Product not found</div>;
   }
 
   return (
     <div className={styles.pageWrapper}>
-      <div className={styles.container}>
-        <h1 className={styles.mainHeader}>Secure payment</h1>
+      <div className={styles.headerSection}></div>
 
-        <div className={styles.gridContainer}>
-          {/* --- Left Column: Order Details --- */}
-          <div className={styles.summaryColumn}>
-            <div className={styles.summaryCard}>
-              <h2 className={styles.cardTitle}>Order Details</h2>
+      <div className={styles.contentContainer}>
+        {/* --- Left Card: Billing Address Form --- */}
+        <div className={styles.formCard}>
+          <h2 className={styles.cardTitle}>Billing Address</h2>
 
-              <div className={styles.productDetails}>
-                <h3 className={styles.productTitle}>{productData.title}</h3>
-                <p className={styles.productDesc}>{productData.description}</p>
-              </div>
-
-              <div className={styles.priceDetails}>
-                <h3 className={styles.priceTitle}>Price Details</h3>
-                <div className={styles.priceRow}>
-                  <span>Price</span>
-                  <span>{productData.price}</span>
-                </div>
-                <div className={styles.priceRow}>
-                  <span>Discount</span>
-                  <span className={styles.discount}>- Rs. 0</span>
-                </div>
-                <div className={styles.priceRowTotal}>
-                  <span>Total Amount</span>
-                  <span>{productData.price}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* --- Right Column: Payment Steps --- */}
-          <div className={styles.paymentColumn}>
-            {/* Stepper (Step 2 Active) */}
-            <div className={styles.stepper}>
-              <div className={`${styles.stepItem} ${styles.activeStep}`}>
-                <span className={styles.stepIcon}>
-                  <FaUserCircle />
-                </span>
-                <span className={styles.stepLabel}>Account</span>
-              </div>
-              <div className={styles.stepConnector}></div>
-              <div className={`${styles.stepItem} ${styles.activeStep}`}>
-                <span className={styles.stepIcon}>
-                  <FaMapMarkerAlt />
-                </span>
-                <span className={styles.stepLabel}>Address</span>
-              </div>
-              <div className={styles.stepConnector}></div>
-              <div className={styles.stepItem}>
-                <span className={styles.stepIcon}>
-                  <FaCreditCard />
-                </span>
-                <span className={styles.stepLabel}>Payment</span>
-              </div>
-            </div>
-
-            {/* Step Content: Address Form */}
-            <div className={styles.stepContent}>
-              <h3 className={styles.stepTitle}>+ Add New Address</h3>
-
-              <form
-                className={styles.addressForm}
-                onSubmit={(e) => e.preventDefault()}
-              >
-                <Input
-                  label="Full Name"
-                  name="fullName"
-                  value={addressInfo.fullName}
-                  onChange={handleInputChange}
-                  placeholder="Enter your full name"
-                />
-                <Input
-                  label="Mobile Number"
-                  name="mobile"
-                  value={addressInfo.mobile}
-                  onChange={handleInputChange}
-                  placeholder="Enter your mobile number"
-                  type="tel"
-                />
-                <Input
-                  label="Address (House No, Building, Street, Area)"
-                  name="address"
-                  value={addressInfo.address}
-                  onChange={handleInputChange}
-                  placeholder="Enter your address"
-                />
-                <Input
-                  label="Landmark"
-                  name="landmark"
-                  value={addressInfo.landmark}
-                  onChange={handleInputChange}
-                  placeholder="E.g. Near BrainBuzz Office"
-                />
-                <div className={styles.formRow}>
-                  <Input
-                    label="Pincode"
-                    name="pincode"
-                    value={addressInfo.pincode}
-                    onChange={handleInputChange}
-                    placeholder="Enter pincode"
-                    type="number"
-                  />
-                  <Input
-                    label="City"
-                    name="city"
-                    value={addressInfo.city}
-                    onChange={handleInputChange}
-                    placeholder="Enter city"
+          <form className={styles.addressForm} onSubmit={handleSave}>
+            <div className={styles.formGrid}>
+              {/* Full Name */}
+              <div className={styles.formGroup}>
+                <label>
+                  Full Name <span className={styles.required}>*</span>
+                </label>
+                <div className={styles.inputWrapper}>
+                  <User className={styles.icon} size={18} />
+                  <input
+                    type="text"
+                    name="fullName"
+                    placeholder="Enter Name"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
                   />
                 </div>
+              </div>
 
-                {/* State Dropdown */}
-                <div className={styles.inputGroup}>
-                  <label htmlFor="state" className={styles.inputLabel}>
-                    State
-                  </label>
+              {/* Mobile Number */}
+              <div className={styles.formGroup}>
+                <label>
+                  Mobile Number <span className={styles.required}>*</span>
+                </label>
+                <div className={styles.inputWrapper}>
+                  <Phone className={styles.icon} size={18} />
+                  <input
+                    type="tel"
+                    name="mobileNumber"
+                    placeholder="Enter Number"
+                    value={formData.mobileNumber}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                  />
+                </div>
+              </div>
+
+              {/* Email Address */}
+              <div className={styles.formGroup}>
+                <label>
+                  Email Address <span className={styles.required}>*</span>
+                </label>
+                <div className={styles.inputWrapper}>
+                  <Mail className={styles.icon} size={18} />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                  />
+                </div>
+              </div>
+
+              {/* State */}
+              <div className={styles.formGroup}>
+                <label>
+                  State <span className={styles.required}>*</span>
+                </label>
+                <div className={styles.inputWrapper}>
+                  <MapPin className={styles.icon} size={18} />
                   <select
-                    id="state"
                     name="state"
-                    className={styles.selectInput}
-                    value={addressInfo.state}
-                    onChange={handleInputChange}
+                    value={formData.state}
+                    onChange={handleChange}
+                    required
+                    className={styles.select}
                   >
-                    {states.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
+                    <option value="" disabled>
+                      Select State
+                    </option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Karnataka">Karnataka</option>
                   </select>
                 </div>
+              </div>
 
-                <Button
-                  label="Proceed to Pay"
-                  onClick={handleProceedToPayment}
-                  className={styles.proceedButton}
-                />
-              </form>
+              {/* City */}
+              <div className={styles.formGroup}>
+                <label>
+                  City <span className={styles.required}>*</span>
+                </label>
+                <div className={styles.inputWrapper}>
+                  <Navigation className={styles.icon} size={18} />
+                  <input
+                    type="text"
+                    name="city"
+                    placeholder="Enter City"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                  />
+                </div>
+              </div>
+
+              {/* Pincode */}
+              <div className={styles.formGroup}>
+                <label>
+                  Pincode <span className={styles.required}>*</span>
+                </label>
+                <div className={styles.inputWrapper}>
+                  <MapPin className={styles.icon} size={18} />
+                  <input
+                    type="text"
+                    name="pincode"
+                    placeholder="Enter Pincode"
+                    value={formData.pincode}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                  />
+                </div>
+              </div>
+
+              {/* Address (Full Width) */}
+              <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+                <label>
+                  Address (Area and Street){" "}
+                  <span className={styles.required}>*</span>
+                </label>
+                <div
+                  className={`${styles.inputWrapper} ${styles.textareaWrapper}`}
+                >
+                  <Home className={styles.icon} size={18} />
+                  <textarea
+                    name="address"
+                    placeholder="Enter full address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                    className={styles.textarea}
+                    rows="3"
+                  ></textarea>
+                </div>
+              </div>
             </div>
+
+            {/* Checkbox */}
+            <div className={styles.checkboxGroup}>
+              <input
+                type="checkbox"
+                id="defaultAddress"
+                name="isDefault"
+                checked={formData.isDefault}
+                onChange={handleChange}
+              />
+              <label htmlFor="defaultAddress">
+                Make this my default address
+              </label>
+            </div>
+
+            {/* Action Buttons: Reset & Save (Left Side) */}
+            <div className={styles.actionButtons}>
+              <button
+                type="button"
+                className={styles.resetButton}
+                onClick={handleReset}
+              >
+                <RotateCcw size={16} /> Reset
+              </button>
+              <Button
+                label={
+                  <>
+                    <Save size={16} /> Save
+                  </>
+                }
+                type="submit"
+                className={styles.saveButton}
+              />
+            </div>
+          </form>
+        </div>
+
+        {/* --- Right Card: Order Summary --- */}
+        <div className={styles.summaryCard}>
+          <h3 className={styles.summaryTitle}>Order Summary</h3>
+
+          <div className={styles.summaryRow}>
+            <span className={styles.summaryLabel}>Total items</span>
+            <span className={styles.summaryValue}>01</span>
           </div>
+
+          <div className={styles.summaryRow}>
+            <span className={styles.summaryLabel}>Total MRP</span>
+            <span className={styles.summaryValue}>{productData.price}</span>
+          </div>
+
+          <div className={styles.summaryRow}>
+            <span className={styles.summaryLabel}>Coupon Discount</span>
+            <span className={styles.summaryValue}>0</span>
+          </div>
+
+          <div className={styles.divider}></div>
+
+          <div className={styles.totalRow}>
+            <span className={styles.totalLabel}>Total Amount</span>
+            <span className={styles.totalValue}>{productData.price}</span>
+          </div>
+
+          {/* Proceed Button (Right Side) */}
+          <Button
+            label="Proceed To Payment"
+            onClick={handleProceed}
+            className={styles.proceedButton}
+          />
         </div>
       </div>
     </div>
