@@ -19,7 +19,7 @@ const profileCardData = [
   {
     label: "My E-books",
     imageSrc: "/images/aboutus/icons/question-paper.png",
-    to: "/ebooks",
+    to: "/myebooks",
     bgColor: "#e3f2fd",
   },
   {

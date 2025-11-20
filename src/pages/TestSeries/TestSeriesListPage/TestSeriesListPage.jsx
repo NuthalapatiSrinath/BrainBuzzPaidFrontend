@@ -4,6 +4,8 @@ import styles from "./TestSeriesListPage.module.css";
 
 // Import data
 import TEST_SERIES_LIST_DATA from "../../../data/testSeries.js";
+// 🎯 Import the utility for checking purchases
+import { purchasedTestSeries } from "../../../data/userTestSeries.js";
 
 // Import components
 import SearchBar from "../../../components/SearchBar/SearchBar";
@@ -18,9 +20,13 @@ export default function TestSeriesListPage() {
   const [search, setSearch] = useState("");
 
   // Get the correct data for this page based on the URL param
-  // Fallback to UPSC data if the category is not found
   const pageData = useMemo(() => {
     return TEST_SERIES_LIST_DATA[category] || TEST_SERIES_LIST_DATA.upsc;
+  }, [category]);
+
+  // 🎯 Determine if the ENTIRE test series package is purchased
+  const isPackagePurchased = useMemo(() => {
+    return purchasedTestSeries.includes(category);
   }, [category]);
 
   // Filter logic for the grid
@@ -34,35 +40,41 @@ export default function TestSeriesListPage() {
 
   // "View Description" on the card
   const handleViewDescription = (id) => {
-    console.log("View Description for:", id);
-    // ✅ NAVIGATE TO THE DESCRIPTION PAGE WITH THE "description" TAB
+    // NAVIGATE TO THE DESCRIPTION PAGE WITH THE "description" TAB
     navigate(`/test-series/${category}/${id}/description`);
   };
 
   // "View Tests" on the card
   const handleViewTests = (id) => {
-    console.log("View Tests for:", id);
-    // ✅ NAVIGATE TO THE DESCRIPTION PAGE WITH THE "tests" TAB
+    // NAVIGATE TO THE DESCRIPTION PAGE WITH THE "tests" TAB
     navigate(`/test-series/${category}/${id}/tests`);
   };
 
   // "Buy Now" button in the hero
   const handleHeroBuyNow = () => {
-    console.log("Hero Buy Now clicked for:", pageData.hero.buyNowId);
-    // This navigates to your "buy now" page
-    navigate(`/buy-now/${pageData.hero.buyNowId}`);
+    if (pageData.hero.buyNowId) {
+      // This navigates to your "buy now" page
+      navigate(`/buy-now/${pageData.hero.buyNowId}`);
+    } else {
+      console.error("Hero BuyNow ID not found.");
+    }
   };
 
-  // "Apply Coupon" button in the hero
+  // The Primary Action for the Hero: Buy Now or Start Test Series
+  const handleHeroPrimaryAction = isPackagePurchased
+    ? () => navigate(`/mytestseries`) // Example: Redirect to the user's main test series page/tab
+    : handleHeroBuyNow;
+
+  const heroButtonLabel = isPackagePurchased ? "Start Test Series" : "Buy Now";
+
   const handleApplyCoupon = () => {
     console.log("Apply Coupon clicked");
-    // This could open your login/coupon modal
     // dispatch(openModal({ type: "applyCoupon" }));
   };
 
   return (
     <div className={styles.pageWrapper}>
-      {/* === NEW HERO SECTION === */}
+      {/* === NEW HERO SECTION (Dynamic based on purchase status) === */}
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>
           <img
@@ -78,28 +90,46 @@ export default function TestSeriesListPage() {
               <span>1 Year Validity</span>
               <FaChevronDown className={styles.metaIcon} />
             </div>
-            <div className={styles.heroPrice}>
-              <span>Rs. {pageData.hero.price}</span>
-              <span className={styles.heroOriginalPrice}>
-                {pageData.hero.originalPrice}
-              </span>
-              <span className={styles.heroDiscount}>
-                {pageData.hero.discount}
-              </span>
-              <button
-                className={styles.couponButton}
-                onClick={handleApplyCoupon}
-              >
-                Apply Coupon
-              </button>
-            </div>
-            <div className={styles.heroActions}>
-              <Button
-                label="Buy Now"
-                onClick={handleHeroBuyNow}
-                className={styles.buyButton}
-              />
-            </div>
+
+            {/* 🎯 CONDITIONAL PRICING AND BUY NOW */}
+            {!isPackagePurchased && (
+              <>
+                <div className={styles.heroPrice}>
+                  <span>Rs. {pageData.hero.price}</span>
+                  <span className={styles.heroOriginalPrice}>
+                    {pageData.hero.originalPrice}
+                  </span>
+                  <span className={styles.heroDiscount}>
+                    {pageData.hero.discount}
+                  </span>
+                  <button
+                    className={styles.couponButton}
+                    onClick={handleApplyCoupon}
+                  >
+                    Apply Coupon
+                  </button>
+                </div>
+                <div className={styles.heroActions}>
+                  <Button
+                    label={heroButtonLabel}
+                    onClick={handleHeroPrimaryAction}
+                    className={styles.buyButton}
+                  />
+                </div>
+              </>
+            )}
+
+            {/* 🎯 CONDITIONAL START BUTTON IF PURCHASED */}
+            {isPackagePurchased && (
+              <div className={styles.heroActions}>
+                <Button
+                  label={heroButtonLabel} // "Start Test Series"
+                  variant="primary"
+                  onClick={handleHeroPrimaryAction}
+                  className={styles.buyButton}
+                />
+              </div>
+            )}
           </div>
           <img
             src={pageData.hero.logo}
@@ -131,8 +161,10 @@ export default function TestSeriesListPage() {
           {filteredTests.map((test) => (
             <TestSeriesCard
               key={test.id}
-              variant="store" // Use the "store" variant
+              variant="store" // Use the "store" variant (or "mainpage" if preferred for individual tests)
               {...test} // Pass all props from the data
+              // 🎯 Pass the purchase status down to the card (important for future proofing)
+              isPackagePurchased={isPackagePurchased}
               onViewDescription={() => handleViewDescription(test.id)}
               onViewTests={() => handleViewTests(test.id)}
             />

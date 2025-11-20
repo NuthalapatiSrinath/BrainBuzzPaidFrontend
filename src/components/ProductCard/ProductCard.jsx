@@ -25,11 +25,17 @@ export default function ProductCard({
   // Course props
   progress,
   lessonCount,
-  onView,
-  onDownload,
+  onView, // Use this for opening viewer/description
+  onDownload, // Use this for initiating PDF download
+
+  // 🎯 NEW PROP: Indicate if the item is already purchased
+  isPurchased = false,
 }) {
   const validityText = validity || "1 year";
   const mediumText = medium || "Hin";
+
+  // Note: onBuyNow slot is repurposed for primary action when purchased.
+  // We don't need the primaryActionLabel logic anymore since we use two explicit buttons.
 
   return (
     <div className={styles.card} data-variant={variant}>
@@ -67,16 +73,18 @@ export default function ProductCard({
         </div>
       </div>
 
-      {/* --- Conditional Section --- */}
-      {variant === "ebook" && (
-        <div className={styles.priceRow}>
-          <span className={styles.price}>Rs.{price}</span>
-          {originalPrice && (
-            <span className={styles.originalPrice}>{originalPrice}</span>
-          )}
-          {discount && <span className={styles.discount}>({discount})</span>}
-        </div>
-      )}
+      {/* --- Conditional Price Section --- */}
+      {variant === "ebook" &&
+        // Hide price row entirely if purchased
+        !isPurchased && (
+          <div className={styles.priceRow}>
+            <span className={styles.price}>Rs.{price}</span>
+            {originalPrice && (
+              <span className={styles.originalPrice}>{originalPrice}</span>
+            )}
+            {discount && <span className={styles.discount}>({discount})</span>}
+          </div>
+        )}
 
       {variant === "course" && (
         <div className={styles.progressRow}>
@@ -96,20 +104,41 @@ export default function ProductCard({
 
       <div className={styles.actions}>
         {variant === "ebook" ? (
-          <>
-            <Button
-              label="View Details"
-              variant="outline"
-              onClick={onViewDetails}
-              className={styles.halfBtn}
-            />
-            <Button
-              label="Buy Now"
-              onClick={onBuyNow}
-              className={styles.halfBtn}
-            />
-          </>
+          // EBOOK ACTIONS
+          isPurchased ? (
+            // 🎯 Purchased Ebook View: View (Left) and Download (Right)
+            <>
+              <Button
+                label="View" // New label
+                variant="outline"
+                onClick={onView} // Uses the onView prop for opening the viewer
+                className={styles.halfBtn}
+              />
+              <Button
+                label="Download" // New label
+                variant="primary"
+                onClick={onDownload} // Uses the new onDownload prop for direct download
+                className={styles.halfBtn}
+              />
+            </>
+          ) : (
+            // Store View (Not Purchased)
+            <>
+              <Button
+                label="View Details"
+                variant="outline"
+                onClick={onViewDetails}
+                className={styles.halfBtn}
+              />
+              <Button
+                label="Buy Now"
+                onClick={onBuyNow}
+                className={styles.halfBtn}
+              />
+            </>
+          )
         ) : (
+          // COURSE ACTIONS (Existing logic)
           <>
             <Button label="View" onClick={onView} className={styles.halfBtn} />
             <Button
@@ -138,6 +167,12 @@ ProductCard.propTypes = {
   lessonCount: PropTypes.string,
   onViewDetails: PropTypes.func,
   onBuyNow: PropTypes.func,
-  onView: PropTypes.func,
-  onDownload: PropTypes.func,
+  onView: PropTypes.func, // 🎯 Prop for opening viewer
+  onDownload: PropTypes.func, // 🎯 Prop for direct download
+  // 🎯 NEW PROP TYPE
+  isPurchased: PropTypes.bool,
+};
+
+ProductCard.defaultProps = {
+  isPurchased: false,
 };

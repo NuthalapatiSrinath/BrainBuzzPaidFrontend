@@ -36,6 +36,9 @@ export default function CourseCard({
   discount,
   onViewDetails,
   onBuyNow,
+
+  // 🎯 NEW PROP: Indicate if the course is already purchased
+  isPurchased = false,
 }) {
   const handleClick = (e) => {
     // If a button was clicked, don't trigger the main card click
@@ -130,12 +133,16 @@ export default function CourseCard({
                 onClick={onViewDetails}
                 className={styles.actionButton}
               />
-              <Button
-                label="Buy now" // "Buy now" is lowercase in your image
-                variant="primary"
-                onClick={onBuyNow}
-                className={styles.actionButton}
-              />
+              {/* 🎯 CONDITIONALLY RENDER BUY NOW BUTTON */}
+              {!isPurchased && (
+                <Button
+                  label="Buy now" // "Buy now" is lowercase in your image
+                  variant="primary"
+                  onClick={onBuyNow}
+                  className={styles.actionButton}
+                />
+              )}
+              {/* If purchased, we can show a placeholder or nothing, but hiding the button is enough */}
             </div>
           </>
         )}
@@ -167,6 +174,8 @@ CourseCard.propTypes = {
   discount: PropTypes.string,
   onViewDetails: PropTypes.func,
   onBuyNow: PropTypes.func,
+  // 🎯 NEW PROP TYPE
+  isPurchased: PropTypes.bool,
 };
 
 CourseCard.defaultProps = {
@@ -185,4 +194,6 @@ CourseCard.defaultProps = {
   discount: null,
   onViewDetails: () => {},
   onBuyNow: () => {},
+  // 🎯 NEW DEFAULT
+  isPurchased: false,
 };

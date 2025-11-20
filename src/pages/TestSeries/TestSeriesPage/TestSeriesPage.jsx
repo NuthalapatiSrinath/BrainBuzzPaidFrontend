@@ -5,6 +5,8 @@ import TestSeriesCard from "../../../components/TestSeriesCard/TestSeriesCard"; 
 import styles from "./TestSeriesPage.module.css";
 // ✅ 1. Import the new data file
 import { TEST_SERIES_CATEGORIES } from "../../../data/testSeries.js";
+// 🎯 Import the utility for checking purchases
+import { purchasedTestSeries } from "../../../data/userTestSeries.js";
 
 export default function TestSeriesPage() {
   const navigate = useNavigate();
@@ -77,6 +79,10 @@ export default function TestSeriesPage() {
               key={test.id}
               variant="mainpage" // Use the new variant
               {...test} // Pass all props from the data
+              // 🎯 Determine purchase status by checking the category key
+              isPackagePurchased={purchasedTestSeries.includes(
+                test.categoryKey
+              )}
               // ✅ 4. Pass the correct handlers
               onViewDetails={() => handleViewDetails(test.categoryKey)}
               onBuyNow={() => handleBuyNow(test.id)}

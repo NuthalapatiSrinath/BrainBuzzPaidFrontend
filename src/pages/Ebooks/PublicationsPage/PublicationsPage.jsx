@@ -1,13 +1,14 @@
-// src/pages/PublicationsPage/PublicationsPage.jsx
 import React, { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../../components/Header/Header.jsx"; // Fixed path
 import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader.jsx"; // Fixed path
 import SearchBar from "../../../components/SearchBar/SearchBar.jsx"; // Fixed path
 import Button from "../../../components/Button/Button.jsx";
-import ProductCard from "../../../components/ProductCard/ProductCard.jsx"; // <-- 1. Import new component
+import ProductCard from "../../../components/ProductCard/ProductCard.jsx";
 import styles from "./PublicationsPage.module.css"; // Fixed path
 import EBOOKS_DATA from "../../../data/ebooks.js"; // Fixed path
+// 🎯 Import the list of purchased Ebook IDs
+import { purchasedEbookIds } from "../../../data/userEbooks.js";
 
 export default function PublicationsPage() {
   const navigate = useNavigate();
@@ -105,6 +106,56 @@ export default function PublicationsPage() {
       : ""
   }`;
 
+  // --- Handlers for ProductCard ---
+
+  // Handler for View Details (always navigates to the description tab)
+  const handleViewDetails = (book) => {
+    const categoryForPath = book.category || mainCategory || "all";
+    const subForPath = book.subcategory || subCategory || book.sub || "all";
+    navigate(`/ebooks/${categoryForPath}/${subForPath}/${book.id}`);
+  };
+
+  // Handler for direct download (only used when purchased)
+  const handleDownloadAction = (book) => {
+    if (!book.pdfUrl) {
+      console.error(`Download failed: No PDF URL found for ${book.title}.`);
+      return;
+    }
+
+    // Create a temporary link element to trigger direct download
+    try {
+      const a = document.createElement("a");
+      a.href = book.pdfUrl;
+      const safeTitle = (book.title || "ebook")
+        .replace(/[^\w\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-");
+      a.download = `${safeTitle}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (error) {
+      window.open(book.pdfUrl, "_blank", "noopener");
+    }
+  };
+
+  // Handler for View (opens PDF viewer tab - used when purchased)
+  const handleViewAction = (book) => {
+    const categoryForPath = book.category || mainCategory || "all";
+    const subForPath = book.subcategory || subCategory || book.sub || "all";
+    // Navigate directly to the 'book' viewer tab
+    navigate(`/ebooks/${categoryForPath}/${subForPath}/${book.id}/book`);
+  };
+
+  // Handler for Buy Now (Go to checkout - only used when NOT purchased)
+  const handleBuyNow = (book) => {
+    if (book.price) {
+      navigate(`/buy-now/${book.buyNowId}`);
+    } else {
+      handleViewDetails(book); // Fallback to details if no price/ID
+    }
+  };
+
   return (
     <div className={styles.pageWrapper}>
       {/* <Header imageSrc={headerInfo.hero} alt={headerTitle} /> */}
@@ -131,7 +182,7 @@ export default function PublicationsPage() {
             <SearchBar
               value={query}
               onChange={setQuery}
-              placeholder="Search E-Books (title, author, tag...)"
+              placeholder="Search E-Books (title, author, tag..)"
             />
           </div>
 
@@ -157,34 +208,12 @@ export default function PublicationsPage() {
             const subForPath =
               book.subcategory || subCategory || book.sub || "all";
 
-            // handler for View (navigate to book detail)
-            const handleView = () =>
-              navigate(`/ebooks/${categoryForPath}/${subForPath}/${book.id}`, {
-                state: { book },
-              });
-
-            // handler for Download / Buy
-            const handleBuyNow = () => {
-              if (book.price) {
-                navigate(`/buy/${book.id}`); // Or your checkout route
-                return;
-              }
-              if (book.pdfUrl) {
-                const a = document.createElement("a");
-                a.href = book.pdfUrl;
-                const safeTitle = (book.title || "ebook").replace(/\s+/g, "-");
-                a.download = `${safeTitle}.pdf`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                return;
-              }
-              handleView();
-            };
+            // 🎯 Check if the ebook is purchased
+            const isBookPurchased = purchasedEbookIds.includes(String(book.id));
 
             return (
               <div key={book.id} className={styles.cardWrapper}>
-                {/* --- 2. Use ProductCard --- */}
+                {/* --- Use ProductCard --- */}
                 <ProductCard
                   variant="ebook"
                   image={thumb}
@@ -195,8 +224,24 @@ export default function PublicationsPage() {
                   price={book.price || 10000} // Mock price from image
                   originalPrice={book.originalPrice || 12000} // Mock price
                   discount={book.discount || "10% off"} // Mock discount
-                  onViewDetails={handleView}
-                  onBuyNow={handleBuyNow}
+                  // 🎯 PASS PURCHASE STATUS
+                  isPurchased={isBookPurchased}
+                  // === HANDLERS ===
+                  // Used by the store view ("View Details" button)
+                  onViewDetails={() => handleViewDetails(book)}
+                  // If purchased, these slots are used for View/Download
+                  onView={
+                    isBookPurchased ? () => handleViewAction(book) : undefined
+                  }
+                  onDownload={
+                    isBookPurchased
+                      ? () => handleDownloadAction(book)
+                      : undefined
+                  }
+                  // Used by the store view ("Buy Now" button)
+                  onBuyNow={
+                    isBookPurchased ? undefined : () => handleBuyNow(book)
+                  }
                 />
               </div>
             );

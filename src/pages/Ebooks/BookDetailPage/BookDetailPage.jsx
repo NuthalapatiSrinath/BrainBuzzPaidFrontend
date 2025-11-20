@@ -1,16 +1,15 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import Header from "../../../components/Header/Header"; // REMOVED
-// import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader"; // REMOVED
 import Button from "../../../components/Button/Button";
-import TabSwitchPage from "../../../components/TabSwitchPage/TabSwitchPage";
 import AuthorCard from "../../../components/AuthorCard/AuthorCard";
-import PricingTab from "./PricingTabContent/PricingTabContent"; // Corrected Import Path
-import CourseHero from "../../../components/CourseHero/CourseHero"; // 1. IMPORT NEW HERO
+import PricingTab from "./PricingTabContent/PricingTabContent";
+import CourseHero from "../../../components/CourseHero/CourseHero";
 import EBOOKS_DATA from "../../../data/ebooks";
 import styles from "./BookDetailPage.module.css";
+// Import list of purchased ebook IDs (Assuming path is correct per your instruction)
+import { purchasedEbookIds } from "../../../data/userEbooks";
 
-// --- Mock Data for New Tabs ---
+// --- Mock Data for Tabs (Keep these local) ---
 const MOCK_AUTHORS = [
   {
     name: "Shankar",
@@ -25,7 +24,6 @@ const MOCK_AUTHORS = [
     imageUrl: "https://placehold.co/200x150/EBF0FF/1F4D9D?text=S",
   },
 ];
-
 const MOCK_IMAGES = [
   "/images/default-book.png",
   "/images/default-book.png",
@@ -35,27 +33,45 @@ const MOCK_IMAGES = [
 // --- End Mock Data ---
 
 export default function BookDetailPage() {
-  const { id, category, subcategory } = useParams();
+  // Extract parameters: category, subcategory, id, and the optional tab
+  const { id, category, subcategory, tab } = useParams();
   const navigate = useNavigate();
 
   const catKey = category?.toLowerCase();
   const subKey = subcategory?.toLowerCase();
+  // 🎯 Derive activeTab from URL, default to 'description'
+  const activeTab = tab || "description";
 
-  const catInfo = useMemo(
-    () => EBOOKS_DATA.categories.find((c) => c.key === catKey),
-    [catKey]
-  );
-
-  const book = useMemo(() => {
+  const { book, catInfo, isBookPurchased } = useMemo(() => {
+    const cat = EBOOKS_DATA.categories.find((c) => c.key === catKey);
     const subs = EBOOKS_DATA.subcategories[catKey] || [];
     const sub = subs.find((s) => s.id === subKey);
-    return sub?.books?.find((b) => String(b.id) === String(id)) || null;
+    const selectedBook =
+      sub?.books?.find((b) => String(b.id) === String(id)) || null;
+
+    // Check purchase status
+    const isPurchased = purchasedEbookIds.includes(String(id));
+
+    return { book: selectedBook, catInfo: cat, isBookPurchased: isPurchased };
   }, [catKey, subKey, id]);
 
-  // Download handler
-  const handleDownloadClick = () => {
-    if (!book.pdfUrl) {
-      alert("No PDF available for this book.");
+  // --- Handlers ---
+
+  // 🎯 New handler to update the URL when a tab is clicked
+  const handleTabChange = useCallback(
+    (tabId) => {
+      // Navigate to the new URL with the tab ID, replacing history state
+      navigate(`/ebooks/${category}/${subcategory}/${id}/${tabId}`, {
+        replace: true,
+      });
+    },
+    [category, subcategory, id, navigate]
+  );
+
+  // Download handler (Initiates direct download)
+  const handleDownloadClick = useCallback(() => {
+    if (!book?.pdfUrl) {
+      console.error("No PDF URL available for this book.");
       return;
     }
     try {
@@ -70,18 +86,25 @@ export default function BookDetailPage() {
       a.click();
       document.body.removeChild(a);
     } catch (error) {
+      // Fallback for security-restricted environments
       window.open(book.pdfUrl, "_blank", "noopener");
     }
-  };
+  }, [book]);
 
-  // --- Define Content for Each Tab ---
+  // Buy Now handler
+  const handleBuyNow = useCallback(() => {
+    // Implement actual checkout logic here
+    console.log(`Redirecting to checkout for ${book?.buyNowId || id}`);
+    // Example: navigate(`/buy-now/${book?.buyNowId || id}`);
+  }, [book, id]);
+
+  // --- Define Content for Each Tab (Functions/variables remain similar) ---
 
   const descriptionContent = (
     <div className={`${styles.panelContent} ${styles.description}`}>
       <div className={styles.aboutbook}>About Book:</div>
       <p className={styles.descText}>
-        {book?.description ||
-          "This course is designed to help aspirants systematically prepare for competitive exams with expert guidance, structured study material, and proven strategies. Covering all key subjects, concepts, and problem-solving techniques, the course ensures that students build a strong foundation while practicing with mock tests and previous-year papers."}
+        {book?.description || "No description available."}
       </p>
       <div className={styles.whatwillyouget}>What you will get:</div>
       <ul className={styles.bullets}>
@@ -108,9 +131,10 @@ export default function BookDetailPage() {
           </div>
           <div className={styles.pdfActions}>
             <Button
-              label="Download"
-              onClick={handleDownloadClick}
+              label={isBookPurchased ? "Download" : "Buy to Download"}
+              onClick={isBookPurchased ? handleDownloadClick : handleBuyNow}
               className={styles.smallDownload}
+              disabled={!isBookPurchased && true}
             />
           </div>
         </div>
@@ -130,8 +154,8 @@ export default function BookDetailPage() {
     <div className={`${styles.panelContent} ${styles.pricingTab}`}>
       <PricingTab
         title={book?.title || "IAS GS FOUNDATION COURSE"}
-        price="Rs.6000"
-        onBuyNow={() => alert("Redirecting to Buy...")}
+        price={`Rs.${book?.price || "6000"}`}
+        onBuyNow={handleBuyNow}
       />
     </div>
   );
@@ -159,32 +183,40 @@ export default function BookDetailPage() {
         />
       ) : (
         <div className={styles.noPdf}>
-          <p>No preview available for this book.</p>
+          <p>No PDF URL found for viewer.</p>
         </div>
       )}
     </div>
   );
 
-  // --- Create the tabs array for TabSwitchPage ---
-  const tabs = [
-    { id: "description", label: "Description", content: descriptionContent },
-    { id: "author", label: "Author", content: authorContent },
-    { id: "pricing", label: "Pricing", content: pricingContent },
-    { id: "images", label: "Images", content: imagesContent },
-    { id: "book", label: "Book", content: bookContent },
+  // --- Map tab IDs to their content ---
+  const tabContentMap = {
+    description: descriptionContent,
+    author: authorContent,
+    pricing: pricingContent,
+    images: imagesContent,
+    book: bookContent,
+  };
+
+  // Define the full tabs list, filtering out 'pricing' if purchased
+  const allTabs = [
+    { id: "description", label: "Description" },
+    { id: "author", label: "Author" },
+    { id: "pricing", label: "Pricing" },
+    { id: "images", label: "Images" },
+    { id: "book", label: "Book Viewer" },
   ];
+
+  const finalTabs = isBookPurchased
+    ? allTabs.filter((t) => t.id !== "pricing")
+    : allTabs;
 
   if (!book) {
     return (
       <div className={styles.pageWrapper}>
         <div style={{ padding: 40 }}>
           <h2>Book not found</h2>
-          <p>
-            We couldn’t find the requested book: <strong>{id}</strong>.
-          </p>
-          <button type="button" onClick={() => navigate(-1)}>
-            Go back
-          </button>
+          <Button label="Go Back" onClick={() => navigate(-1)} />
         </div>
       </div>
     );
@@ -197,26 +229,42 @@ export default function BookDetailPage() {
 
   return (
     <div className={styles.pageWrapper}>
-      {/* 2. RENDER THE NEW COURSEHERO COMPONENT */}
-      <CourseHero
-        title={heroTitle}
-        price={6000} // Mock data from image
-        originalPrice={9000} // Mock data from image
-        discount="(10% off)" // Mock data from image
-        onBuyNow={() => alert("Redirecting to Buy...")}
-      />
-
-      {/* 3. REMOVED OLD HEADER AND CATEGORYHEADER */}
-      {/* <Header ... /> */}
-      {/* <CategoryHeader ... /> */}
+      {/* 1. CONDITIONAL RENDER: CourseHero is only shown if the book is NOT purchased (i.e., we need the "Buy Now" box). */}
+      {!isBookPurchased && (
+        <CourseHero
+          title={heroTitle}
+          price={book?.price || 6000}
+          originalPrice={book?.originalPrice || 9000}
+          discount={book?.discount || "(10% off)"}
+          onBuyNow={handleBuyNow}
+          // The isPurchased prop is passed for completeness if CourseHero has internal logic, but the conditional rendering handles the removal.
+          isPurchased={isBookPurchased}
+        />
+      )}
 
       <main className={styles.contentArea}>
-        <TabSwitchPage
-          tabs={tabs}
-          defaultTab="description"
-          navClassName={styles.tabs}
-          contentClassName={styles.panel}
-        />
+        {/* 🎯 MANUAL TAB NAVIGATION (Now controls URL) */}
+        <nav className={styles.tabs} role="tablist">
+          {finalTabs.map((t) => (
+            <button
+              key={t.id}
+              role="tab"
+              aria-selected={activeTab === t.id}
+              className={`${styles.tabButton} ${
+                activeTab === t.id ? styles.active : ""
+              }`}
+              // 🎯 Call handleTabChange to update the URL
+              onClick={() => handleTabChange(t.id)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* 🎯 MANUAL TAB CONTENT RENDERING */}
+        <div className={styles.panel} role="tabpanel">
+          {tabContentMap[activeTab] || tabContentMap.description}
+        </div>
       </main>
     </div>
   );

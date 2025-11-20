@@ -131,19 +131,21 @@
 /* === CONTENT GRID === */
 .contentArea {
   width: 100%;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   padding: 0 2rem 4rem 2rem;
   margin: 0 auto;
   box-sizing: border-box;
 }
 
 .grid {
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 1.5rem;
-  justify-content: start; /* ✅ Left align cards */
+  grid-template-columns: repeat(4, 1fr); /* ALWAYS 4 columns */
+  gap: 20px;
+  justify-items: start; /* Makes the left alignment consistent */
+  align-items: start;
+  box-sizing: border-box;
 }
-
 .noResults {
   grid-column: 1 / -1;
   text-align: center;

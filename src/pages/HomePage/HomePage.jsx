@@ -5,6 +5,8 @@ import LatestCurrentAffairsSection from "../../sections/LatestCurrentAffairsSect
 import CategoryHomeSection from "../../sections/CategoryHomeSection/CategoryHomeSection";
 import MyCoursesSection from "../../sections/MyCoursesSection/MyCoursesSection";
 import MyTestSeriesSection from "../../sections/MyTestSeriesSection/MyTestSeriesSection";
+import MyTestSeries from "../TopBar/TopbarPanelPages/MyTestSeries/MyTestSeries";
+import MyCoursesPage from "../TopBar/TopbarPanelPages/MyCoursesPage/MyCoursesPage";
 
 export default function HomePage() {
   const [active, setActive] = useState(0); // 0 => hero1 front, 1 => hero2 front
@@ -134,11 +136,13 @@ export default function HomePage() {
           <CategoryHomeSection />
         </div>
         <div className={styles.MyCourses}>
-          <MyCoursesSection />
+          {/* <MyCoursesSection /> */}
+          <MyCoursesPage />
         </div>
         {/* Current Affairs Section */}
         <div className={styles.testseries}>
-          <MyTestSeriesSection />
+          {/* <MyTestSeriesSection /> */}
+          <MyTestSeries />
         </div>
       </div>
     </>

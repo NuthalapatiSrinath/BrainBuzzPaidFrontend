@@ -1,13 +1,12 @@
 import React, { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./OnlineCoursesListPage.module.css";
-import {
-  ONLINE_COURSES_CATEGORIES,
-  ONLINE_COURSES_SUBCATEGORIES,
-} from "../../../data/onlineCourses.js";
+import { ONLINE_COURSES_SUBCATEGORIES } from "../../../data/onlineCourses.js";
 import CategoryHeader from "../../../components/CategoryHeader/CategoryHeader";
 import SearchBar from "../../../components/SearchBar/SearchBar";
-import CourseCard from "../../../components/CourseCard/CourseCard"; // Using CourseCard here
+import CourseCard from "../../../components/CourseCard/CourseCard";
+// 🎯 Import purchased IDs to check course status
+import { purchasedCourseIds } from "../../../data/userCourses.js";
 
 export default function OnlineCoursesListPage() {
   const { category, subcategory } = useParams();
@@ -89,6 +88,8 @@ export default function OnlineCoursesListPage() {
                 key={course.id}
                 variant="store" // ✅ Use the "store" variant
                 {...course}
+                // 🎯 PASS THE NEW PROP: Check if the current course is in the purchased list
+                isPurchased={purchasedCourseIds.includes(course.id)}
                 // ✅ Pass handlers to the correct props
                 onViewDetails={() => handleViewDetailsClick(course.id)}
                 onBuyNow={() => handleBuyNowClick(course.buyNowId)}

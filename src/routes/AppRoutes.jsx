@@ -18,6 +18,8 @@ import ContactUs from "../pages/ContactUs/ContactUs";
 import PaymentPage from "../pages/PaymentPages/PaymentPage/PaymentPage";
 import PaymentAddressPage from "../pages/PaymentPages/PaymentAddressPage/PaymentAddressPage";
 import PaymentMethodPage from "../pages/PaymentPages/PaymentMethodPage/PaymentMethodPage";
+import PaymentSuccessPage from "../pages/PaymentPages/PaymentSuccessPage/PaymentSuccessPage";
+import InvoicePage from "../pages/PaymentPages/InvoicePage/InvoicePage";
 
 // ========================
 // CURRENT AFFAIRS FLOW
@@ -44,7 +46,8 @@ import QuizCorrectAnswersPage from "../pages/DailyQuizzes/QuizCorrectAnswersPage
 import EbooksPage from "../pages/Ebooks/EbooksPage/EbooksPage";
 import EbooksSubcategories from "../pages/Ebooks/EbooksSubcategories/EbooksSubcategories";
 import PublicationsPage from "../pages/Ebooks/PublicationsPage/PublicationsPage";
-import BookDetailPage from "../pages/Ebooks/BookDetailPage/BookDetailPage";
+import BookDetailPage from "../pages/Ebooks/BookDetailPage/BookDetailPage"; // Needs tab parameter
+// New Purchased Ebooks Page
 
 // ========================
 // PREVIOUS PAPERS FLOW
@@ -86,8 +89,7 @@ import TestResultPage from "../pages/TestSeries/TestResultPage/TestResultPage";
 // User Panel Pages
 import MyCoursesPage from "../pages/TopBar/TopbarPanelPages/MyCoursesPage/MyCoursesPage";
 import MyTestSeries from "../pages/TopBar/TopbarPanelPages/MyTestSeries/MyTestSeries";
-import PaymentSuccessPage from "../pages/PaymentPages/PaymentSuccessPage/PaymentSuccessPage";
-import InvoicePage from "../pages/PaymentPages/InvoicePage/InvoicePage";
+import MyEbooksPage from "../pages/TopBar/TopbarPanelPages/MyEbooksPage/MyEbooksPage";
 
 function AppRoutes() {
   return (
@@ -99,37 +101,33 @@ function AppRoutes() {
         <Route path="/" element={<DashboardLayout />}>
           {/* Home */}
           <Route index element={<HomePage />} />
-
           {/* ============================================================
                 💳 PAYMENT FLOW (UPDATED)
             ============================================================ */}
           {/* Step 1: Product Details & Coupon */}
           <Route path="/buy-now/:buyNowId" element={<PaymentPage />} />
-
           {/* Step 2: Billing Address & Contact Info */}
           <Route
             path="/payment-address/:buyNowId"
             element={<PaymentAddressPage />}
           />
-
           {/* Step 3: Payment Method Selection (UPI/Card/NetBanking) */}
           <Route
             path="/payment-method/:buyNowId"
             element={<PaymentMethodPage />}
           />
-
           {/* Step 4: Payment Success Page */}
           <Route
             path="/payment-success/:buyNowId"
             element={<PaymentSuccessPage />}
           />
           <Route path="/invoice/:buyNowId" element={<InvoicePage />} />
-
           {/* User Profile Routes */}
           <Route path="/mycourses" element={<MyCoursesPage />} />
           <Route path="/coursesdatapage" element={<CoursesDataPage />} />
           <Route path="/mytestseries" element={<MyTestSeries />} />
-
+          <Route path="/myebooks" element={<MyEbooksPage />} />{" "}
+          {/* 🎯 NEW EBOOKS PAGE */}
           {/* ============================================================
                 📚 ONLINE COURSES
             ============================================================ */}
@@ -151,7 +149,6 @@ function AppRoutes() {
             path="online-courses/:category/:subcategory/:courseId/video/:videoId"
             element={<CourseVideoPlayerPage />}
           />
-
           {/* ============================================================
                 📺 LIVE CLASSES
             ============================================================ */}
@@ -165,7 +162,6 @@ function AppRoutes() {
             path="/liveclasses/:category/:subcategory"
             element={<SubcategoryClassesPage />}
           />
-
           {/* ============================================================
               📰 CURRENT AFFAIRS
           ============================================================ */}
@@ -182,7 +178,6 @@ function AppRoutes() {
             path="currentaffairs/:category/:subId/:articleId"
             element={<CurrentAffairsArticlePage />}
           />
-
           {/* ============================================================
               📝 DAILY QUIZZES
           ============================================================ */}
@@ -211,9 +206,8 @@ function AppRoutes() {
             path="dailyquizzes/:category/:subcategory/:quizId/review"
             element={<QuizCorrectAnswersPage />}
           />
-
           {/* ============================================================
-              📚 E-BOOKS
+              📚 E-BOOKS (Updated to include optional tab parameter)
           ============================================================ */}
           <Route path="ebooks" element={<EbooksPage />} />
           <Route path="ebooks/:category" element={<EbooksSubcategories />} />
@@ -221,11 +215,11 @@ function AppRoutes() {
             path="ebooks/:category/:subcategory"
             element={<PublicationsPage />}
           />
+          {/* 🎯 UPDATED ROUTE: Includes optional tab for detail page */}
           <Route
-            path="ebooks/:category/:subcategory/:id"
+            path="ebooks/:category/:subcategory/:id/:tab?"
             element={<BookDetailPage />}
           />
-
           {/* ============================================================
               📄 PREVIOUS PAPERS
           ============================================================ */}
@@ -242,7 +236,6 @@ function AppRoutes() {
             path="previous-papers/:category/:subcategory/:paperId"
             element={<PaperDetail />}
           />
-
           {/* ============================================================
                 🏆 TEST SERIES
             ============================================================ */}
@@ -267,7 +260,6 @@ function AppRoutes() {
             path="test-series/:category/:seriesId/result/:testId"
             element={<TestResultPage />}
           />
-
           {/* ============================================================
               🧭 ABOUT & CONTACT
           ============================================================ */}

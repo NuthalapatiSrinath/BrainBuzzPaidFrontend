@@ -8,9 +8,9 @@ import { TbLanguage } from "react-icons/tb";
 /**
  * A card component for displaying a Test Series.
  * It has three variants:
- * - 'store': Shows test count and "View Tests" button (Original variant).
- * - 'user': Shows validity, progress bar, and no buttons (Original variant).
- * - 'mainpage': Shows price, details, and buy now buttons (New variant from image).
+ * - 'store': Shows test count and "View Tests" button.
+ * - 'user': Shows validity, progress bar, and a primary action button.
+ * - 'mainpage': Shows price, details, and buy now buttons (now conditionally renders).
  */
 export default function TestSeriesCard({
   variant = "store", // 'store', 'user', or 'mainpage'
@@ -36,12 +36,18 @@ export default function TestSeriesCard({
   price,
   originalPrice,
   discount,
-  onViewDetails, // Renamed from onViewDescription for clarity
-  onBuyNow, // Renamed from onViewTests for clarity
+  onViewDetails,
+  onBuyNow,
+
+  // --- User variant specific prop ---
+  onStartTestSeries,
 
   // --- Original store callbacks (ensure they exist) ---
   onViewDescription,
   onViewTests,
+
+  // 🎯 NEW PROP: Indicate if the parent package is purchased
+  isPackagePurchased = false,
 }) {
   const handleClick = (e) => {
     // If a button was clicked, don't trigger the main card click
@@ -53,9 +59,16 @@ export default function TestSeriesCard({
   };
 
   // ===================================================================
-  // === NEW "MAINPAGE" VARIANT RENDER
+  // === NEW "MAINPAGE" VARIANT RENDER (Store page)
   // ===================================================================
   if (variant === "mainpage") {
+    // If NOT purchased, show Buy Now. If purchased, the primary action button is hidden entirely.
+    const isPrimaryActionVisible = !isPackagePurchased;
+
+    // Fallback label for the non-purchased state
+    const buttonLabel = isPackagePurchased ? "" : "Buy Now";
+    const buyNowAction = isPackagePurchased ? null : onBuyNow;
+
     return (
       <div
         className={styles.cardMainpage} // Use new base class
@@ -89,9 +102,6 @@ export default function TestSeriesCard({
             <div className={styles.infoItemMainpage}>
               <FaCalendarAlt className={styles.iconMainpage} />
               <span>Validity: {validity}</span>
-              {/* {showValidityDropdown && (
-                <FaChevronDown className={styles.dropdownIconMainpage} />
-              )} */}
             </div>
             <div className={styles.infoItemMainpage}>
               <TbLanguage className={styles.iconMainpage} />
@@ -107,33 +117,40 @@ export default function TestSeriesCard({
             </div>
           </div>
 
-          {/* --- Price Row --- */}
-          <div className={styles.priceRowMainpage}>
-            <span className={styles.priceMainpage}>Rs.{price}</span>
-            {originalPrice && (
-              <span className={styles.originalPriceMainpage}>
-                {originalPrice}
-              </span>
-            )}
-            {discount && (
-              <span className={styles.discountMainpage}>({discount})</span>
-            )}
-          </div>
+          {/* --- Price Row (Hidden if purchased) --- */}
+          {!isPackagePurchased && (
+            <div className={styles.priceRowMainpage}>
+              <span className={styles.priceMainpage}>Rs.{price}</span>
+              {originalPrice && (
+                <span className={styles.originalPriceMainpage}>
+                  {originalPrice}
+                </span>
+              )}
+              {discount && (
+                <span className={styles.discountMainpage}>({discount})</span>
+              )}
+            </div>
+          )}
 
           {/* --- Actions Row --- */}
           <div className={styles.actionsMainpage}>
+            {/* 1. View Details is ALWAYS visible */}
             <Button
               label="View Details"
               variant="outline"
               onClick={onViewDetails}
               className={styles.actionButtonMainpage}
             />
-            <Button
-              label="Buy Now"
-              variant="primary"
-              onClick={onBuyNow}
-              className={styles.actionButtonMainpage}
-            />
+
+            {/* 2. Primary Button: ONLY RENDER IF NOT PURCHASED */}
+            {isPrimaryActionVisible && (
+              <Button
+                label={buttonLabel} // "Buy Now"
+                variant="primary"
+                onClick={buyNowAction}
+                className={styles.actionButtonMainpage}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -151,7 +168,7 @@ export default function TestSeriesCard({
       tabIndex="0"
       aria-label={`View details for ${mainTitle}`}
     >
-      {/* === Top Blue Section (Original) === */}
+      {/* ... (Existing logic for store/user variant remains here) ... */}
       <div className={styles.topSection}>
         {showAiBadge && <div className={styles.aiBadge}>AI</div>}
         {showLiveCircle && <div className={styles.liveCircle}>Live</div>}
@@ -172,7 +189,6 @@ export default function TestSeriesCard({
         </div>
       </div>
 
-      {/* === Bottom White Section (Original) === */}
       <div className={styles.bottomSection}>
         <h4 className={styles.mainTitle}>{mainTitle}</h4>
 
@@ -180,7 +196,6 @@ export default function TestSeriesCard({
           <span className={styles.courseTypeTag}>{courseType}</span>
         )}
 
-        {/* --- Info Row: Varies by original 'store'/'user' variant --- */}
         <div className={styles.infoRow}>
           {variant === "user" ? (
             // "My Test Series" view (with Validity)
@@ -205,18 +220,28 @@ export default function TestSeriesCard({
           </div>
         </div>
 
-        {/* --- Progress or Buttons: Varies by original 'store'/'user' variant --- */}
         {variant === "user" ? (
-          // "My Test Series" view (Progress Bar)
-          <div className={styles.progressWrapper}>
-            <div className={styles.progressBar}>
-              <div
-                className={styles.progressFill}
-                style={{ width: `${progress}%` }}
+          // "My Test Series" view (Progress Bar AND Start Button)
+          <>
+            <div className={styles.progressWrapper}>
+              <div className={styles.progressBar}>
+                <div
+                  className={styles.progressFill}
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <span className={styles.progressText}>{progress}% Complete</span>
+            </div>
+            {/* Add button for user variant */}
+            <div className={styles.actions}>
+              <Button
+                label="Go to Tests"
+                variant="primary"
+                onClick={onStartTestSeries}
+                className={styles.actionButton}
               />
             </div>
-            <span className={styles.progressText}>{progress}% Complete</span>
-          </div>
+          </>
         ) : (
           // "Store" view (Buttons) - uses onViewDescription/onViewTests
           <div className={styles.actions}>
@@ -240,7 +265,7 @@ export default function TestSeriesCard({
 }
 
 TestSeriesCard.propTypes = {
-  variant: PropTypes.oneOf(["store", "user", "mainpage"]), // ✅ Added 'mainpage'
+  variant: PropTypes.oneOf(["store", "user", "mainpage"]),
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
   batchStartDate: PropTypes.string,
@@ -265,6 +290,9 @@ TestSeriesCard.propTypes = {
   discount: PropTypes.string,
   onViewDetails: PropTypes.func,
   onBuyNow: PropTypes.func,
+
+  isPackagePurchased: PropTypes.bool,
+  onStartTestSeries: PropTypes.func,
 
   // Original 'store' variant props (renamed for clarity in 'mainpage')
   onViewDescription: PropTypes.func,
@@ -292,6 +320,9 @@ TestSeriesCard.defaultProps = {
   discount: null,
   onViewDetails: () => {},
   onBuyNow: () => {},
+
+  isPackagePurchased: false,
+  onStartTestSeries: () => {},
 
   // Original defaults
   onViewDescription: () => {},
